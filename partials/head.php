@@ -18,10 +18,18 @@
 <link rel="stylesheet" type="text/css" href="../public/bower_components/pnotify/dist/pnotify.css">
 <link rel="stylesheet" type="text/css" href="../public/bower_components/pnotify/dist/pnotify.brighttheme.css">
 <link rel="stylesheet" type="text/css" href="../public/bower_components/pnotify/dist/pnotify.buttons.css">
-<link rel="stylesheet" type="text/css" href="../files/bower_components/pnotify/dist/pnotify.history.css">
+<link rel="stylesheet" type="text/css" href="../public/bower_components/pnotify/dist/pnotify.history.css">
 <link rel="stylesheet" type="text/css" href="../public/bower_components/pnotify/dist/pnotify.mobile.css">
 <link rel="stylesheet" type="text/css" href="../public/assets/pages/pnotify/notify.css">
 
+<link rel="stylesheet" type="text/css" href="../public/assets/icon/themify-icons/themify-icons.css">
+
+<link rel="stylesheet" type="text/css" href="../public/assets/icon/icofont/css/icofont.css">
+
+<link rel="stylesheet" type="text/css" href="../public/assets/icon/feather/css/feather.css">
+
+<link rel="stylesheet" type="text/css" href="../public/assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="../public/assets/css/jquery.mCustomScrollbar.css">
 <link rel="stylesheet" type="text/css" href="../public/assets/css/style.css">
 <link rel="stylesheet" type="text/css" href="../public/assets/css/jquery.mCustomScrollbar.css">
  <!--  Alert--> 

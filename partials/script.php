@@ -29,6 +29,50 @@
 <script type="text/javascript" src="../public/bower_components/pnotify/dist/pnotify.history.js"></script>
 <script type="text/javascript" src="../public/bower_components/pnotify/dist/pnotify.mobile.js"></script>
 <script type="text/javascript" src="../public/bower_components/pnotify/dist/pnotify.nonblock.js"></script>
+
+<script src="../public/assets/pages/user-profile.js"></script>
+<script src="../public/assets/js/pcoded.min.js"></script>
+<script src="../public/assets/js/vartical-layout.min.js"></script>
+<script src="../public/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+
+<script type="text/javascript" src="../public/bower_components/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../public/bower_components/popper.js/dist/umd/popper.min.js"></script>
+<script type="text/javascript" src="../public/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="../public/bower_components/jquery-slimscroll/jquery.slimscroll.js"></script>
+
+<script type="text/javascript" src="../public/bower_components/modernizr/modernizr.js"></script>
+<script type="text/javascript" src="../public/bower_components/modernizr/feature-detects/css-scrollbars.js"></script>
+
+<script type="text/javascript" src="../public/assets/pages/advance-elements/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="../public/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="../public/assets/pages/advance-elements/bootstrap-datetimepicker.min.js"></script>
+
+<script type="text/javascript" src="../public/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+<script type="text/javascript" src="../public/bower_components/datedropper/js/datedropper.min.html"></script>
+
+<script src="../public/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="../public/assets/pages/data-table/js/dataTables.bootstrap4.min.js"></script>
+<script src="../public/bower_components/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../public/bower_components/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+
+<script src="../public/assets/pages/ckeditor/ckeditor.js"></script>
+
+<script src="../public/assets/pages/chart/echarts/js/echarts-all.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="../public/bower_components/i18next/i18next.min.js"></script>
+<script type="text/javascript" src="../public/bower_components/i18next-xhr-backend/i18nextXHRBackend.min.js"></script>
+<script type="text/javascript" src="../public/bower_components/i18next-browser-languagedetector/i18nextBrowserLanguageDetector.min.js"></script>
+<script type="text/javascript" src="../public/bower_components/jquery-i18next/jquery-i18next.min.js"></script>
+<script src="../public/assets/pages/user-profile.js"></script>
+<script src="../public/assets/js/pcoded.min.js"></script>
+<script src="../public/assets/js/vartical-layout.min.js"></script>
+<script src="../public/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+
+<script type="text/javascript" src="../public/assets/js/script.js"></script>
+
+<script type="text/javascript" src="../public/assets/js/script.js"></script>
  <!-- JavaScript function for displaying the notification -->
  <?php if (isset($success)): ?>
     <!-- Pop Success Alert -->
