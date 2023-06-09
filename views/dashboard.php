@@ -2,6 +2,7 @@
 session_start();
 require_once('../config/config.php');
 include('../helpers/analysis.php');
+include('../helpers/datefunction.php');
     /* Load This Page With Logged In User Session */
     $staff_id = mysqli_escape_string($mysqli, $_SESSION['staff_id']);
     $staff_sql = mysqli_query($mysqli, "SELECT * FROM staffs WHERE staff_id = '{$staff_id}'");
@@ -370,81 +371,43 @@ include('../helpers/analysis.php');
                                                             <table class="table table-hover table-borderless">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th>Status</th>
-                                                                        <th>Subject</th>
+                                                                        <th>Asset</th>
                                                                         <th>Department</th>
                                                                         <th>Date</th>
+                                                                        <th>Status</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
+                                                                    <?php 
+                                                                      
+                                                                      # Read all Recent allocations
+                                                                      $sql = "SELECT *FROM allocations AS al INNER JOIN departments AS dp ON al.allocation_request_by_id = dp.department_head_id INNER JOIN assets AS ast ON al.allocation_asset_id=ast.asset_id ORDER BY al.allocation_request_date  ASC LIMIT 10";
+                                                                      $result = mysqli_query($mysqli, $sql);
+                                                                      if (mysqli_num_rows($result) > 0) {
+                                                                        while ($allocation = mysqli_fetch_object($result)) {
+                                                                    
+                                                                    ?>
                                                                     <tr>
-                                                                        <td><label class="label label-success">open</label>
+                                                                       
+                                                                        <td><?php echo $allocation['asset_name'] ?></td>
+                                                                        <td><?php echo $allocation['department_name'] ?></td>
+                                                                        <td><?php echo  formatDateTime($allocation['allocation_request_date']) ?></td>
+                                                                        <?php if($allocation['allocation_status']=='Done'){?>
+                                                                            <td><label class="label label-success">Completed</label>
+                                                                       <?php }elseif ($allocation['allocation_status']=='pending') {?>
+                                                                                <td><label class="label label-primary">pending</label>
+                                                                      <?php }else {?>
+                                                                        <td><label class="label label-danger">Canceled</label>
                                                                         </td>
-                                                                        <td>Website down for one week</td>
-                                                                        <td>Support</td>
-                                                                        <td>Today 2:00</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><label class="label label-primary">progress</label>
+                                                                      <?php }?>
                                                                         </td>
-                                                                        <td>Loosing control on server</td>
-                                                                        <td>Support</td>
-                                                                        <td>Yesterday</td>
                                                                     </tr>
-                                                                    <tr>
-                                                                        <td><label class="label label-danger">closed</label>
-                                                                        </td>
-                                                                        <td>Authorizations keys</td>
-                                                                        <td>Support</td>
-                                                                        <td>27, Aug</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><label class="label label-success">open</label>
-                                                                        </td>
-                                                                        <td>Restoring default settings</td>
-                                                                        <td>Support</td>
-                                                                        <td>Today 9:00</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><label class="label label-primary">progress</label>
-                                                                        </td>
-                                                                        <td>Loosing control on server</td>
-                                                                        <td>Support</td>
-                                                                        <td>Yesterday</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><label class="label label-success">open</label>
-                                                                        </td>
-                                                                        <td>Restoring default settings</td>
-                                                                        <td>Support</td>
-                                                                        <td>Today 9:00</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><label class="label label-danger">closed</label>
-                                                                        </td>
-                                                                        <td>Authorizations keys</td>
-                                                                        <td>Support</td>
-                                                                        <td>27, Aug</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><label class="label label-success">open</label>
-                                                                        </td>
-                                                                        <td>Restoring default settings</td>
-                                                                        <td>Support</td>
-                                                                        <td>Today 9:00</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><label class="label label-primary">progress</label>
-                                                                        </td>
-                                                                        <td>Loosing control on server</td>
-                                                                        <td>Support</td>
-                                                                        <td>Yesterday</td>
-                                                                    </tr>
+                                                                    <?php }}?>
+                                                                 
                                                                 </tbody>
                                                             </table>
                                                             <div class="text-right m-r-20">
-                                                                <a href="#!" class=" b-b-primary text-primary">View all
-                                                                    Projects</a>
+                                                                <a href="assets_allocations" class=" b-b-primary text-primary">View all Allocation</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -453,7 +416,7 @@ include('../helpers/analysis.php');
                                             <div class="col-xl-6 col-md-12">
                                                 <div class="card latest-update-card">
                                                     <div class="card-header">
-                                                        <h5>Recent Activities</h5>
+                                                        <h5>Recent Assets</h5>
                                                         <div class="card-header-right">
                                                             <ul class="list-unstyled card-option">
                                                                 <li><i class="fa fa fa-wrench open-card-option"></i>
@@ -466,83 +429,42 @@ include('../helpers/analysis.php');
                                                         </div>
                                                     </div>
                                                     <div class="card-block">
-                                                        <div class="latest-update-box">
-                                                            <div class="row p-t-20 p-b-30">
-                                                                <div class="col-auto text-right update-meta">
-                                                                    <p class="text-muted m-b-0 d-inline">2 hrs ago</p>
-                                                                    <i class="feather icon-twitter bg-info update-icon"></i>
-                                                                </div>
-                                                                <div class="col">
-                                                                    <h6>+ 1652 Followers</h6>
-                                                                    <p class="text-muted m-b-0">You’re getting more and
-                                                                        more followers, keep it up!</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row p-b-30">
-                                                                <div class="col-auto text-right update-meta">
-                                                                    <p class="text-muted m-b-0 d-inline">4 hrs ago</p>
-                                                                    <i class="feather icon-briefcase bg-simple-c-pink update-icon"></i>
-                                                                </div>
-                                                                <div class="col">
-                                                                    <h6>+ 5 New Products were added!</h6>
-                                                                    <p class="text-muted m-b-0">Congratulations!</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row p-b-30">
-                                                                <div class="col-auto text-right update-meta">
-                                                                    <p class="text-muted m-b-0 d-inline">1 day ago</p>
-                                                                    <i class="feather icon-check bg-simple-c-yellow  update-icon"></i>
-                                                                </div>
-                                                                <div class="col">
-                                                                    <h6>Database backup completed!</h6>
-                                                                    <p class="text-muted m-b-0">Download the <span class="text-c-blue">latest backup</span>.
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row p-b-0">
-                                                                <div class="col-auto text-right update-meta">
-                                                                    <p class="text-muted m-b-0 d-inline">2 day ago</p>
-                                                                    <i class="feather icon-facebook bg-simple-c-green update-icon"></i>
-                                                                </div>
-                                                                <div class="col">
-                                                                    <h6>+2 Friend Requests</h6>
-                                                                    <p class="text-muted m-b-10">This is great, keep it
-                                                                        up!</p>
-                                                                    <div class="table-responsive">
-                                                                        <table class="table table-hover">
-                                                                            <tr>
-                                                                                <td class="b-none">
-                                                                                    <a href="#!" class="align-middle">
-                                                                                        <img src="../files/assets/images/avatar-2.jpg" alt="user image" class="img-radius img-40 align-top m-r-15">
-                                                                                        <div class="d-inline-block">
-                                                                                            <h6>Jeny William</h6>
-                                                                                            <p class="text-muted m-b-0">
-                                                                                                Graphic Designer</p>
-                                                                                        </div>
-                                                                                    </a>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td class="b-none">
-                                                                                    <a href="#!" class="align-middle">
-                                                                                        <img src="../files/assets/images/avatar-1.jpg" alt="user image" class="img-radius img-40 align-top m-r-15">
-                                                                                        <div class="d-inline-block">
-                                                                                            <h6>John Deo</h6>
-                                                                                            <p class="text-muted m-b-0">
-                                                                                                Web Designer</p>
-                                                                                        </div>
-                                                                                    </a>
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </div>
-                                                                </div>
+                                                    <div class="table-responsive">
+                                                            <table class="table table-hover table-borderless">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Asset Tag</th>
+                                                                        <th>Asset Name</th>
+                                                                        <th>Asset Type</th>
+                                                                        
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php 
+                                                                      
+                                                                      # Read all Recent allocations
+                                                                      $sql = "SELECT *FROM assets AS ast INNER JOIN asset_types AS asty ON ast.asset_type_id = asty.asset_type_id ORDER BY ast.asset_date_of_purchase  ASC LIMIT 10";
+                                                                      $result = mysqli_query($mysqli, $sql);
+                                                                      if (mysqli_num_rows($result) > 0) {
+                                                                        while ($asset = mysqli_fetch_object($result)) {
+                                                                    
+                                                                    ?>
+                                                                    <tr>
+                                                                       
+                                                                        <td><?php echo $asset['asset_tag'] ?></td>
+                                                                        <td><?php echo $asset['asset_name'] ?></td>
+                                                                        <td><?php echo  $asset['asset_type_name'] ?></td>
+                                                                 
+                                                                    </tr>
+                                                                    <?php }}?>
+                                                                 
+                                                                </tbody>
+                                                            </table>
+                                                            <div class="text-right m-r-20">
+                                                                <a href="assets" class=" b-b-primary text-primary">View all Allocation</a>
                                                             </div>
                                                         </div>
-                                                        <div class="text-center">
-                                                            <a href="#!" class="b-b-primary text-primary">View all
-                                                                Projects</a>
-                                                        </div>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
