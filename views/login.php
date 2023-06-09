@@ -72,7 +72,7 @@
                                     <div class="col-12">
                                         
                                         <div class="forgot-phone text-right f-right">
-                                            <a href="auth-reset-password.html" class="text-right f-w-600"> Forgot
+                                            <a href="reset_password" class="text-right f-w-600"> Forgot
                                                 Password?</a>
                                         </div>
                                     </div>

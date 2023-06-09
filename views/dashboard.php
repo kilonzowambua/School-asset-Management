@@ -1,5 +1,23 @@
+<?php
+session_start();
+require_once('../config/config.php');
+include('../helpers/analysis.php');
+    /* Load This Page With Logged In User Session */
+    $staff_id = mysqli_escape_string($mysqli, $_SESSION['staff_id']);
+    $staff_sql = mysqli_query($mysqli, "SELECT * FROM staffs WHERE staff_id = '{$staff_id}'");
+    if (mysqli_num_rows($staff_sql) > 0) {
+        while ($staff = mysqli_fetch_array($staff_sql)) {
+            /* Global Usernames */
+            $staff_first_name = $staff['staff_first_name'];
+            $staff_last_name = $staff['staff_last_name'];
+            $staff_department_id  = $staff['staff_department_id'];
+            global $staff_first_name;
+            global $$staff_last_name;
+            global $staff_department_id;
+    ?>
 <!DOCTYPE html>
 <html lang="en">
+<?php $page = 'Home'; ?>
 <?php include('../partials/head.php') ?>
 
 <body>
@@ -50,7 +68,7 @@
                             <i class="feather icon-menu"></i>
                         </a>
                         <a href="dashboard.php">
-                            <h6>Asset Management System</h6>
+                            <h6>Asset Management</h6>
                         </a>
                         <a class="mobile-options">
                             <i class="feather icon-more-horizontal"></i>
@@ -58,15 +76,7 @@
                     </div>
                     <div class="navbar-container">
                         <ul class="nav-left">
-                            <li class="header-search">
-                                <div class="main-search morphsearch-search">
-                                    <div class="input-group">
-                                        <span class="input-group-addon search-close"><i class="feather icon-x"></i></span>
-                                        <input type="text" class="form-control">
-                                        <span class="input-group-addon search-btn"><i class="feather icon-search"></i></span>
-                                    </div>
-                                </div>
-                            </li>
+                            
                             <li>
                                 <a href="#!" onclick="javascript:toggleFullScreen()">
                                     <i class="feather icon-maximize full-screen"></i>
@@ -74,7 +84,7 @@
                             </li>
                         </ul>
                         <ul class="nav-right">
-                            <li class="header-notification">
+                            <!-- <li class="header-notification">
                                 <div class="dropdown-primary dropdown">
                                     <div class="dropdown-toggle" data-toggle="dropdown">
                                         <i class="feather icon-bell"></i>
@@ -128,37 +138,25 @@
                                         <span class="badge bg-c-green">3</span>
                                     </div>
                                 </div>
-                            </li>
+                            </li> -->
                             <li class="user-profile header-notification">
                                 <div class="dropdown-primary dropdown">
                                     <div class="dropdown-toggle" data-toggle="dropdown">
-                                        <img src="../files/assets/images/avatar-4.jpg" class="img-radius" alt="User-Profile-Image">
-                                        <span>John Doe</span>
+                                        <img src="../public/images/user-profile/default.png" class="img-radius" alt="User-Profile-Image">
+                                        <span><?php echo $staff_first_name ?> <?php echo $staff_last_name ?>  </span>
                                         <i class="feather icon-chevron-down"></i>
                                     </div>
                                     <ul class="show-notification profile-notification dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                                    
                                         <li>
-                                            <a href="#!">
-                                                <i class="feather icon-settings"></i> Settings
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="user-profile.html">
+                                            <a href="staff_profile">
                                                 <i class="feather icon-user"></i> Profile
                                             </a>
                                         </li>
+                                        
+                                       
                                         <li>
-                                            <a href="email-inbox.html">
-                                                <i class="feather icon-mail"></i> My Messages
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="auth-lock-screen.html">
-                                                <i class="feather icon-lock"></i> Lock Screen
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="auth-normal-sign-in.html">
+                                            <a href="logout">
                                                 <i class="feather icon-log-out"></i> Logout
                                             </a>
                                         </li>
@@ -170,7 +168,7 @@
                 </div>
             </nav>
 
-            <div id="sidebar" class="users p-chat-user showChat">
+            <!-- <div id="sidebar" class="users p-chat-user showChat">
                 <div class="had-container">
                     <div class="card card_main p-fixed users-main">
                         <div class="user-box">
@@ -191,7 +189,7 @@
                                         <div class="live-status bg-success"></div>
                                     </a>
                                     <div class="media-body">
-                                        <div class="f-13 chat-header">Josephin Doe</div>
+                                        <div class="f-13 chat-header"><?php echo $staff_first_name ?> <?php echo $staff_last_name ?>  </div>
                                     </div>
                                 </div>
                                 <div class="media userlist-box" data-id="2" data-status="online" data-username="Lary Doe" data-toggle="tooltip" data-placement="left" title="Lary Doe">
@@ -274,7 +272,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="pcoded-main-container">
                 <div class="pcoded-wrapper">
@@ -291,8 +289,8 @@
                                                     <div class="card-block">
                                                         <div class="row align-items-center">
                                                             <div class="col">
-                                                                <p class="m-b-5">Total Employees</p>
-                                                                <h4 class="m-b-0">852</h4>
+                                                                <p class="m-b-5">Total Staffs</p>
+                                                                <h4 class="m-b-0"><?php echo number_format($staffs) ?></h4>
                                                             </div>
                                                             <div class="col col-auto text-right">
                                                                 <i class="feather icon-users f-50 text-c-yellow"></i>
@@ -308,7 +306,7 @@
                                                         <div class="row align-items-center">
                                                             <div class="col">
                                                                 <p class="m-b-5">Total Assets</p>
-                                                                <h4 class="m-b-0">42</h4>
+                                                                <h4 class="m-b-0"><?php echo number_format($assets) ?></h4>
                                                             </div>
                                                             <div class="col col-auto text-right">
                                                                 <i class="feather icon-tag f-50 text-c-blue"></i>
@@ -323,8 +321,8 @@
                                                     <div class="card-block">
                                                         <div class="row align-items-center">
                                                             <div class="col">
-                                                                <p class="m-b-5">Total Maintance</p>
-                                                                <h4 class="m-b-0">42</h4>
+                                                                <p class="m-b-5">Asset Disposed</p>
+                                                                <h4 class="m-b-0"><?php echo number_format($disposals) ?></h4>
                                                             </div>
                                                             <div class="col col-auto text-right">
                                                                 <i class="feather icon-shield f-50 text-c-pink"></i>
@@ -340,7 +338,7 @@
                                                         <div class="row align-items-center">
                                                             <div class="col">
                                                                 <p class="m-b-5">Total NetWorth</p>
-                                                                <h4 class="m-b-0">5,852</h4>
+                                                                <h4 class="m-b-0">Ksh.<?php echo number_format($total_networth,2) ?></h4>
                                                             </div>
                                                             <div class="col col-auto text-right">
                                                                 <i class="feather icon-credit-card f-50 text-c-green"></i>
@@ -569,3 +567,4 @@
 </body>
 
 </html>
+<?php }}?>
