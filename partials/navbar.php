@@ -3,32 +3,27 @@
 <div class="pcoded-navigatio-lavel">Navigation</div>
 <ul class="pcoded-item pcoded-left-item">
 <li class="pcoded-hasmenu">
-<a href="javascript:void(0)">
+<a href="dashboard">
 <span class="pcoded-micon"><i class="feather icon-home"></i></span>
 <span class="pcoded-mtext">Dashboard</span>
 </a>
 </li>
 
 <li class="">
-<a href="assets.php">
+<a href="#">
 <span class="pcoded-micon"><i class="feather icon-tag"></i></span>
 <span class="pcoded-mtext">Assets</span>
 </a>
 </li>
 
 <li class="">
-<a href="asset_type.php">
+<a href="asset_types">
 <span class="pcoded-micon"><i class="feather icon-file"></i></span>
 <span class="pcoded-mtext">Assets Types</span>
 </a>
 </li>
 
-<li class="">
-<a href="assets_components.php">
-<span class="pcoded-micon"><i class="feather icon-folder"></i></span>
-<span class="pcoded-mtext">Assets Components</span>
-</a>
-</li>
+
 
 <li class="">
 <a href="assets_mainatance.php">
@@ -38,35 +33,35 @@
 </li>
 
 <li class="">
-<a href="asset_disposal.php">
+<a href="#">
 <span class="pcoded-micon"><i class="feather icon-trash"></i></span>
 <span class="pcoded-mtext">Asset Disposal</span>
 </a>
 </li>
 
 <li class="">
-<a href="asset_employees.php">
+<a href="">
 <span class="pcoded-micon"><i class="feather icon-users"></i></span>
-<span class="pcoded-mtext">Employees</span>
+<span class="pcoded-mtext">Staffs</span>
 </a>
 </li>
 
 <li class="">
-<a href="asset_departments.php">
+<a href="#">
 <span class="pcoded-micon"><i class="feather icon-anchor"></i></span>
 <span class="pcoded-mtext">Departments</span>
 </a>
 </li>
 
 <li class="">
-<a href="navbar-light.html">
+<a href="#">
 <span class="pcoded-micon"><i class="feather icon-paperclip"></i></span>
 <span class="pcoded-mtext">Reports</span>
 </a>
 </li>
 
 <li class="">
-<a href="navbar-light.html">
+<a href="#">
 <span class="pcoded-micon"><i class="feather icon-settings"></i></span>
 <span class="pcoded-mtext">Settings</span>
 </a>

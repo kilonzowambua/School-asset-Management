@@ -3,6 +3,7 @@ session_start();
 require_once('../config/config.php');
 include('../helpers/analysis.php');
 include('../helpers/datefunction.php');
+include('../helpers/staff.php');
 /* Load This Page With Logged In User Session */
 $staff_id = mysqli_escape_string($mysqli, $_SESSION['staff_id']);
 $staff_sql = mysqli_query($mysqli, "SELECT * FROM staffs WHERE staff_id = '{$staff_id}'");
@@ -288,8 +289,8 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                                 </div>
 
                                                                                             </div>
-
                                                                                         </div>
+                                                                                 
 
                                                                                     </div>
 
@@ -301,48 +302,49 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                 <div class="row">
                                                                                     <div class="col-lg-12">
                                                                                         <div class="general-info">
-
+                                                                                               <form  method="post">
                                                                                             <div class="form-group row">
                                                                                                 <label class="col-sm-2 col-form-label">First Name</label>
                                                                                                 <div class="col-sm-10">
-                                                                                                    <input type="text" class="form-control form-control-round" placeholder=".form-control-round">
+                                                                                                    <input type="text" hidden name="staff_id" class="form-control form-control-round" value="<?php echo $staff_id ?>">
+                                                                                                    <input type="text" name="staff_first_name" class="form-control form-control-round" value="<?php echo $staff_first_name ?>">
                                                                                                 </div>
                                                                                             </div>
                                                                                             
                                                                                             <div class="form-group row">
                                                                                                 <label class="col-sm-2 col-form-label">Last Name</label>
                                                                                                 <div class="col-sm-10">
-                                                                                                    <input type="text" class="form-control form-control-round" placeholder=".form-control-round">
+                                                                                                    <input type="text" name="staff_last_name" class="form-control form-control-round" value="<?php echo $staff_last_name ?>">
                                                                                                 </div>
                                                                                             </div>
                                                                                             <div class="form-group row">
                                                                                                 <label class="col-sm-2 col-form-label">Email</label>
                                                                                                 <div class="col-sm-10">
-                                                                                                    <input type="text" class="form-control form-control-round" placeholder=".form-control-round">
+                                                                                                    <input type="text" name="staff_email" class="form-control form-control-round" value="<?php echo $staff_email ?>">
                                                                                                 </div>
                                                                                             </div>
                                                                                             
                                                                                             <div class="form-group row">
                                                                                                 <label class="col-sm-2 col-form-label">Phone No.</label>
                                                                                                 <div class="col-sm-10">
-                                                                                                    <input type="text" class="form-control form-control-round" placeholder=".form-control-round">
+                                                                                                    <input type="text" name="staff_phone_no" class="form-control form-control-round" value="<?php echo $staff_phone_no ?>">
                                                                                                 </div>
                                                                                             </div>
                                                                                             <div class="form-group row">
                                                                                                 <label class="col-sm-2 col-form-label">Password</label>
                                                                                                 <div class="col-sm-10">
-                                                                                                    <input type="text" class="form-control form-control-round" placeholder=".form-control-round">
+                                                                                                    <input type="text" name="staff_password" class="form-control form-control-round" value="">
                                                                                                 </div>
                                                                                             </div>
-                                                                                        </div>
-
+                                                                                       
                                                                                         <div class="text-center">
-                                                                                            <a href="#!" class="btn btn-primary waves-effect waves-light m-r-20">Save</a>
-                                                                                            <a href="#!" id="edit-cancel" class="btn btn-default waves-effect">Cancel</a>
+                                                                                            <button type="submit" name="update_profile" class="btn btn-primary waves-effect waves-light m-r-20">Save</button>
+                                                                                            <a href="" id="edit-cancel" class="btn btn-default waves-effect">Cancel</a>
                                                                                         </div>
+                                                                                        </form>
                                                                                     </div>
 
-
+                                                                                    </div>
                                                                                 </div>
 
                                                                             </div>
