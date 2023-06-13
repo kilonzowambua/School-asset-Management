@@ -3,6 +3,7 @@ session_start();
 require_once('../config/config.php');
 include('../helpers/analysis.php');
 include('../helpers/datefunction.php');
+include('../helpers/asset_type.php');
 /* Load This Page With Logged In User Session */
 $staff_id = mysqli_escape_string($mysqli, $_SESSION['staff_id']);
 $staff_sql = mysqli_query($mysqli, "SELECT * FROM staffs WHERE staff_id = '{$staff_id}'");
@@ -130,9 +131,8 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                     <div class="col-lg-8">
                                                         <div class="page-header-title">
                                                             <div class="d-inline">
-                                                                <h4>Basic Table Sizes</h4>
-                                                                <span>lorem ipsum dolor sit amet, consectetur adipisicing
-                                                                    elit</span>
+                                                                <h4>Asset Types</h4>
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -140,12 +140,11 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                         <div class="page-header-breadcrumb">
                                                             <ul class="breadcrumb-title">
                                                                 <li class="breadcrumb-item" style="float: left;">
-                                                                    <a href="../index-2.html"> <i class="feather icon-home"></i> </a>
+                                                                    <a href="dashboard"> <i class="feather icon-home"></i> </a>
                                                                 </li>
-                                                                <li class="breadcrumb-item" style="float: left;"><a href="#!">Bootstrap Table</a>
+                                                                <li class="breadcrumb-item" style="float: left;"><a href="dashboard">Home</a>
                                                                 </li>
-                                                                <li class="breadcrumb-item" style="float: left;"><a href="#!">Basic
-                                                                        Initialization</a>
+                                                                <li class="breadcrumb-item" style="float: left;"><a href="#!">Asset Types</a>
                                                                 </li>
                                                             </ul>
                                                         </div>
@@ -157,159 +156,133 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                             <div class="page-body">
                                                 <div class="row">
                                                     <div class="col-sm-12">
-
-                                                    
                                                         <div class="card">
-                                                            <div class="card-header">
-                                                                <h5>Multi-Column Ordering</h5>
-                                                                <span>DataTables allows ordering by multiple columns at the same
-                                                                    time, which can be activated in a number of different
-                                                                    ways</span>
-                                                            </div>
-                                                            <div class="card-block">
-                                                                <div class="dt-responsive table-responsive">
-                                                                    <div id="multi-colum-dt_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                                                                        <div class="row">
-                                                                            <div class="col-xs-12 col-sm-12 col-sm-12 col-md-6">
-                                                                                <div class="dataTables_length" id="multi-colum-dt_length"><label>Show <select name="multi-colum-dt_length" aria-controls="multi-colum-dt" class="form-control input-sm">
-                                                                                            <option value="10">10</option>
-                                                                                            <option value="25">25</option>
-                                                                                            <option value="50">50</option>
-                                                                                            <option value="100">100</option>
-                                                                                        </select> entries</label></div>
-                                                                            </div>
-                                                                            <div class="col-xs-12 col-sm-12 col-md-6">
-                                                                                <div id="multi-colum-dt_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="multi-colum-dt"></label></div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            <div class="col-xs-12 col-sm-12">
-                                                                                <table id="multi-colum-dt" class="table table-striped table-bordered nowrap dataTable" role="grid" aria-describedby="multi-colum-dt_info">
-                                                                                    <thead>
-                                                                                        <tr role="row">
-                                                                                            <th class="sorting_asc" tabindex="0" aria-controls="multi-colum-dt" rowspan="1" colspan="1" style="width: 158.817px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">Name</th>
-                                                                                            <th class="sorting" tabindex="0" aria-controls="multi-colum-dt" rowspan="1" colspan="1" style="width: 239.367px;" aria-label="Position: activate to sort column ascending">Position</th>
-                                                                                            <th class="sorting" tabindex="0" aria-controls="multi-colum-dt" rowspan="1" colspan="1" style="width: 113.283px;" aria-label="Office: activate to sort column ascending">Office</th>
-                                                                                            <th class="sorting" tabindex="0" aria-controls="multi-colum-dt" rowspan="1" colspan="1" style="width: 53.3667px;" aria-label="Age: activate to sort column ascending">Age</th>
-                                                                                            <th class="sorting" tabindex="0" aria-controls="multi-colum-dt" rowspan="1" colspan="1" style="width: 115.533px;" aria-label="Start date: activate to sort column ascending">Start date</th>
-                                                                                            <th class="sorting" tabindex="0" aria-controls="multi-colum-dt" rowspan="1" colspan="1" style="width: 77.8333px;" aria-label="Salary: activate to sort column ascending">Salary</th>
-                                                                                        </tr>
-                                                                                    </thead>
-                                                                                    <tbody>
-                                                                                        <tr role="row" class="odd">
-                                                                                            <td class="sorting_1 sorting_2">Airi Satou</td>
-                                                                                            <td>Accountant</td>
-                                                                                            <td>Tokyo</td>
-                                                                                            <td>33</td>
-                                                                                            <td>2008/11/28</td>
-                                                                                            <td>$162,700</td>
-                                                                                        </tr>
-                                                                                        <tr role="row" class="even">
-                                                                                            <td class="sorting_1 sorting_2">Ashton Cox</td>
-                                                                                            <td>Junior Technical Author</td>
-                                                                                            <td>San Francisco</td>
-                                                                                            <td>66</td>
-                                                                                            <td>2009/01/12</td>
-                                                                                            <td>$86,000</td>
-                                                                                        </tr>
-                                                                                        <tr role="row" class="odd">
-                                                                                            <td class="sorting_1 sorting_2">Bradley Greer</td>
-                                                                                            <td>Software Engineer</td>
-                                                                                            <td>London</td>
-                                                                                            <td>41</td>
-                                                                                            <td>2012/10/13</td>
-                                                                                            <td>$132,000</td>
-                                                                                        </tr>
-                                                                                        <tr role="row" class="even">
-                                                                                            <td class="sorting_1 sorting_2">Brielle Williamson</td>
-                                                                                            <td>Integration Specialist</td>
-                                                                                            <td>New York</td>
-                                                                                            <td>61</td>
-                                                                                            <td>2012/12/02</td>
-                                                                                            <td>$372,000</td>
-                                                                                        </tr>
-                                                                                        <tr role="row" class="odd">
-                                                                                            <td class="sorting_1 sorting_2">Cedric Kelly</td>
-                                                                                            <td>Senior Javascript Developer</td>
-                                                                                            <td>Edinburgh</td>
-                                                                                            <td>22</td>
-                                                                                            <td>2012/03/29</td>
-                                                                                            <td>$433,060</td>
-                                                                                        </tr>
-                                                                                        <tr role="row" class="even">
-                                                                                            <td class="sorting_1 sorting_2">Charde Marshall</td>
-                                                                                            <td>Regional Director</td>
-                                                                                            <td>San Francisco</td>
-                                                                                            <td>36</td>
-                                                                                            <td>2008/10/16</td>
-                                                                                            <td>$470,600</td>
-                                                                                        </tr>
-                                                                                        <tr role="row" class="odd">
-                                                                                            <td class="sorting_1 sorting_2">Colleen Hurst</td>
-                                                                                            <td>Javascript Developer</td>
-                                                                                            <td>San Francisco</td>
-                                                                                            <td>39</td>
-                                                                                            <td>2009/09/15</td>
-                                                                                            <td>$205,500</td>
-                                                                                        </tr>
-                                                                                        <tr role="row" class="even">
-                                                                                            <td class="sorting_1 sorting_2">Dai Rios</td>
-                                                                                            <td>Personnel Lead</td>
-                                                                                            <td>Edinburgh</td>
-                                                                                            <td>35</td>
-                                                                                            <td>2012/09/26</td>
-                                                                                            <td>$217,500</td>
-                                                                                        </tr>
-                                                                                        <tr role="row" class="odd">
-                                                                                            <td class="sorting_1 sorting_2">Garrett Winters</td>
-                                                                                            <td>Accountant</td>
-                                                                                            <td>Tokyo</td>
-                                                                                            <td>63</td>
-                                                                                            <td>2011/07/25</td>
-                                                                                            <td>$170,750</td>
-                                                                                        </tr>
-                                                                                        <tr role="row" class="even">
-                                                                                            <td class="sorting_1 sorting_2">Gloria Little</td>
-                                                                                            <td>Systems Administrator</td>
-                                                                                            <td>New York</td>
-                                                                                            <td>59</td>
-                                                                                            <td>2009/04/10</td>
-                                                                                            <td>$237,500</td>
-                                                                                        </tr>
-                                                                                    </tbody>
-                                                                                    <tfoot>
-                                                                                        <tr>
-                                                                                            <th rowspan="1" colspan="1">Name</th>
-                                                                                            <th rowspan="1" colspan="1">Position</th>
-                                                                                            <th rowspan="1" colspan="1">Office</th>
-                                                                                            <th rowspan="1" colspan="1">Age</th>
-                                                                                            <th rowspan="1" colspan="1">Start date</th>
-                                                                                            <th rowspan="1" colspan="1">Salary</th>
-                                                                                        </tr>
-                                                                                    </tfoot>
-                                                                                </table>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            <div class="col-xs-12 col-sm-12 col-md-5">
-                                                                                <div class="dataTables_info" id="multi-colum-dt_info" role="status" aria-live="polite">Showing 1 to 10 of 20 entries</div>
-                                                                            </div>
-                                                                            <div class="col-xs-12 col-sm-12 col-md-7">
-                                                                                <div class="dataTables_paginate paging_simple_numbers" id="multi-colum-dt_paginate">
-                                                                                    <ul class="pagination">
-                                                                                        <li class="paginate_button page-item previous disabled" id="multi-colum-dt_previous"><a href="#" aria-controls="multi-colum-dt" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
-                                                                                        <li class="paginate_button page-item active"><a href="#" aria-controls="multi-colum-dt" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-                                                                                        <li class="paginate_button page-item "><a href="#" aria-controls="multi-colum-dt" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
-                                                                                        <li class="paginate_button page-item next" id="multi-colum-dt_next"><a href="#" aria-controls="multi-colum-dt" data-dt-idx="3" tabindex="0" class="page-link">Next</a></li>
-                                                                                    </ul>
+                                                            <div class="card-header table-card-header text-right">
+                                                                <button type="button" class="btn btn-info btn-outline-info waves-effect md-trigger" data-modal="modal-12">New Asset type</button>
+                                                                <div class="md-modal md-effect-12" id="modal-12">
+                                                                    <div class="md-content">
+                                                                        <h1 class="text-center">Add New Asset Type</h1>
+                                                                        <div>
+                                                                            <form method="post">
+                                                                                <div class="form-group row mt-1">
+                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Type Name:</label>
+                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
+                                                                                        <input type="text" name="asset_type_name" class="form-control">
+                                                                                    </div>
+
                                                                                 </div>
-                                                                            </div>
+
+                                                                                <div class="row mt-2 ">
+                                                                                    <div class="col-6 text-center">
+                                                                                        <button type="button" class="btn btn-danger waves-effect md-close">Close</button>
+                                                                                    </div>
+                                                                                    <div class="col-6">
+                                                                                        <button type="submit" name="add_asset_type" class="btn btn-primary waves-effect ">Add</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                <div class="md-overlay"></div>
+                                                            </div>
+                                                            <div class="card-block">
+                                                                <div class="dt-responsive table-responsive">
+                                                                    <div id="basic-btn_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                                                        <div class="dt-buttons"> </div>
+                                                                        <div id="basic-btn_filter" class="dataTables_filter"><label></div>
+                                                                        <table id="basic-btn" class="table table-striped table-bordered nowrap dataTable" role="grid" aria-describedby="basic-btn_info">
+                                                                            <thead>
+                                                                                <tr role="row">
+
+                                                                                    <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 300.367px;" aria-label="Asset Type Name: activate to sort column ascending">Asset Type Name</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 250.367px;" aria-label="No of Assets: activate to sort column ascending">No of Assets</th>
+                                                                                    <th tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 250.367px;" aria-label="Action: activate to sort column ascending">Action</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <?php
+
+                                                                                # Read all Asset Type
+                                                                                $sql = "SELECT a_t.asset_type_id,COUNT(a_s.asset_id) AS total_assets,a_t.asset_type_name FROM asset_types AS a_t 
+                                                                                INNER JOIN assets AS a_s ON a_t.asset_type_id=a_s.asset_type_id";
+                                                                                $result = mysqli_query($mysqli, $sql);
+                                                                                if (mysqli_num_rows($result) > 0) {
+                                                                                    while ($asset_type = mysqli_fetch_object($result)) {
+                                                                                ?>
+
+                                                                                        <tr role="row" class="odd">
+                                                                                            <td class="sorting_1"><?php echo $asset_type->asset_type_name ?></td>
+                                                                                            <td><?php echo number_format($asset_type->total_assets, 0) ?></td>
+                                                                                            <td>
+                                                                                                <button type="button" class="btn btn-primary btn-outline-primary waves-effect md-trigger" data-modal="edit-<?php echo $asset_type->asset_type_id ?>">Edit</button>
+                                                                                                <button type="button" class="btn btn-warning alert-confirm m-b-10 md-trigger" data-modal="delete-<?php echo $asset_type->asset_type_id ?>">Delete</button>
+                                                                                                <div class="md-modal md-effect-12" id="edit-<?php echo $asset_type->asset_type_id ?>">
+                                                                                                    <div class="md-content">
+                                                                                                        <h1 class="text-center">Edit - <?php echo $asset_type->asset_type_name ?></h1>
+                                                                                                        <div>
+                                                                                                            <form method="post">
+                                                                                                                <div class="form-group row mt-1">
+                                                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Type Name:</label>
+                                                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
+                                                                                                                        <input type="text" hidden name="asset_type_id" value="<?php echo $asset_type->asset_type_id ?>" class="form-control">
+                                                                                                                        <input type="text" name="asset_type_name" value="<?php echo $asset_type->asset_type_name ?>" class="form-control">
+                                                                                                                    </div>
+
+                                                                                                                </div>
+
+                                                                                                                <div class="row mt-2 ">
+                                                                                                                    <div class="col-6 text-center">
+                                                                                                                        <button type="button" class="btn btn-danger waves-effect md-close">Close</button>
+                                                                                                                    </div>
+                                                                                                                    <div class="col-6">
+                                                                                                                        <button type="submit" name="update_asset_type" class="btn btn-primary waves-effect ">Update</button>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </form>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="md-modal md-effect-12" id="delete-<?php echo $asset_type->asset_type_id ?>">
+                                                                                                    <div class="md-content">
+                                                                                                        <h1 class="text-danger">Delete - <?php echo $asset_type->asset_type_name ?></h1>
+                                                                                                        <div>
+                                                                                                            <form method="post">
+                                                                                                                <div class="form-group row mt-1">
+                                                                                                                   
+                                                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
+                                                                                                                        <input type="text" hidden name="asset_type_id" value="<?php echo $asset_type->asset_type_id ?>" class="form-control">
+                                                                                                                    </div>
+
+                                                                                                                </div>
+
+                                                                                                                <div class="row mt-2 ">
+                                                                                                                    <div class="col-6 text-center">
+                                                                                                                        <button type="button" class="btn btn-danger waves-effect md-close">Close</button>
+                                                                                                                    </div>
+                                                                                                                    <div class="col-6">
+                                                                                                                        <button type="submit" name="delete_asset_type" class="btn btn-primary waves-effect ">Delete</button>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </form>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="md-overlay"></div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                <?php }
+                                                                                } ?>
+                                                                            </tbody>
+
+                                                                        </table>
+                                                                        <div class="dataTables_info" id="basic-btn_info" role="status" aria-live="polite"></div>
+
+                                                                    </div>
+
+                                                                </div>
                                                             </div>
                                                         </div>
-
 
                                                     </div>
                                                 </div>
@@ -330,4 +303,5 @@ if (mysqli_num_rows($staff_sql) > 0) {
 
         </html>
 <?php }
-} ?>
+}
+?>

@@ -15,6 +15,8 @@
 <link rel="stylesheet" type="text/css" href="../public/bower_components/bootstrap/dist/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="../public/assets/icon/feather/css/feather.css">
 
+
+<link rel="stylesheet" type="text/css" href="../public/assets/css/component.css">
 <link rel="stylesheet" type="text/css" href="../public/bower_components/pnotify/dist/pnotify.css">
 <link rel="stylesheet" type="text/css" href="../public/bower_components/pnotify/dist/pnotify.brighttheme.css">
 <link rel="stylesheet" type="text/css" href="../public/bower_components/pnotify/dist/pnotify.buttons.css">
@@ -32,6 +34,11 @@
 <link rel="stylesheet" type="text/css" href="../public/assets/css/jquery.mCustomScrollbar.css">
 <link rel="stylesheet" type="text/css" href="../public/assets/css/style.css">
 <link rel="stylesheet" type="text/css" href="../public/assets/css/jquery.mCustomScrollbar.css">
+<!-- Datatable -->
+<link rel="stylesheet" type="text/css" href="../public/bower_components/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" type="text/css" href="../public/assets/pages/data-table/css/buttons.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="../public/bower_components/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" type="text/css" href="../public/assets/pages/data-table/extensions/buttons/css/buttons.dataTables.min.css">
  <!--  Alert--> 
  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
      <?php

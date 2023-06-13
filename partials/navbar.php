@@ -10,7 +10,7 @@
 </li>
 
 <li class="">
-<a href="#">
+<a href="assets">
 <span class="pcoded-micon"><i class="feather icon-tag"></i></span>
 <span class="pcoded-mtext">Assets</span>
 </a>

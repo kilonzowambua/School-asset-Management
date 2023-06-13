@@ -22,7 +22,9 @@ $alpha = 10;
 $paycode = substr(str_shuffle("QWERTYUIOPLKJHGFDSAZXCVBNM1234567890"), 1, $alpha);
 
 /* Staff Number */
-$staff_number = 'STF-' . substr(str_shuffle("1234567890"), 1, 4);
+$staff_no = 'STF-' . substr(str_shuffle("1234567890"), 1, 4);
+/* Asset Tag */
+$tag_no = 'asset/' . substr(str_shuffle("1234567890"), 1, 4).'/'.date('Y');
 
 
 

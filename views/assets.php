@@ -1,478 +1,393 @@
-<!DOCTYPE html>
-<html lang="en">
-<?php include('../partials/head.php') ?>
+<?php
+session_start();
+require_once('../config/config.php');
+include('../helpers/analysis.php');
+include('../helpers/datefunction.php');
+include('../helpers/assets.php');
+/* Load This Page With Logged In User Session */
+$staff_id = mysqli_escape_string($mysqli, $_SESSION['staff_id']);
+$staff_sql = mysqli_query($mysqli, "SELECT * FROM staffs WHERE staff_id = '{$staff_id}'");
+if (mysqli_num_rows($staff_sql) > 0) {
+    while ($staff = mysqli_fetch_array($staff_sql)) {
+        /* Global Usernames */
+        $staff_first_name = $staff['staff_first_name'];
+        $staff_last_name = $staff['staff_last_name'];
+        $staff_department_id  = $staff['staff_department_id'];
+        global $staff_first_name;
+        global $$staff_last_name;
+        global $staff_department_id;
+?>
+        <!DOCTYPE html>
+        <html lang="en">
+        <?php $page = 'Assets'; ?>
+        <?php include('../partials/head.php') ?>
 
-<body>
-    <div class="theme-loader">
-        <div class="ball-scale">
-            <div class='contain'>
-                <div class="ring">
-                    <div class="frame"></div>
-                </div>
-                <div class="ring">
-                    <div class="frame"></div>
-                </div>
-                <div class="ring">
-                    <div class="frame"></div>
-                </div>
-                <div class="ring">
-                    <div class="frame"></div>
-                </div>
-                <div class="ring">
-                    <div class="frame"></div>
-                </div>
-                <div class="ring">
-                    <div class="frame"></div>
-                </div>
-                <div class="ring">
-                    <div class="frame"></div>
-                </div>
-                <div class="ring">
-                    <div class="frame"></div>
-                </div>
-                <div class="ring">
-                    <div class="frame"></div>
-                </div>
-                <div class="ring">
-                    <div class="frame"></div>
+        <body>
+            <div class="theme-loader">
+                <div class="ball-scale">
+                    <div class='contain'>
+                        <div class="ring">
+                            <div class="frame"></div>
+                        </div>
+                        <div class="ring">
+                            <div class="frame"></div>
+                        </div>
+                        <div class="ring">
+                            <div class="frame"></div>
+                        </div>
+                        <div class="ring">
+                            <div class="frame"></div>
+                        </div>
+                        <div class="ring">
+                            <div class="frame"></div>
+                        </div>
+                        <div class="ring">
+                            <div class="frame"></div>
+                        </div>
+                        <div class="ring">
+                            <div class="frame"></div>
+                        </div>
+                        <div class="ring">
+                            <div class="frame"></div>
+                        </div>
+                        <div class="ring">
+                            <div class="frame"></div>
+                        </div>
+                        <div class="ring">
+                            <div class="frame"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div id="pcoded" class="pcoded">
-        <div class="pcoded-overlay-box"></div>
-        <div class="pcoded-container navbar-wrapper">
-            <nav class="navbar header-navbar pcoded-header">
-                <div class="navbar-wrapper">
-                    <div class="navbar-logo">
-                        <a class="mobile-menu" id="mobile-collapse" href="#!">
-                            <i class="feather icon-menu"></i>
-                        </a>
-                        <a href="dashboard.php">
-                            <h6>Asset Management System</h6>
-                        </a>
-                        <a class="mobile-options">
-                            <i class="feather icon-more-horizontal"></i>
-                        </a>
-                    </div>
-                    <div class="navbar-container">
-                        <ul class="nav-left">
-                            <li class="header-search">
-                                <div class="main-search morphsearch-search">
-                                    <div class="input-group">
-                                        <span class="input-group-addon search-close"><i class="feather icon-x"></i></span>
-                                        <input type="text" class="form-control">
-                                        <span class="input-group-addon search-btn"><i class="feather icon-search"></i></span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <a href="#!" onclick="javascript:toggleFullScreen()">
-                                    <i class="feather icon-maximize full-screen"></i>
+            <div id="pcoded" class="pcoded">
+                <div class="pcoded-overlay-box"></div>
+                <div class="pcoded-container navbar-wrapper">
+                    <nav class="navbar header-navbar pcoded-header">
+                        <div class="navbar-wrapper">
+                            <div class="navbar-logo">
+                                <a class="mobile-menu" id="mobile-collapse" href="#!">
+                                    <i class="feather icon-menu"></i>
                                 </a>
-                            </li>
-                        </ul>
-                        <ul class="nav-right">
-                            <li class="header-notification">
-                                <div class="dropdown-primary dropdown">
-                                    <div class="dropdown-toggle" data-toggle="dropdown">
-                                        <i class="feather icon-bell"></i>
-                                        <span class="badge bg-c-pink">5</span>
-                                    </div>
-                                    <ul class="show-notification notification-view dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                                        <li>
-                                            <h6>Notifications</h6>
-                                            <label class="label label-danger">New</label>
-                                        </li>
-                                        <li>
-                                            <div class="media">
-                                                <img class="d-flex align-self-center img-radius" src="../files/assets/images/avatar-4.jpg" alt="Generic placeholder image">
-                                                <div class="media-body">
-                                                    <h5 class="notification-user">John Doe</h5>
-                                                    <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer
-                                                        elit.</p>
-                                                    <span class="notification-time">30 minutes ago</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="media">
-                                                <img class="d-flex align-self-center img-radius" src="../files/assets/images/avatar-3.jpg" alt="Generic placeholder image">
-                                                <div class="media-body">
-                                                    <h5 class="notification-user">Joseph William</h5>
-                                                    <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer
-                                                        elit.</p>
-                                                    <span class="notification-time">30 minutes ago</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="media">
-                                                <img class="d-flex align-self-center img-radius" src="../files/assets/images/avatar-4.jpg" alt="Generic placeholder image">
-                                                <div class="media-body">
-                                                    <h5 class="notification-user">Sara Soudein</h5>
-                                                    <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer
-                                                        elit.</p>
-                                                    <span class="notification-time">30 minutes ago</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="header-notification">
-                                <div class="dropdown-primary dropdown">
-                                    <div class="displayChatbox dropdown-toggle" data-toggle="dropdown">
-                                        <i class="feather icon-message-square"></i>
-                                        <span class="badge bg-c-green">3</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="user-profile header-notification">
-                                <div class="dropdown-primary dropdown">
-                                    <div class="dropdown-toggle" data-toggle="dropdown">
-                                        <img src="../files/assets/images/avatar-4.jpg" class="img-radius" alt="User-Profile-Image">
-                                        <span>John Doe</span>
-                                        <i class="feather icon-chevron-down"></i>
-                                    </div>
-                                    <ul class="show-notification profile-notification dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                                        <li>
-                                            <a href="#!">
-                                                <i class="feather icon-settings"></i> Settings
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="user-profile.html">
-                                                <i class="feather icon-user"></i> Profile
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="email-inbox.html">
-                                                <i class="feather icon-mail"></i> My Messages
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="auth-lock-screen.html">
-                                                <i class="feather icon-lock"></i> Lock Screen
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="auth-normal-sign-in.html">
-                                                <i class="feather icon-log-out"></i> Logout
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+                                <a href="dashboard.php">
+                                    <h6>Asset Management</h6>
+                                </a>
+                                <a class="mobile-options">
+                                    <i class="feather icon-more-horizontal"></i>
+                                </a>
+                            </div>
+                            <div class="navbar-container">
+                                <ul class="nav-left">
 
-            <div id="sidebar" class="users p-chat-user showChat">
-                <div class="had-container">
-                    <div class="card card_main p-fixed users-main">
-                        <div class="user-box">
-                            <div class="chat-inner-header">
-                                <div class="back_chatBox">
-                                    <div class="right-icon-control">
-                                        <input type="text" class="form-control  search-text" placeholder="Search Friend" id="search-friends">
-                                        <div class="form-icon">
-                                            <i class="icofont icofont-search"></i>
+                                    <li>
+                                        <a href="#!" onclick="javascript:toggleFullScreen()">
+                                            <i class="feather icon-maximize full-screen"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="nav-right">
+
+                                    <li class="user-profile header-notification">
+                                        <div class="dropdown-primary dropdown">
+                                            <div class="dropdown-toggle" data-toggle="dropdown">
+                                                <img src="../public/images/user-profile/default.png" class="img-radius" alt="User-Profile-Image">
+                                                <span><?php echo $staff_first_name ?> <?php echo $staff_last_name ?> </span>
+                                                <i class="feather icon-chevron-down"></i>
+                                            </div>
+                                            <ul class="show-notification profile-notification dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+
+                                                <li>
+                                                    <a href="staff_profile">
+                                                        <i class="feather icon-user"></i> Profile
+                                                    </a>
+                                                </li>
+
+
+                                                <li>
+                                                    <a href="logout">
+                                                        <i class="feather icon-log-out"></i> Logout
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+
+
+
+                    <div class="pcoded-main-container">
+                        <div class="pcoded-wrapper">
+                            <?php include('../partials/navbar.php') ?>
+                            <div class="pcoded-content">
+                                <div class="pcoded-inner-content">
+                                    <div class="main-body">
+                                        <div class="page-wrapper">
+
+                                            <div class="page-header">
+                                                <div class="row align-items-end">
+                                                    <div class="col-lg-8">
+                                                        <div class="page-header-title">
+                                                            <div class="d-inline">
+                                                                <h4>Assets</h4>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="page-header-breadcrumb">
+                                                            <ul class="breadcrumb-title">
+                                                                <li class="breadcrumb-item" style="float: left;">
+                                                                    <a href="dashboard"> <i class="feather icon-home"></i> </a>
+                                                                </li>
+                                                                <li class="breadcrumb-item" style="float: left;"><a href="dashboard">Home</a>
+                                                                </li>
+                                                                <li class="breadcrumb-item" style="float: left;"><a href="#!">Assets</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="page-body">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="card">
+                                                            <div class="card-header table-card-header text-right">
+                                                                <button type="button" class="btn btn-info btn-outline-info waves-effect md-trigger" data-modal="modal-12">New Asset </button>
+                                                                <div class="md-modal md-effect-12" id="modal-12">
+                                                                    <div class="md-content">
+                                                                        <h1 class="text-center">Add New Asset </h1>
+                                                                        <div>
+                                                                            <form method="post">
+                                                                                <div class="form-group row mt-1">
+                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Name:</label>
+                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
+                                                                                        <input type="text" name="asset_name" class="form-control">
+                                                                                    </div>
+
+                                                                                </div>
+
+                                                                                <div class="form-group row mt-1">
+                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Tag:</label>
+                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
+                                                                                        <input type="text" name="asset_tag" value="<?php echo $tag_no ?>" class="form-control" readonly>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                                <div class="form-group row mt-1">
+                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Type:</label>
+                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
+                                                                                        <select name="asset_type_id" class="form-control">
+                                                                                            <?php
+
+                                                                                            # Read all Asset Type
+                                                                                            $sql = "SELECT asset_type_id,asset_type_name FROM asset_types";
+                                                                                            $result = mysqli_query($mysqli, $sql);
+                                                                                            if (mysqli_num_rows($result) > 0) {
+                                                                                                while ($asset_type = mysqli_fetch_object($result)) {
+                                                                                            ?>
+                                                                                                    <option value="<?php echo $asset_type->asset_type_id ?>"><?php echo $asset_type->asset_type_name ?></option>
+                                                                                            <?php }
+                                                                                            } ?>
+                                                                                        </select>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                                <div class="form-group row mt-1">
+                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Description:</label>
+                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
+                                                                                        <textarea rows="5" cols="5" class="form-control" name="asset_details" placeholder="Enter Here"></textarea>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                                <div class="form-group row mt-1">
+                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset price:</label>
+                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
+                                                                                        <input type="text" name="asset_price" class="form-control">
+                                                                                    </div>
+
+                                                                                </div>
+
+                                                                                <div class="row mt-2 ">
+                                                                                    <div class="col-6 text-center">
+                                                                                        <button type="button" class="btn btn-danger waves-effect md-close">Close</button>
+                                                                                    </div>
+                                                                                    <div class="col-6">
+                                                                                        <button type="submit" name="add_asset" class="btn btn-primary waves-effect ">Add</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="md-overlay"></div>
+                                                            </div>
+                                                            <div class="card-block">
+                                                                <div class="dt-responsive table-responsive">
+                                                                    <div id="basic-btn_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                                                        <div class="dt-buttons"> </div>
+                                                                        <div id="basic-btn_filter" class="dataTables_filter"><label></div>
+                                                                        <table id="basic-btn" class="table table-striped table-bordered nowrap dataTable" role="grid" aria-describedby="basic-btn_info">
+                                                                            <thead>
+                                                                                <tr role="row">
+
+                                                                                    <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 300.367px;" aria-label="Asset Type Name: activate to sort column ascending">Asset Tag</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 300.367px;" aria-label="Asset Type Name: activate to sort column ascending">Asset Name</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 250.367px;" aria-label="No of Assets: activate to sort column ascending">Date Of Puchase</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 250.367px;" aria-label="No of Assets: activate to sort column ascending">Cost</th>
+                                                                                    <th tabindex="0" rowspan="1" colspan="1" style="width: 250.367px;" aria-label="Action: activate to sort column ascending">Action</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <?php
+
+                                                                                # Read all Asset Type
+                                                                                $sql = "SELECT * FROM assets AS a_s";
+                                                                                $result = mysqli_query($mysqli, $sql);
+                                                                                if (mysqli_num_rows($result) > 0) {
+                                                                                    while ($asset = mysqli_fetch_object($result)) {
+                                                                                ?>
+
+                                                                                        <tr role="row">
+                                                                                            <td class="sorting_1"><?php echo $asset->asset_tag ?></td>
+                                                                                            <td><?php echo $asset->asset_name ?></td>
+                                                                                            <td><?php echo formatDateTime($asset->asset_date_of_purchase) ?></td>
+                                                                                            <td>Ksh .<?php echo $asset->asset_price ?></td>
+                                                                                            <td>
+                                                                                                <button type="button" class="btn btn-primary btn-outline-primary waves-effect md-trigger" data-modal="edit-<?php echo $asset->asset_id ?>">Edit</button>
+                                                                                                <button type="button" class="btn btn-warning alert-confirm m-b-10 md-trigger" data-modal="delete-<?php echo $asset->asset_id ?>">Delete</button>
+                                                                                                <div class="md-modal md-effect-12" id="edit-<?php echo $asset->asset_id ?>">
+                                                                                                    <div class="md-content">
+                                                                                                        <h1 class="text-center">Edit - <?php echo $asset->asset_name ?></h1>
+                                                                                                        <div>
+                                                                                                        <form method="post">
+                                                                                <div class="form-group row mt-1">
+                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Name:</label>
+                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
+                                                                                    <input type="text" hidden name="asset_id" value="<?php echo $asset->asset_id ?>" class="form-control">
+                                                                                        <input type="text" name="asset_name" value="<?php echo $asset->asset_name ?>" class="form-control">
+                                                                                    </div>
+
+                                                                                </div>
+
+                                                                                <div class="form-group row mt-1">
+                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Tag:</label>
+                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
+                                                                                        <input type="text" name="asset_tag" value="<?php echo $asset->asset_tag ?>" class="form-control" readonly>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                                <div class="form-group row mt-1">
+                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Type:</label>
+                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
+                                                                                        <select name="asset_type_id" class="form-control">
+                                                                                       
+                                                                                            <?php
+
+                                                                                            # Read all Asset Type
+                                                                                            $sql = "SELECT * FROM asset_types";
+                                                                                            $result = mysqli_query($mysqli, $sql);
+                                                                                            if (mysqli_num_rows($result) > 0) {
+                                                                                                while ($asset_type = mysqli_fetch_object($result)) {
+                                                                                            ?>
+                                                                                                    <option value="<?php echo $asset_type->asset_type_id ?>"><?php echo $asset_type->asset_type_name ?></option>
+                                                                                            <?php }
+                                                                                            } ?>
+                                                                                        </select>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                                <div class="form-group row mt-1">
+                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Description:</label>
+                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
+                                                                                        <textarea rows="5" cols="5" class="form-control" name="asset_details" placeholder="<?php echo $asset->asset_details ?>"></textarea>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                                <div class="form-group row mt-1">
+                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset price:</label>
+                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
+                                                                                        <input type="text" name="asset_price" value="<?php echo $asset->asset_price ?>" class="form-control">
+                                                                                    </div>
+
+                                                                                </div>
+
+                                                                                <div class="row mt-2 ">
+                                                                                    <div class="col-6 text-center">
+                                                                                        <button type="button" class="btn btn-danger waves-effect md-close">Close</button>
+                                                                                    </div>
+                                                                                    <div class="col-6">
+                                                                                        <button type="submit" name="update_asset" class="btn btn-primary waves-effect ">Add</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="md-modal md-effect-12" id="delete-<?php echo $asset->asset_id ?>">
+                                                                                                    <div class="md-content">
+                                                                                                        <h1 class="text-danger">Delete - <?php echo $asset->asset_name ?></h1>
+                                                                                                        <div>
+                                                                                                            <form method="post">
+                                                                                                                <div class="form-group row mt-1">
+
+                                                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
+                                                                                                                        <input type="text" hidden name="asset_id" value="<?php echo $asset->asset_id ?>" class="form-control">
+                                                                                                                    </div>
+
+                                                                                                                </div>
+
+                                                                                                                <div class="row mt-2 ">
+                                                                                                                    <div class="col-6 text-center">
+                                                                                                                        <button type="button" class="btn btn-primary waves-effect md-close">Close</button>
+                                                                                                                    </div>
+                                                                                                                    <div class="col-6">
+                                                                                                                        <button type="submit" name="delete_asset" class="btn btn-danger waves-effect ">Delete</button>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </form>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="md-overlay"></div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                <?php }
+                                                                                } ?>
+                                                                            </tbody>
+
+                                                                        </table>
+                                                                        <div class="dataTables_info" id="basic-btn_info" role="status" aria-live="polite"></div>
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="main-friend-list">
-                                <div class="media userlist-box" data-id="1" data-status="online" data-username="Josephin Doe" data-toggle="tooltip" data-placement="left" title="Josephin Doe">
-                                    <a class="media-left" href="#!">
-                                        <img class="media-object img-radius img-radius" src="../files/assets/images/avatar-3.jpg" alt="Generic placeholder image ">
-                                        <div class="live-status bg-success"></div>
-                                    </a>
-                                    <div class="media-body">
-                                        <div class="f-13 chat-header">Josephin Doe</div>
-                                    </div>
-                                </div>
-                                <div class="media userlist-box" data-id="2" data-status="online" data-username="Lary Doe" data-toggle="tooltip" data-placement="left" title="Lary Doe">
-                                    <a class="media-left" href="#!">
-                                        <img class="media-object img-radius" src="../files/assets/images/avatar-2.jpg" alt="Generic placeholder image">
-                                        <div class="live-status bg-success"></div>
-                                    </a>
-                                    <div class="media-body">
-                                        <div class="f-13 chat-header">Lary Doe</div>
-                                    </div>
-                                </div>
-                                <div class="media userlist-box" data-id="3" data-status="online" data-username="Alice" data-toggle="tooltip" data-placement="left" title="Alice">
-                                    <a class="media-left" href="#!">
-                                        <img class="media-object img-radius" src="../files/assets/images/avatar-4.jpg" alt="Generic placeholder image">
-                                        <div class="live-status bg-success"></div>
-                                    </a>
-                                    <div class="media-body">
-                                        <div class="f-13 chat-header">Alice</div>
-                                    </div>
-                                </div>
-                                <div class="media userlist-box" data-id="4" data-status="online" data-username="Alia" data-toggle="tooltip" data-placement="left" title="Alia">
-                                    <a class="media-left" href="#!">
-                                        <img class="media-object img-radius" src="../files/assets/images/avatar-3.jpg" alt="Generic placeholder image">
-                                        <div class="live-status bg-success"></div>
-                                    </a>
-                                    <div class="media-body">
-                                        <div class="f-13 chat-header">Alia</div>
-                                    </div>
-                                </div>
-                                <div class="media userlist-box" data-id="5" data-status="online" data-username="Suzen" data-toggle="tooltip" data-placement="left" title="Suzen">
-                                    <a class="media-left" href="#!">
-                                        <img class="media-object img-radius" src="../files/assets/images/avatar-2.jpg" alt="Generic placeholder image">
-                                        <div class="live-status bg-success"></div>
-                                    </a>
-                                    <div class="media-body">
-                                        <div class="f-13 chat-header">Suzen</div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="showChat_inner">
-                <div class="media chat-inner-header">
-                    <a class="back_chatBox">
-                        <i class="feather icon-chevron-left"></i> Josephin Doe
-                    </a>
-                </div>
-                <div class="media chat-messages">
-                    <a class="media-left photo-table" href="#!">
-                        <img class="media-object img-radius img-radius m-t-5" src="../files/assets/images/avatar-3.jpg" alt="Generic placeholder image">
-                    </a>
-                    <div class="media-body chat-menu-content">
-                        <div class="">
-                            <p class="chat-cont">I'm just looking around. Will you tell me something about yourself?</p>
-                            <p class="chat-time">8:20 a.m.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="media chat-messages">
-                    <div class="media-body chat-menu-reply">
-                        <div class="">
-                            <p class="chat-cont">I'm just looking around. Will you tell me something about yourself?</p>
-                            <p class="chat-time">8:20 a.m.</p>
-                        </div>
-                    </div>
-                    <div class="media-right photo-table">
-                        <a href="#!">
-                            <img class="media-object img-radius img-radius m-t-5" src="../files/assets/images/avatar-4.jpg" alt="Generic placeholder image">
-                        </a>
-                    </div>
-                </div>
-                <div class="chat-reply-box p-b-20">
-                    <div class="right-icon-control">
-                        <input type="text" class="form-control search-text" placeholder="Share Your Thoughts">
-                        <div class="form-icon">
-                            <i class="feather icon-navigation"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="pcoded-main-container">
-                <div class="pcoded-wrapper">
-                    <?php include('../partials/navbar.php') ?>
-                    <div class="pcoded-content">
-                        <div class="pcoded-inner-content">
-                            <div class="main-body">
-                                <div class="page-wrapper">
-                                
+            <?php include('../partials/script.php') ?>
+        </body>
 
-                                        <div class="card">
-<div class="card-header">
-<h5>Asset allocation</h5>
-
-</div>
-<div class="card-block">
-<div class="dt-responsive table-responsive">
-<table id="multi-colum-dt" class="table table-striped table-bordered nowrap">
-<thead>
-<tr>
-<th>Name</th>
-<th>Department</th>
-<th>Asset tag</th>
-<th>Start date</th>
-<th>Cost</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Tiger Nixon</td>
-<td>System Architect</td>
-<td>61</td>
-<td>2011/04/25</td>
-<td>Ksh.320,800</td>
-</tr>
-<tr>
-<td>Garrett Winters</td>
-<td>Accountant</td>
-<td>63</td>
-<td>2011/07/25</td>
-<td>ksh.170,750</td>
-</tr>
-<tr>
-<td>Ashton Cox</td>
-<td>Accountant</td>
-<td>66</td>
-<td>2009/01/12</td>
-<td>ksh.86,000</td>
-</tr>
-<tr>
-<td>Cedric Kelly</td>
-<td>Accountant</td>
-<td>22</td>
-<td>2012/03/29</td>
-<td>Ksh.433,060</td>
-</tr>
-<tr>
-<td>Airi Satou</td>
-<td>Accountant</td>
-<td>33</td>
-<td>2008/11/28</td>
-<td>Ksh.162,700</td>
-</tr>
-<tr>
-<td>Brielle Williamson</td>
-<td>Integration Specialist</td>
-<td>61</td>
-<td>2012/12/02</td>
-<td>Ksh.372,000</td>
-</tr>
-<tr>
-<td>Herrod Chandler</td>
- <td>Sales Assistant</td>
-<td>59</td>
-<td>2012/08/06</td>
-<td>Ksh.137,500</td>
-</tr>
-<tr>
-<td>Rhona Davidson</td>
-<td>Integration Specialist</td>
-<td>55</td>
-<td>2010/10/14</td>
-<td>$327,900</td>
-</tr>
-<tr>
-<td>Colleen Hurst</td>
-<td>Javascript Developer</td>
-<td>39</td>
-<td>2009/09/15</td>
-<td>$205,500</td>
-</tr>
-<tr>
-<td>Sonya Frost</td>
-<td>Software Engineer</td>
-<td>23</td>
-<td>2008/12/13</td>
-<td>$103,600</td>
-</tr>
-<tr>
-<td>Jena Gaines</td>
-<td>Office Manager</td>
-<td>30</td>
-<td>2008/12/19</td>
-<td>$90,560</td>
-</tr>
-<tr>
-<td>Quinn Flynn</td>
-<td>Support Lead</td>
-<td>22</td>
-<td>2013/03/03</td>
-<td>$342,000</td>
-</tr>
- <tr>
-<td>Charde Marshall</td>
-<td>Regional Director</td>
-<td>36</td>
-<td>2008/10/16</td>
-<td>$470,600</td>
-</tr>
-<tr>
-<td>Haley Kennedy</td>
-<td>Senior Marketing Designer</td>
-<td>43</td>
-<td>2012/12/18</td>
-<td>$313,500</td>
-</tr>
-<tr>
-<td>Tatyana Fitzpatrick</td>
-<td>Regional Director</td>
-<td>19</td>
-<td>2010/03/17</td>
-<td>$385,750</td>
-</tr>
-<tr>
-<td>Michael Silva</td>
-<td>Marketing Designer</td>
-<td>London</td>
-<td>66</td>
-<td>2012/11/27</td>
-<td>$198,500</td>
-</tr>
-<tr>
-<td>Paul Byrd</td>
-<td>Chief Financial Officer (CFO)</td>
-<td>New York</td>
-<td>64</td>
-<td>2010/06/09</td>
-<td>$725,000</td>
-</tr>
-<tr>
-<td>Gloria Little</td>
-<td>Systems Administrator</td>
-<td>New York</td>
-<td>59</td>
-<td>2009/04/10</td>
- <td>$237,500</td>
-</tr>
-<tr>
-<td>Bradley Greer</td>
-<td>Software Engineer</td>
-<td>London</td>
-<td>41</td>
-<td>2012/10/13</td>
-<td>$132,000</td>
-</tr>
-<tr>
-<td>Dai Rios</td>
-<td>Personnel Lead</td>
-<td>Edinburgh</td>
-<td>35</td>
-<td>2012/09/26</td>
-<td>$217,500</td>
-</tr>
-</tbody>
-<tfoot>
-<tr>
-
-</tr>
-</tfoot>
-</table>
-</div>
-</div>
-</div>
-
-
-                                </div>
-                                <div id="styleSelector">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <?php include('../partials/script.php') ?>
-</body>
-
-</html>
+        </html>
+<?php }
+}
+?>
