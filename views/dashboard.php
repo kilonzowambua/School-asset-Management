@@ -446,14 +446,14 @@ include('../helpers/datefunction.php');
                                                                       $sql = "SELECT *FROM assets AS ast INNER JOIN asset_types AS asty ON ast.asset_type_id = asty.asset_type_id ORDER BY ast.asset_date_of_purchase  ASC LIMIT 10";
                                                                       $result = mysqli_query($mysqli, $sql);
                                                                       if (mysqli_num_rows($result) > 0) {
-                                                                        while ($asset = mysqli_fetch_object($result)) {
+                                                                        while ($asset =mysqli_fetch_object($result)) {
                                                                     
                                                                     ?>
                                                                     <tr>
-                                                                       
-                                                                        <td><?php echo $asset['asset_tag'] ?></td>
-                                                                        <td><?php echo $asset['asset_name'] ?></td>
-                                                                        <td><?php echo  $asset['asset_type_name'] ?></td>
+                                                                    
+                                                                        <td><?php echo $asset->asset_tag; ?></td>
+                                                                        <td><?php echo $asset->asset_name; ?></td>
+                                                                        <td><?php echo  $asset->asset_type_name; ?></td>
                                                                  
                                                                     </tr>
                                                                     <?php }}?>
