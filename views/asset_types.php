@@ -204,8 +204,8 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                 <?php
 
                                                                                 # Read all Asset Type
-                                                                                $sql = "SELECT a_t.asset_type_id,COUNT(a_s.asset_id) AS total_assets,a_t.asset_type_name FROM asset_types AS a_t 
-                                                                                INNER JOIN assets AS a_s ON a_t.asset_type_id=a_s.asset_type_id";
+                                                                                $sql = "SELECT a_t.asset_type_id,a_t.asset_type_name,COUNT(a_s.asset_id) AS total_assets FROM asset_types AS a_t 
+                                                                                INNER JOIN assets AS a_s ON a_t.asset_type_id=a_s.asset_type_id GROUP BY a_t.asset_type_id; ";
                                                                                 $result = mysqli_query($mysqli, $sql);
                                                                                 if (mysqli_num_rows($result) > 0) {
                                                                                     while ($asset_type = mysqli_fetch_object($result)) {

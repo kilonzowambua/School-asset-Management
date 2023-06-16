@@ -1,9 +1,8 @@
 <?php
 session_start();
 require_once('../config/config.php');
-include('../helpers/analysis.php');
 include('../helpers/datefunction.php');
-include('../helpers/assets.php');
+include('../helpers/assets.php'); 
 /* Load This Page With Logged In User Session */
 $staff_id = mysqli_escape_string($mysqli, $_SESSION['staff_id']);
 $staff_sql = mysqli_query($mysqli, "SELECT * FROM staffs WHERE staff_id = '{$staff_id}'");
@@ -17,6 +16,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
         global $$staff_last_name;
         global $staff_department_id;
 ?>
+<?php ?>
         <!DOCTYPE html>
         <html lang="en">
         <?php $page = 'Assets'; ?>
@@ -186,14 +186,15 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                             <?php
 
                                                                                             # Read all Asset Type
-                                                                                            $sql = "SELECT asset_type_id,asset_type_name FROM asset_types";
-                                                                                            $result = mysqli_query($mysqli, $sql);
-                                                                                            if (mysqli_num_rows($result) > 0) {
-                                                                                                while ($asset_type = mysqli_fetch_object($result)) {
+                                                                                            $sql = "SELECT * FROM asset_types";
+                                                                                            $result3 = mysqli_query($mysqli,$sql);
+                                                                                            if (mysqli_num_rows($result3) > 0) {
+                                                                                                while ($asset_type = mysqli_fetch_object($result3)) {
                                                                                             ?>
                                                                                                     <option value="<?php echo $asset_type->asset_type_id ?>"><?php echo $asset_type->asset_type_name ?></option>
                                                                                             <?php }
-                                                                                            } ?>
+                                                                                            } 
+                                                                                           ?>
                                                                                         </select>
                                                                                     </div>
 
@@ -247,20 +248,21 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                 <?php
 
                                                                                 # Read all Asset Type
-                                                                                $sql = "SELECT * FROM assets AS a_s";
+                                                                                $sql = "SELECT * FROM `assets` ORDER BY `assets`.`asset_date_of_purchase` DESC ";
                                                                                 $result = mysqli_query($mysqli, $sql);
                                                                                 if (mysqli_num_rows($result) > 0) {
                                                                                     while ($asset = mysqli_fetch_object($result)) {
                                                                                 ?>
-
-                                                                                        <tr role="row">
+                                                                                   <tr>
                                                                                             <td class="sorting_1"><?php echo $asset->asset_tag ?></td>
                                                                                             <td><?php echo $asset->asset_name ?></td>
                                                                                             <td><?php echo formatDateTime($asset->asset_date_of_purchase) ?></td>
-                                                                                            <td>Ksh .<?php echo $asset->asset_price ?></td>
+                                                                                            <td>Ksh . <?php echo $asset->asset_price ?></td>
                                                                                             <td>
                                                                                                 <button type="button" class="btn btn-primary btn-outline-primary waves-effect md-trigger" data-modal="edit-<?php echo $asset->asset_id ?>">Edit</button>
                                                                                                 <button type="button" class="btn btn-warning alert-confirm m-b-10 md-trigger" data-modal="delete-<?php echo $asset->asset_id ?>">Delete</button>
+                                                                                            </td>
+
                                                                                                 <div class="md-modal md-effect-12" id="edit-<?php echo $asset->asset_id ?>">
                                                                                                     <div class="md-content">
                                                                                                         <h1 class="text-center">Edit - <?php echo $asset->asset_name ?></h1>
@@ -287,17 +289,17 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                     <div class="col-sm-12 col-md-6  col-md-4">
                                                                                         <select name="asset_type_id" class="form-control">
                                                                                        
+                                                                                       
                                                                                             <?php
 
                                                                                             # Read all Asset Type
                                                                                             $sql = "SELECT * FROM asset_types";
-                                                                                            $result = mysqli_query($mysqli, $sql);
-                                                                                            if (mysqli_num_rows($result) > 0) {
-                                                                                                while ($asset_type = mysqli_fetch_object($result)) {
+                                                                                            $result2 = mysqli_query($mysqli, $sql);
+                                                                                            if (mysqli_num_rows($result2) > 0) {
+                                                                                                while ($asset_type = mysqli_fetch_object($result2)) {
                                                                                             ?>
                                                                                                     <option value="<?php echo $asset_type->asset_type_id ?>"><?php echo $asset_type->asset_type_name ?></option>
-                                                                                            <?php }
-                                                                                            } ?>
+                                                                                            <?php }} ?>
                                                                                         </select>
                                                                                     </div>
 
@@ -322,7 +324,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                         <button type="button" class="btn btn-danger waves-effect md-close">Close</button>
                                                                                     </div>
                                                                                     <div class="col-6">
-                                                                                        <button type="submit" name="update_asset" class="btn btn-primary waves-effect ">Add</button>
+                                                                                        <button type="submit" name="update_asset" class="btn btn-primary waves-effect ">Update</button>
                                                                                     </div>
                                                                                 </div>
                                                                             </form>
@@ -355,7 +357,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                                     </div>
                                                                                                 </div>
                                                                                                 <div class="md-overlay"></div>
-                                                                                            </td>
+                                                                                                <?php }} ?>
                                                                                         </tr>
                                                                                 <?php }
                                                                                 } ?>
@@ -388,6 +390,3 @@ if (mysqli_num_rows($staff_sql) > 0) {
         </body>
 
         </html>
-<?php }
-}
-?>

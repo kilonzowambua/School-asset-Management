@@ -381,7 +381,7 @@ include('../helpers/datefunction.php');
                                                                     <?php 
                                                                       
                                                                       # Read all Recent allocations
-                                                                      $sql = "SELECT *FROM allocations AS al INNER JOIN departments AS dp ON al.allocation_request_by_id = dp.department_head_id INNER JOIN assets AS ast ON al.allocation_asset_id=ast.asset_id ORDER BY al.allocation_request_date  ASC LIMIT 10";
+                                                                      $sql = "SELECT *FROM allocations AS al INNER JOIN departments AS dp ON al.allocation_request_by_id = dp.department_head_id INNER JOIN assets AS ast ON al.allocation_asset_id=ast.asset_id ORDER BY al.allocation_request_date  ASC LIMIT 5";
                                                                       $result = mysqli_query($mysqli, $sql);
                                                                       if (mysqli_num_rows($result) > 0) {
                                                                         while ($allocation = mysqli_fetch_object($result)) {
@@ -443,7 +443,7 @@ include('../helpers/datefunction.php');
                                                                     <?php 
                                                                       
                                                                       # Read all Recent allocations
-                                                                      $sql = "SELECT *FROM assets AS ast INNER JOIN asset_types AS asty ON ast.asset_type_id = asty.asset_type_id ORDER BY ast.asset_date_of_purchase  ASC LIMIT 10";
+                                                                      $sql = "SELECT *FROM assets AS ast INNER JOIN asset_types AS asty ON ast.asset_type_id = asty.asset_type_id ORDER BY ast.asset_date_of_purchase  ASC LIMIT 5";
                                                                       $result = mysqli_query($mysqli, $sql);
                                                                       if (mysqli_num_rows($result) > 0) {
                                                                         while ($asset =mysqli_fetch_object($result)) {
@@ -461,7 +461,7 @@ include('../helpers/datefunction.php');
                                                                 </tbody>
                                                             </table>
                                                             <div class="text-right m-r-20">
-                                                                <a href="assets" class=" b-b-primary text-primary">View all Allocation</a>
+                                                                <a href="assets" class=" b-b-primary text-primary">View all Assets</a>
                                                             </div>
                                                         </div>
                                                         
