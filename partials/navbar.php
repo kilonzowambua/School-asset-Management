@@ -24,16 +24,16 @@
 </li>
 
 
-
+<!-- 
 <li class="">
 <a href="assets_mainatance.php">
 <span class="pcoded-micon"><i class="feather icon-shield"></i></span>
 <span class="pcoded-mtext">Assets Mainatance</span>
 </a>
-</li>
+</li> -->
 
 <li class="">
-<a href="#">
+<a href="asset_disposal">
 <span class="pcoded-micon"><i class="feather icon-trash"></i></span>
 <span class="pcoded-mtext">Asset Disposal</span>
 </a>

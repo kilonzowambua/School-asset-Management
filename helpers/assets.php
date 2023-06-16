@@ -105,4 +105,56 @@ if (isset($_POST['delete_asset'])) {
     }
 }
 
+#Asset dispose
+if (isset($_POST['dispose_asset'])) {
+   // Declare Posted Variables
+ // Escape and retrieve the posted variables
+ $assetdispose_id = mysqli_real_escape_string($mysqli,$ID);
+ $assetdispose_asset_id = mysqli_real_escape_string($mysqli, $_POST['assetdispose_asset_id']);
+ $assetdispose_by_id = mysqli_real_escape_string($mysqli, $_POST['assetdispose_by_id']);
+ $assetdispose_method = mysqli_real_escape_string($mysqli, $_POST['assetdispose_method']);
+ $assetdispose_reason = mysqli_real_escape_string($mysqli, $_POST['assetdispose_reason']);
+ 
+ // Check if the asset is allocated
+ $sql = "SELECT asset_allocation_id FROM assets WHERE asset_id = ?";
+ $stmt = mysqli_prepare($mysqli, $sql);
+ mysqli_stmt_bind_param($stmt, 's', $assetdispose_asset_id);
+ mysqli_stmt_execute($stmt);
+ mysqli_stmt_bind_result($stmt, $asset_allocation_id);
+ mysqli_stmt_fetch($stmt);
+ mysqli_stmt_close($stmt); // Close the statement after fetching results
+ 
+ // Insert into assetdisposes
+ $sql = "INSERT INTO assetdisposes (assetdispose_id,assetdispose_asset_id,assetdispose_by_id, assetdispose_method, assetdispose_reason) VALUES (?, ?, ?, ? ,?)";
+ $stmt_insert = mysqli_prepare($mysqli, $sql);
+ mysqli_stmt_bind_param($stmt_insert, 'sssss', $assetdispose_id,$assetdispose_asset_id, $assetdispose_by_id, $assetdispose_method, $assetdispose_reason);
+ 
+ if (mysqli_stmt_execute($stmt_insert)) {
+     $assetdispose_id = mysqli_insert_id($mysqli); // Get the last inserted ID
+     mysqli_stmt_close($stmt_insert); // Close the statement after executing
+     
+   // Update assets table
+$sql = "UPDATE assets SET asset_dispose_id = ?";
+
+if (!empty($asset_allocation_id)) {
+    $sql .= ", asset_allocation_id = NULL";
+}
+
+$sql .= " WHERE asset_id = ?";
+$stmt_update = mysqli_prepare($mysqli, $sql);
+mysqli_stmt_bind_param($stmt_update, 'ss', $asset_dispose_id, $assetdispose_asset_id);
+
+if (mysqli_stmt_execute($stmt_update)) {
+    if (!empty($asset_allocation_id)) {
+        $success = "Asset is disposed and deallocated.";
+    } else {
+        $success = "Asset is disposed.";
+    }
+} else {
+    $err = "Failed! Please try again.";
+}
+
+mysqli_stmt_close($stmt_update); // Close the statement after executing
+ }}
+
 
