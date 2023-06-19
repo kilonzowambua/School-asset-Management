@@ -1,4 +1,7 @@
-<?php include('../helpers/auth.php'); ?>
+<?php 
+session_start();
+include('../helpers/auth.php');
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <?php $page = 'Login'; ?>

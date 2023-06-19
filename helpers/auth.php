@@ -1,15 +1,12 @@
 <?php 
 
-session_start();
 #Include all Nesessary Files
 include('../config/config.php'); 
 include('../config/codeGen.php'); 
 include('../config/checklogin.php'); 
 
-
 #Login 
 if(isset($_POST['login'])){
-
     #Declare Posted Variables
     $staff_email=mysqli_real_escape_string($mysqli,$_POST['staff_email']);
     $staff_password=mysqli_real_escape_string($mysqli,$_POST['staff_password']);

@@ -17,7 +17,7 @@ $stmt->fetch();
 $stmt->close();
 
 # No of Assets
-$query = "SELECT COUNT(*) FROM assets WHERE asset_dispose_id IS NULL";
+$query = "SELECT COUNT(*) FROM assets WHERE assetdispose_id IS NULL";
 $stmt = $mysqli->prepare($query);
 $stmt->execute();
 $stmt->bind_result($assets);
@@ -34,7 +34,7 @@ $stmt->fetch();
 $stmt->close();
 
 /* Total Asset Networth*/
-$query = "SELECT SUM(asset_price) AS total_networth FROM assets WHERE asset_dispose_id IS NULL";
+$query = "SELECT SUM(asset_price) AS total_networth FROM assets WHERE assetdispose_id IS NULL";
 $stmt = $mysqli->prepare($query);
 $stmt->execute();
 $stmt->bind_result($total_networth);
