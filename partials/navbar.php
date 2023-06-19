@@ -47,7 +47,7 @@
 </li>
 
 <li class="">
-<a href="#">
+<a href="asset_departments">
 <span class="pcoded-micon"><i class="feather icon-anchor"></i></span>
 <span class="pcoded-mtext">Departments</span>
 </a>
