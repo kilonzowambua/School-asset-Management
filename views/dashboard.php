@@ -388,13 +388,13 @@ include('../helpers/datefunction.php');
                                                                     
                                                                     ?>
                                                                     <tr>
-                                                                       
-                                                                        <td><?php echo $allocation['asset_name'] ?></td>
-                                                                        <td><?php echo $allocation['department_name'] ?></td>
-                                                                        <td><?php echo  formatDateTime($allocation['allocation_request_date']) ?></td>
-                                                                        <?php if($allocation['allocation_status']=='Done'){?>
+                                                
+                                                                        <td><?php echo $allocation->asset_name ?></td>
+                                                                        <td><?php echo $allocation->department_name ?></td>
+                                                                        <td><?php echo  formatDateTime($allocation->allocation_request_date) ?></td>
+                                                                        <?php if($allocation->allocation_status=='Approved'){?>
                                                                             <td><label class="label label-success">Completed</label>
-                                                                       <?php }elseif ($allocation['allocation_status']=='pending') {?>
+                                                                       <?php }elseif ($allocation->allocation_status=='pending') {?>
                                                                                 <td><label class="label label-primary">pending</label>
                                                                       <?php }else {?>
                                                                         <td><label class="label label-danger">Canceled</label>
@@ -407,7 +407,7 @@ include('../helpers/datefunction.php');
                                                                 </tbody>
                                                             </table>
                                                             <div class="text-right m-r-20">
-                                                                <a href="assets_allocations" class=" b-b-primary text-primary">View all Allocation</a>
+                                                                <a href="asset_allocations" class=" b-b-primary text-primary">View all Allocation</a>
                                                             </div>
                                                         </div>
                                                     </div>

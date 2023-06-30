@@ -75,3 +75,61 @@ if (isset($_POST['reset_password'])) {
         $err = "Failed! Staff does not exist.";
     }
 }
+
+#Add staff
+if (isset($_POST['add_staff'])) {
+   // Escape and retrieve the form input values
+$staff_id = mysqli_real_escape_string($mysqli, $ID);
+$staff_no = mysqli_real_escape_string($mysqli, $staff_no);
+$staff_first_name = mysqli_real_escape_string($mysqli, $_POST['staff_first_name']);
+$staff_last_name = mysqli_real_escape_string($mysqli, $_POST['staff_last_name']);
+$staff_email = mysqli_real_escape_string($mysqli, $_POST['staff_email']);
+$staff_password = mysqli_real_escape_string($mysqli, password_hash($_POST['staff_password'], PASSWORD_DEFAULT));
+$staff_phone_no = mysqli_real_escape_string($mysqli, $_POST['staff_phone_no']);
+$staff_department_id = mysqli_real_escape_string($mysqli, $_POST['staff_department_id']);
+
+// Create the INSERT query
+$query = "INSERT INTO staffs (staff_id, staff_no, staff_first_name, staff_last_name, staff_email, staff_phone_no, staff_password,staff_department_id) 
+          VALUES ('$staff_id', '$staff_no', '$staff_first_name', '$staff_last_name', '$staff_email', '$staff_phone_no', '$staff_password', '$staff_department_id')";
+
+// Execute the query
+if (mysqli_query($mysqli, $query)) {
+    $_SESSION['success'] = "Staff added successfully.";
+} else {
+    $err = "Failed ,Try again ";
+}
+} 
+
+#Update Staff
+
+if (isset($_POST['update_staff'])) {
+    $staff_id = mysqli_real_escape_string($mysqli, $_POST['staff_id']);
+    $staff_first_name = mysqli_real_escape_string($mysqli, $_POST['staff_first_name']);
+    $staff_last_name = mysqli_real_escape_string($mysqli, $_POST['staff_last_name']);
+    $staff_email = mysqli_real_escape_string($mysqli, $_POST['staff_email']);
+    $staff_phone_no = mysqli_real_escape_string($mysqli, $_POST['staff_phone_no']);
+    $staff_department_id = mysqli_real_escape_string($mysqli, $_POST['staff_department_id']); 
+
+    // Update query
+$sql = "UPDATE staffs SET staff_first_name = '$staff_first_name', staff_last_name = '$staff_last_name', staff_email = '$staff_email', staff_phone_no = '$staff_phone_no', staff_department_id = '$staff_department_id' WHERE staff_id = '$staff_id'";
+if (mysqli_query($mysqli, $sql)) {
+    // Update successful
+    $success="Staff record updated successfully.";
+} else {
+    // Update failed
+    $err = "Error updating staff record";
+}
+} 
+
+#Delete Staff
+if (isset($_POST['delete_staff'])) {
+    $staff_id = mysqli_real_escape_string($mysqli, $_POST['staff_id']);
+    $sql = "DELETE FROM staffs WHERE staff_id = '{$staff_id }'";
+    if (mysqli_query($mysqli, $sql)) {
+        // Update successful
+        $success="Staff record is deleted successfully.";
+    } else {
+        // Update failed
+        $err = "Error deleting staff record";
+    }
+}

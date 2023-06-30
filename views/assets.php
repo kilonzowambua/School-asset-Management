@@ -2,7 +2,7 @@
 session_start();
 require_once('../config/config.php');
 include('../helpers/datefunction.php');
-include('../helpers/assets.php'); 
+include('../helpers/assets.php');
 /* Load This Page With Logged In User Session */
 $staff_id = mysqli_escape_string($mysqli, $_SESSION['staff_id']);
 $staff_sql = mysqli_query($mysqli, "SELECT * FROM staffs WHERE staff_id = '{$staff_id}'");
@@ -16,7 +16,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
         global $$staff_last_name;
         global $staff_department_id;
 ?>
-<?php ?>
+        <?php ?>
         <!DOCTYPE html>
         <html lang="en">
         <?php $page = 'Assets'; ?>
@@ -158,71 +158,75 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                     <div class="col-sm-12">
                                                         <div class="card">
                                                             <div class="card-header table-card-header text-right">
-                                                                <button type="button" class="btn btn-info btn-outline-info waves-effect md-trigger" data-modal="modal-12">New Asset </button>
-                                                                <div class="md-modal md-effect-12" id="modal-12">
-                                                                    <div class="md-content">
-                                                                        <h1 class="text-center">Add New Asset </h1>
-                                                                        <div>
-                                                                            <form method="post">
-                                                                                <div class="form-group row mt-1">
-                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Name:</label>
-                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                        <input type="text" name="asset_name" class="form-control">
-                                                                                    </div>
+                                                               <button type="button" class="btn btn-info btn-outline-info waves-effect md-trigger" data-toggle="modal" data-target=".bd-example-modal-lg">Add New Asset </button>
+                                                                <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                                                    <div class="modal-dialog modal-lg">
+                                                                        <div class="modal-content">
+                                                                            <div class="md-content">
+                                                                                <h1 class="text-center">Add New Asset</h1>
+                                                                                <div>
+                                                                                    <form method="post">
+                                                                                        <div class="form-group row mt-1">
+                                                                                            <label class="col-form-label">Asset Name:</label>
 
-                                                                                </div>
+                                                                                            <input type="text" name="asset_name" class="form-control">
 
-                                                                                <div class="form-group row mt-1">
-                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Tag:</label>
-                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                        <input type="text" name="asset_tag" value="<?php echo $tag_no ?>" class="form-control" readonly>
-                                                                                    </div>
 
-                                                                                </div>
-                                                                                <div class="form-group row mt-1">
-                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Type:</label>
-                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                        <select name="asset_type_id" class="form-control">
-                                                                                            <?php
+                                                                                        </div>
 
-                                                                                            # Read all Asset Type
-                                                                                            $sql = "SELECT * FROM asset_types";
-                                                                                            $result3 = mysqli_query($mysqli,$sql);
-                                                                                            if (mysqli_num_rows($result3) > 0) {
-                                                                                                while ($asset_type = mysqli_fetch_object($result3)) {
-                                                                                            ?>
-                                                                                                    <option value="<?php echo $asset_type->asset_type_id ?>"><?php echo $asset_type->asset_type_name ?></option>
-                                                                                            <?php }
-                                                                                            } 
-                                                                                           ?>
-                                                                                        </select>
-                                                                                    </div>
+                                                                                        <div class="form-group row mt-1">
+                                                                                            <label class="col-form-label">Asset Tag:</label>
 
-                                                                                </div>
-                                                                                <div class="form-group row mt-1">
-                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Description:</label>
-                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                        <textarea rows="5" cols="5" class="form-control" name="asset_details" placeholder="Enter Here"></textarea>
-                                                                                    </div>
+                                                                                            <input type="text" name="asset_tag" value="<?php echo $tag_no ?>" class="form-control" readonly>
 
-                                                                                </div>
-                                                                                <div class="form-group row mt-1">
-                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset price:</label>
-                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                        <input type="text" name="asset_price" class="form-control">
-                                                                                    </div>
+
+                                                                                        </div>
+                                                                                        <div class="form-group row mt-1">
+                                                                                            <label class="col-form-label">Asset Type:</label>
+
+                                                                                            <select name="asset_type_id" class="form-control">
+                                                                                                <?php
+
+                                                                                                # Read all Asset Type
+                                                                                                $sql = "SELECT * FROM asset_types";
+                                                                                                $result3 = mysqli_query($mysqli, $sql);
+                                                                                                if (mysqli_num_rows($result3) > 0) {
+                                                                                                    while ($asset_type = mysqli_fetch_object($result3)) {
+                                                                                                ?>
+                                                                                                        <option value="<?php echo $asset_type->asset_type_id ?>"><?php echo $asset_type->asset_type_name ?></option>
+                                                                                                <?php }
+                                                                                                }
+                                                                                                ?>
+                                                                                            </select>
+                                                                                        </div>
+
+
+                                                                                        <div class="form-group row mt-1">
+                                                                                            <label class="col-form-label">Asset Description:</label>
+
+                                                                                            <textarea rows="5" cols="5" class="form-control" name="asset_details" placeholder="Enter Here"></textarea>
+
+
+                                                                                        </div>
+                                                                                        <div class="form-group row mt-1">
+                                                                                            <label class="col-form-label">Asset price:</label>
+
+                                                                                            <input type="text" name="asset_price" class="form-control">
+                                                                                        </div>
 
                                                                                 </div>
 
                                                                                 <div class="row mt-2 ">
                                                                                     <div class="col-6 text-center">
-                                                                                        <button type="button" class="btn btn-danger waves-effect md-close">Close</button>
+                                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                                                     </div>
                                                                                     <div class="col-6">
                                                                                         <button type="submit" name="add_asset" class="btn btn-primary waves-effect ">Add</button>
                                                                                     </div>
                                                                                 </div>
-                                                                            </form>
+                                                                                </form>
+                                                                            </div>
+
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -253,115 +257,121 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                 if (mysqli_num_rows($result) > 0) {
                                                                                     while ($asset = mysqli_fetch_object($result)) {
                                                                                 ?>
-                                                                                   <tr>
+                                                                                        <tr>
                                                                                             <td class="sorting_1"><?php echo $asset->asset_tag ?></td>
                                                                                             <td><?php echo $asset->asset_name ?></td>
                                                                                             <td><?php echo formatDateTime($asset->asset_date_of_purchase) ?></td>
                                                                                             <td>Ksh . <?php echo $asset->asset_price ?></td>
                                                                                             <td>
-                                                                                                <button type="button" class="btn btn-primary btn-outline-primary waves-effect md-trigger" data-modal="edit-<?php echo $asset->asset_id ?>">Edit</button>
-                                                                                                <button type="button" class="btn btn-warning alert-confirm m-b-10 md-trigger" data-modal="delete-<?php echo $asset->asset_id ?>">Delete</button>
+                                                                                                <button type="button" class="btn btn-info btn-outline-info waves-effect md-trigger" data-toggle="modal" data-target="#edit-<?php echo $asset->asset_id ?>">Edit</button>
+                                                                                                <button type="button" class="btn btn-warning alert-confirm m-b-10 md-trigger" data-toggle="modal" data-target="#delete-<?php echo $asset->asset_id ?>">Delete</button>
                                                                                             </td>
 
-                                                                                                <div class="md-modal md-effect-12" id="edit-<?php echo $asset->asset_id ?>">
-                                                                                                    <div class="md-content">
-                                                                                                        <h1 class="text-center">Edit - <?php echo $asset->asset_name ?></h1>
-                                                                                                        <div>
-                                                                                                        <form method="post">
-                                                                                <div class="form-group row mt-1">
-                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Name:</label>
-                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                    <input type="text" hidden name="asset_id" value="<?php echo $asset->asset_id ?>" class="form-control">
-                                                                                        <input type="text" name="asset_name" value="<?php echo $asset->asset_name ?>" class="form-control">
-                                                                                    </div>
+                                                                                            <div class="modal fade" id="edit-<?php echo $asset->asset_id ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                                                                                <div class="modal-dialog modal-lg">
+                                                                                                    <div class="modal-content">
+                                                                                                        <div class="md-content">
+                                                                                                            <h1 class="text-center">Edit Asset</h1>
+                                                                                                            <div>
+                                                                                                                <form method="post">
+                                                                                                                    <div class="form-group">
+                                                                                                                        <label class="">Asset Name:</label>
 
-                                                                                </div>
-
-                                                                                <div class="form-group row mt-1">
-                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Tag:</label>
-                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                        <input type="text" name="asset_tag" value="<?php echo $asset->asset_tag ?>" class="form-control" readonly>
-                                                                                    </div>
-
-                                                                                </div>
-                                                                                <div class="form-group row mt-1">
-                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Type:</label>
-                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                        <select name="asset_type_id" class="form-control">
-                                                                                       
-                                                                                       
-                                                                                            <?php
-
-                                                                                            # Read all Asset Type
-                                                                                            $sql = "SELECT * FROM asset_types";
-                                                                                            $result2 = mysqli_query($mysqli, $sql);
-                                                                                            if (mysqli_num_rows($result2) > 0) {
-                                                                                                while ($asset_type = mysqli_fetch_object($result2)) {
-                                                                                            ?>
-                                                                                                    <option value="<?php echo $asset_type->asset_type_id ?>"><?php echo $asset_type->asset_type_name ?></option>
-                                                                                            <?php }} ?>
-                                                                                        </select>
-                                                                                    </div>
-
-                                                                                </div>
-                                                                                <div class="form-group row mt-1">
-                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Description:</label>
-                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                        <textarea rows="5" cols="5" class="form-control" name="asset_details" placeholder="<?php echo $asset->asset_details ?>"></textarea>
-                                                                                    </div>
-
-                                                                                </div>
-                                                                                <div class="form-group row mt-1">
-                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset price:</label>
-                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                        <input type="text" name="asset_price" value="<?php echo $asset->asset_price ?>" class="form-control">
-                                                                                    </div>
-
-                                                                                </div>
-
-                                                                                <div class="row mt-2 ">
-                                                                                    <div class="col-6 text-center">
-                                                                                        <button type="button" class="btn btn-danger waves-effect md-close">Close</button>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <button type="submit" name="update_asset" class="btn btn-primary waves-effect ">Update</button>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </form>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="md-modal md-effect-12" id="delete-<?php echo $asset->asset_id ?>">
-                                                                                                    <div class="md-content">
-                                                                                                        <h1 class="text-danger">Delete - <?php echo $asset->asset_name ?></h1>
-                                                                                                        <div>
-                                                                                                            <form method="post">
-                                                                                                                <div class="form-group row mt-1">
-
-                                                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
                                                                                                                         <input type="text" hidden name="asset_id" value="<?php echo $asset->asset_id ?>" class="form-control">
+                                                                                                                        <input type="text" name="asset_name" value="<?php echo $asset->asset_name ?>" class="form-control">
+
+
                                                                                                                     </div>
 
-                                                                                                                </div>
+                                                                                                                    <div class="form-group  ">
+                                                                                                                        <label class="col-12  col-form-label">Asset Tag:</label>
 
-                                                                                                                <div class="row mt-2 ">
-                                                                                                                    <div class="col-6 text-center">
-                                                                                                                        <button type="button" class="btn btn-primary waves-effect md-close">Close</button>
+                                                                                                                        <input type="text" name="asset_tag" value="<?php echo $asset->asset_tag ?>" class="form-control" readonly>
+
+
                                                                                                                     </div>
-                                                                                                                    <div class="col-6">
-                                                                                                                        <button type="submit" name="delete_asset" class="btn btn-danger waves-effect ">Delete</button>
+                                                                                                                    <div class="form-group row ">
+                                                                                                                        <label class="col-12  col-form-label">Asset Type:</label>
+
+                                                                                                                        <select name="asset_type_id" class="form-control">
+
+
+                                                                                                                            <?php
+
+                                                                                                                            # Read all Asset Type
+                                                                                                                            $sql = "SELECT * FROM asset_types";
+                                                                                                                            $result2 = mysqli_query($mysqli, $sql);
+                                                                                                                            if (mysqli_num_rows($result2) > 0) {
+                                                                                                                                while ($asset_type = mysqli_fetch_object($result2)) {
+                                                                                                                            ?>
+                                                                                                                                    <option value="<?php echo $asset_type->asset_type_id ?>"><?php echo $asset_type->asset_type_name ?></option>
+                                                                                                                            <?php }
+                                                                                                                            } ?>
+                                                                                                                        </select>
                                                                                                                     </div>
+
+                                                                                                            </div>
+                                                                                                            <div class="form-group ">
+                                                                                                                <label class="col-12">Asset Description:</label>
+
+                                                                                                                <textarea rows="5" cols="5" class="form-control" name="asset_details" placeholder="<?php echo $asset->asset_details ?>"></textarea>
+
+
+                                                                                                            </div>
+                                                                                                            <div class="form-group row ">
+                                                                                                                <label class="col-12  col-form-label">Asset price:</label>
+
+                                                                                                                <input type="text" name="asset_price" value="<?php echo $asset->asset_price ?>" class="form-control">
+
+
+                                                                                                            </div>
+
+                                                                                                            <div class="row ">
+                                                                                                                <div class="col-6 text-center">
+                                                                                                                    <button type="button" class="btn btn-danger waves-effect md-close">Close</button>
                                                                                                                 </div>
+                                                                                                                <div class="col-6">
+                                                                                                                    <button type="submit" name="update_asset" class="btn btn-primary waves-effect ">Update</button>
+                                                                                                                </div>
+                                                                                                            </div>
                                                                                                             </form>
                                                                                                         </div>
+
                                                                                                     </div>
                                                                                                 </div>
-                                                                                                <div class="md-overlay"></div>
-                                                                                                <?php }} ?>
+                                                                                            </div>
+                                                                                            <div class="modal fade" id="delete-<?php echo $asset->asset_id ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                                                                                <div class="modal-dialog modal-lg">
+                                                                                                    <div class="modal-content">
+                                                                                                        <div class="md-content">
+                                                                                                            <h1 class="text-center text-color:red" style="color: red;">Delete <?php echo $asset->asset_name ?></h1>
+                                                                                                            <div>
+                                                                                                                <form method="post">
+                                                                                                                    <div class="form-group row mt-1 col-12 ">
+
+                                                                                                                        <input type="text" hidden name="asset_id" value="<?php echo $asset->asset_id ?>" class="form-control">
+
+                                                                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                                                                        <div class="col-6">
+                                                                                                                            <button type="submit" name="delete_asset" class="btn btn-danger waves-effect ">Delete</button>
+                                                                                                                        </div>
+                                                                                                                    </div>
+
+                                                                                                            </div>
+                                                                                                            </form>
+                                                                                                        </div>
+
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="md-overlay"></div>
+                                                                                    <?php }
+                                                                                } ?>
                                                                                         </tr>
                                                                                 <?php }
-                                                                                } ?>
+                                                                        } ?>
                                                                             </tbody>
+
 
                                                                         </table>
                                                                         <div class="dataTables_info" id="basic-btn_info" role="status" aria-live="polite"></div>

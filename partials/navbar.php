@@ -38,9 +38,15 @@
 <span class="pcoded-mtext">Asset Disposal</span>
 </a>
 </li>
+<li class="">
+<a href="asset_allocations">
+<span class="pcoded-micon"><i class="feather icon-sliders"></i></span>
+<span class="pcoded-mtext">Asset Allocation</span>
+</a>
+</li>
 
 <li class="">
-<a href="">
+<a href="asset_staffs">
 <span class="pcoded-micon"><i class="feather icon-users"></i></span>
 <span class="pcoded-mtext">Staffs</span>
 </a>
@@ -53,18 +59,47 @@
 </a>
 </li>
 
-<li class="">
-<a href="#">
-<span class="pcoded-micon"><i class="feather icon-paperclip"></i></span>
+
+
+<ul class="pcoded-item pcoded-left-item" item-border="true" item-border-style="none" subitem-border="true">
+<li class="pcoded-hasmenu" dropdown-icon="style1" subitem-icon="style1">
+<a href="javascript:void(0)">
+<span class="pcoded-micon"><i class="feather icon-file-plus"></i></span>
 <span class="pcoded-mtext">Reports</span>
 </a>
-</li>
-
+<ul class="pcoded-submenu">
 <li class="">
-<a href="#">
-<span class="pcoded-micon"><i class="feather icon-settings"></i></span>
-<span class="pcoded-mtext">Settings</span>
+<a href="asset_report">
+<span class="pcoded-mtext">Assets</span>
 </a>
 </li>
+<li class="">
+<a href="asset_type_report">
+<span class="pcoded-mtext">Asset Types</span>
+</a>
+</li>
+<li class="">
+<a href="asset_disposal_report">
+<span class="pcoded-mtext">Asset Disposals</span>
+</a>
+</li>
+<li class="">
+<a href="allocations_report">
+<span class="pcoded-mtext">Allocations</span>
+</a>
+</li>
+<li class="">
+<a href="staff_report">
+<span class="pcoded-mtext">Staffs</span>
+</a>
+</li>
+<li class="">
+<a href="department_report">
+<span class="pcoded-mtext">Departments</span>
+</a>
+</li>
+</ul>
+</li>
+</ul>
 
 </nav>

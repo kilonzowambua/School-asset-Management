@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once('../config/config.php');
+require_once('../config/codeGen.php');
 include('../helpers/datefunction.php');
 include('../helpers/departments.php');
 /* Load This Page With Logged In User Session */
@@ -157,33 +158,56 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                     <div class="col-sm-12">
                                                         <div class="card">
                                                             <div class="card-header table-card-header text-right">
-                                                                <button type="button" class="btn btn-info btn-outline-info waves-effect md-trigger" data-modal="modal-12">New Department</button>
-                                                                <div class="md-modal md-effect-12" id="modal-12">
-                                                                    <div class="md-content">
-                                                                        <h1 class="text-center">Add New Department</h1>
-                                                                        <div>
-                                                                            <form method="post">
+                                                            <button type="button" class="btn btn-info btn-outline-info waves-effect md-trigger" data-toggle="modal" data-target=".bd-example-modal-lg">New Department </button>
+                                                                <!-- Large modal -->
+                                                                <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                                                    <div class="modal-dialog modal-lg">
+                                                                        <div class="modal-content">
+                                                                            <div class="md-content">
+                                                                                <h1 class="text-center">New Department</h1>
+                                                                                <div>
+                                                                                <form method="post">
                                                                                 <div class="form-group row mt-1">
-                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Department Name:</label>
-                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
+                                                                                    <label class="col-12  col-form-label">Department Name:</label>
+                                                                                   
                                                                                         <input type="text" name="department_name" class="form-control">
-                                                                                    </div>
+                                                                                   
                                                                                 </div>
-                                                                                
+                                                                                <div class="form-group row mt-1">
+                                                                                                                    <label class="col-12  col-form-label">Department Head:</label>
+                                                                                                                    <select name="department_head_id" class="form-control">
+                                                                                                                        <?php
+
+                                                                                                                        # Read all Asset Type
+                                                                                                                        $sql = "SELECT staff_id,staff_first_name,staff_last_name FROM staffs ORDER BY staff_first_name ASC;";
+                                                                                                                        $result3 = mysqli_query($mysqli, $sql);
+                                                                                                                        if (mysqli_num_rows($result3) > 0) {
+                                                                                                                            while ($department_head2 = mysqli_fetch_object($result3)) {
+
+                                                                                                                        ?>
+
+                                                                                                                                
+                                                                                                                                    <option value="<?php echo $department_head2->staff_id ?>"><?php echo $department_head2->staff_first_name ?> <?php echo $department_head2->staff_last_name ?></option>
+                                                                                                                               
+                                                                                                                        <?php }
+                                                                                                                        } ?>
+                                                                                                                   </select>
+
+
+                                                                                                                </div>
 
                                                                                 <div class="row mt-2 ">
-                                                                                    <div class="col-6 text-center">
-                                                                                        <button type="button" class="btn btn-danger waves-effect md-close">Close</button>
-                                                                                    </div>
+                                                                                   
                                                                                     <div class="col-6">
                                                                                         <button type="submit" name="add_department" class="btn btn-primary waves-effect ">Add</button>
                                                                                     </div>
                                                                                 </div>
-                                                                            </form>
+                                                                            </form> 
+                                                                            </div>
+
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="md-overlay"></div>
+                                                                </div> 
                                                             </div>
                                                             <div class="card-block">
                                                                 <div class="dt-responsive table-responsive">
@@ -194,8 +218,9 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                             <thead>
                                                                                 <tr role="row">
 
-                                                                                    <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 300.367px;" aria-label="Asset Type Name: activate to sort column ascending">Asset Type Name</th>
-                                                                                    <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 250.367px;" aria-label="No of Assets: activate to sort column ascending">No of Assets</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 300.367px;" aria-label="Department Name">Department Name</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 250.367px;" aria-label="No of Members">No of Members</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 250.367px;" aria-label="Head of Department">Head of Department</th>
                                                                                     <th tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 250.367px;" aria-label="Action: activate to sort column ascending">Action</th>
                                                                                 </tr>
                                                                             </thead>
@@ -203,71 +228,114 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                 <?php
 
                                                                                 # Read all Asset Type
-                                                                                $sql = "SELECT a_t.asset_type_id,a_t.asset_type_name,COUNT(a_s.asset_id) AS total_assets FROM asset_types AS a_t 
-                                                                                INNER JOIN assets AS a_s ON a_t.asset_type_id=a_s.asset_type_id GROUP BY a_t.asset_type_id; ";
+                                                                                $sql = "SELECT dp.department_name, COUNT(st.staff_id) AS staff_count, dp.department_head_id, dp.department_id
+                                                                                FROM departments AS dp
+                                                                                INNER JOIN staffs AS st ON dp.department_id = st.staff_department_id
+                                                                                GROUP BY dp.department_name, dp.department_head_id, dp.department_id;
+                                                                                ";
                                                                                 $result = mysqli_query($mysqli, $sql);
                                                                                 if (mysqli_num_rows($result) > 0) {
-                                                                                    while ($asset_type = mysqli_fetch_object($result)) {
+                                                                                    while ($department = mysqli_fetch_object($result)) {
                                                                                 ?>
 
                                                                                         <tr role="row" class="odd">
-                                                                                            <td class="sorting_1"><?php echo $asset_type->asset_type_name ?></td>
-                                                                                            <td><?php echo number_format($asset_type->total_assets, 0) ?></td>
+                                                                                            <td class="sorting_1"><?php echo $department->department_name ?></td>
+                                                                                            <td> <?php echo $department->staff_count ?></td>
+                                                                                            <?php
+
+                                                                                            # Read all Asset Type
+                                                                                            $sql = "SELECT staff_id,staff_first_name,staff_last_name FROM staffs WHERE staff_id='{$department->department_head_id}' ORDER BY staff_first_name ASC; ";
+                                                                                            $result2 = mysqli_query($mysqli, $sql);
+                                                                                            if (mysqli_num_rows($result2) > 0) {
+                                                                                                while ($department_head = mysqli_fetch_object($result2)) {
+                                                                                            ?>
+                                                                                                    <td> <?php echo $department_head->staff_first_name ?> <?php echo $department_head->staff_last_name ?></td>
+                                                                                            <?php }
+                                                                                            } ?>
                                                                                             <td>
-                                                                                                <button type="button" class="btn btn-primary btn-outline-primary waves-effect md-trigger" data-modal="edit-<?php echo $asset_type->asset_type_id ?>">Edit</button>
-                                                                                                <button type="button" class="btn btn-warning alert-confirm m-b-10 md-trigger" data-modal="delete-<?php echo $asset_type->asset_type_id ?>">Delete</button>
-                                                                                                <div class="md-modal md-effect-12" id="edit-<?php echo $asset_type->asset_type_id ?>">
-                                                                                                    <div class="md-content">
-                                                                                                        <h1 class="text-center">Edit - <?php echo $asset_type->asset_type_name ?></h1>
+                                                                                                <button type="button" class="btn btn-primary btn-outline-primary waves-effect md-trigger" data-toggle="modal" data-target="#edit-<?php echo $department->department_id ?>">Edit</button>
+                                                                                                <button type="button" class="btn btn-danger btn-outline-danger waves-effect md-trigger" data-toggle="modal" data-target="#delete-<?php echo $department->department_id ?>">Delete</button>
+                                                                                                <div class="modal fade"  id="edit-<?php echo $department->department_id ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                                                                                <div class="modal-dialog modal-lg">
+                                                                                                    <div class="modal-content">
+                                                                                                        <div class="md-content">
+                                                                                                        <h1 class="text-center">Edit - <?php echo $department->department_name ?></h1>
                                                                                                         <div>
                                                                                                             <form method="post">
                                                                                                                 <div class="form-group row mt-1">
-                                                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Type Name:</label>
-                                                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                                                        <input type="text" hidden name="asset_type_id" value="<?php echo $asset_type->asset_type_id ?>" class="form-control">
-                                                                                                                        <input type="text" name="asset_type_name" value="<?php echo $asset_type->asset_type_name ?>" class="form-control">
+                                                                                                                    <label class="col-12   col-form-label">Department Name:</label>
+                                                                                                                    <div class="col-12">
+                                                                                                                        <input type="text" hidden name="department_id" value="<?php echo $department->department_id ?>" class="form-control">
+                                                                                                                        <input type="text" name="department_name" value="<?php echo $department->department_name ?>" class="form-control">
+                                                                                                                    </div>
+
+                                                                                                                </div>
+
+                                                                                                                <div class="form-group row mt-1">
+                                                                                                                    <label class="col-12   col-form-label">Department Head:</label>
+                                                                                                                    <div class="col-12">
+                                                                                                                    <select name="department_head_id" class="form-control">
+                                                                                                                        <?php
+
+                                                                                                                        # Read all Asset Type
+                                                                                                                        $sql = "SELECT staff_id,staff_first_name,staff_last_name FROM staffs ORDER BY staff_first_name ASC;";
+                                                                                                                        $result3 = mysqli_query($mysqli, $sql);
+                                                                                                                        if (mysqli_num_rows($result3) > 0) {
+                                                                                                                            while ($department_head2 = mysqli_fetch_object($result3)) {
+
+                                                                                                                        ?>
+
+                                                                                                                                
+                                                                                                                                    <option value="<?php echo $department_head2->staff_id ?>"><?php echo $department_head2->staff_first_name ?> <?php echo $department_head2->staff_last_name ?></option>
+                                                                                                                                
+
+                                                                                                                        <?php }
+                                                                                                                        } ?>
+                                                                                                                        </select>
                                                                                                                     </div>
 
                                                                                                                 </div>
 
                                                                                                                 <div class="row mt-2 ">
-                                                                                                                    <div class="col-6 text-center">
-                                                                                                                        <button type="button" class="btn btn-danger waves-effect md-close">Close</button>
-                                                                                                                    </div>
+                                                                                                                    
                                                                                                                     <div class="col-6">
-                                                                                                                        <button type="submit" name="update_asset_type" class="btn btn-primary waves-effect ">Update</button>
+                                                                                                                        <button type="submit" name="update_department" class="btn btn-primary waves-effect ">Update</button>
                                                                                                                     </div>
                                                                                                                 </div>
                                                                                                             </form>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
-                                                                                                <div class="md-modal md-effect-12" id="delete-<?php echo $asset_type->asset_type_id ?>">
+                                                                                                </div>
+                                                                                                </div>
+                                                                                                <div class="modal fade" id="delete-<?php echo $department->department_id ?>"tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                                                                                <div class="modal-dialog modal-lg">
+                                                                                                    <div class="modal-content">
                                                                                                     <div class="md-content">
-                                                                                                        <h1 class="text-danger">Delete - <?php echo $asset_type->asset_type_name ?></h1>
+                                                                                                        <h1 class="text-danger">Remove - <?php echo $department->department_name ?></h1>
                                                                                                         <div>
                                                                                                             <form method="post">
                                                                                                                 <div class="form-group row mt-1">
+
+                                                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
+                                                                                                                        <input type="text" hidden name="department_id" value="<?php echo $department->department_id ?>" class="form-control">
+                                                                                                                    </div>
+
+                                                                                                                </div>
+
+                                                                                                                <div class="row mt-2 ">
                                                                                                                    
-                                                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                                                        <input type="text" hidden name="asset_type_id" value="<?php echo $asset_type->asset_type_id ?>" class="form-control">
-                                                                                                                    </div>
-
-                                                                                                                </div>
-
-                                                                                                                <div class="row mt-2 ">
-                                                                                                                    <div class="col-6 text-center">
-                                                                                                                        <button type="button" class="btn btn-danger waves-effect md-close">Close</button>
-                                                                                                                    </div>
                                                                                                                     <div class="col-6">
-                                                                                                                        <button type="submit" name="delete_asset_type" class="btn btn-primary waves-effect ">Delete</button>
+                                                                                                                        <button type="submit" name="delete_department" class="btn btn-danger waves-effect ">Delete</button>
                                                                                                                     </div>
                                                                                                                 </div>
                                                                                                             </form>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
-                                                                                                <div class="md-overlay"></div>
+                                                                                                </div>
+                                                                                                </div>
+                                                                                                
                                                                                             </td>
                                                                                         </tr>
                                                                                 <?php }

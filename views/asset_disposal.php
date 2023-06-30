@@ -158,75 +158,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                     <div class="col-sm-12">
                                                         <div class="card">
                                                             <div class="card-header table-card-header text-right">
-                                                                <button type="button" class="btn btn-info btn-outline-info waves-effect md-trigger" data-modal="modal-12">New Asset </button>
-                                                                <div class="md-modal md-effect-12" id="modal-12">
-                                                                    <div class="md-content">
-                                                                        <h1 class="text-center">Add New Asset Disposal </h1>
-                                                                        <div>
-                                                                            <form method="post">
-                                                                                <div class="form-group row mt-1">
-                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Name:</label>
-                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                        <input type="text" name="asset_name" class="form-control">
-                                                                                    </div>
 
-                                                                                </div>
-
-                                                                                <div class="form-group row mt-1">
-                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Tag:</label>
-                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                        <input type="text" name="asset_tag" value="<?php echo $tag_no ?>" class="form-control" readonly>
-                                                                                    </div>
-
-                                                                                </div>
-                                                                                <div class="form-group row mt-1">
-                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Type:</label>
-                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                        <select name="asset_type_id" class="form-control">
-                                                                                            <?php
-
-                                                                                            # Read all Asset Type
-                                                                                            $sql = "SELECT * FROM asset_types";
-                                                                                            $result3 = mysqli_query($mysqli, $sql);
-                                                                                            if (mysqli_num_rows($result3) > 0) {
-                                                                                                while ($asset_type = mysqli_fetch_object($result3)) {
-                                                                                            ?>
-                                                                                                    <option value="<?php echo $asset_type->asset_type_id ?>"><?php echo $asset_type->asset_type_name ?></option>
-                                                                                            <?php }
-                                                                                            }
-                                                                                            ?>
-                                                                                        </select>
-                                                                                    </div>
-
-                                                                                </div>
-                                                                                <div class="form-group row mt-1">
-                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Description:</label>
-                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                        <textarea rows="5" cols="5" class="form-control" name="asset_details" placeholder="Enter Here"></textarea>
-                                                                                    </div>
-
-                                                                                </div>
-                                                                                <div class="form-group row mt-1">
-                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset price:</label>
-                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                        <input type="text" name="asset_price" class="form-control">
-                                                                                    </div>
-
-                                                                                </div>
-
-                                                                                <div class="row mt-2 ">
-                                                                                    <div class="col-6 text-center">
-                                                                                        <button type="button" class="btn btn-danger waves-effect md-close">Close</button>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <button type="submit" name="add_asset" class="btn btn-primary waves-effect ">Add</button>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="md-overlay"></div>
                                                             </div>
                                                             <div class="card-block">
                                                                 <div class="dt-responsive table-responsive">
@@ -267,160 +199,161 @@ if (mysqli_num_rows($staff_sql) > 0) {
 
                                                                                             <td>
                                                                                                 <?php if ($asset->assetdispose_id == '') { ?>
-                                                                                                    <button type="button" class="btn btn-warning alert-confirm m-b-10 md-trigger" data-modal="dispose-<?php echo $asset->asset_id ?>">Dispose </button>
+                                                                                                    <button type="button" class="btn btn-warning alert-confirm m-b-10 md-trigger" data-toggle="modal" data-target="#dispose-<?php echo $asset->asset_id ?>">Dispose </button>
                                                                                                 <?php } elseif ($asset->assetdispose_id != '') { ?>
-                                                                                                    <button type="button" class="btn btn-success alert-confirm m-b-10 md-trigger" data-modal="view-<?php echo $asset->asset_id ?>">View</button>
+                                                                                                    <button type="button" class="btn btn-info btn-outline-info waves-effect md-trigger" data-toggle="modal" data-target="#view-<?php echo $asset->asset_id ?>">View</button>
                                                                                                 <?php } ?>
                                                                                             </td>
+                                                                                            <div class="modal fade" id="dispose-<?php echo $asset->asset_id ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                                                                                <div class="modal-dialog modal-lg">
+                                                                                                    <div class="modal-content">
+                                                                                                        <div class="md-content">
+                                                                                                            <h1 class="text-center " style="color: red;">Dispose <?php echo $asset->asset_tag ?>-<?php echo $asset->asset_name ?></h1>
+                                                                                                            <div>
+                                                                                                                <form method="post">
+                                                                                                                    <div class="form-group row mt-1">
 
-                                                                                            <div class="md-modal md-effect-12" id="dispose-<?php echo $asset->asset_id ?>">
-                                                                                                <div class="col-12">
-                                                                                                    <h1 class="text-danger">Dispose </h1> <br>
-                                                                                                    <p>Asset Tag:<?php echo $asset->asset_tag ?> </p>
-                                                                                                    <form method="post">
-                                                                                                        <div class="form-group row mt-1">
+                                                                                                                        <div class="col-sm-6 col-md-6  col-md-4">
+                                                                                                                            <input type="text" hidden name="assetdispose_asset_id" value="<?php echo $asset->asset_id ?>" class="form-control">
+                                                                                                                            <input type="text" hidden name="assetdispose_by_id" value="<?php echo $staff_id ?>" class="form-control">
+                                                                                                                        </div>
 
-                                                                                                            <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                                                <input type="text" hidden name="assetdispose_asset_id" value="<?php echo $asset->asset_id ?>" class="form-control">
-                                                                                                                <input type="text" hidden name="assetdispose_by_id" value="<?php echo $staff_id ?>" class="form-control">
+                                                                                                                    </div>
+
+
+                                                                                                                    <div class="form-group row mt-1">
+                                                                                                                        <label class="col-12 col-form-label">Method:</label>
+
+                                                                                                                        <select name="assetdispose_method" class="form-control">
+
+                                                                                                                            <option selected>Resale</option>
+                                                                                                                            <option>Recycle</option>
+                                                                                                                            <option>Donate</option>
+                                                                                                                        </select>
+
+
+                                                                                                                    </div>
+                                                                                                                    <div class="form-group row ">
+                                                                                                                        <label class="col-12 col-form-label">Reason:</label>
+
+                                                                                                                        <textarea rows="5" cols="5" class="form-control" name="assetdispose_reason" placeholder="Enter Here"></textarea>
+
+
+                                                                                                                    </div>
+
+
+                                                                                                                    <div class="row mt-2 ">
+
+                                                                                                                        <div class="col-6">
+                                                                                                                            <button type="submit" name="dispose_asset" class="btn btn-primary waves-effect ">Dispose</button>
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </form>
                                                                                                             </div>
-
                                                                                                         </div>
-
-
-                                                                                                        <div class="form-group row mt-1">
-                                                                                                            <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Method:</label>
-                                                                                                            <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                                                <select name="assetdispose_method" class="form-control">
-
-                                                                                                                    <option selected>Resale</option>
-                                                                                                                    <option>Recycle</option>
-                                                                                                                    <option>Donate</option>
-                                                                                                                </select>
-                                                                                                            </div>
-
-                                                                                                        </div>
-                                                                                                        <div class="form-group row mt-1">
-                                                                                                            <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Reason:</label>
-                                                                                                            <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                                                <textarea rows="5" cols="5" class="form-control" name="assetdispose_reason" placeholder="Enter Here"></textarea>
-                                                                                                            </div>
-
-                                                                                                        </div>
-
-
-                                                                                                        <div class="row mt-2 ">
-                                                                                                            <div class="col-6 text-center">
-                                                                                                                <button type="button" class="btn btn-danger waves-effect md-close">Close</button>
-                                                                                                            </div>
-                                                                                                            <div class="col-6">
-                                                                                                                <button type="submit" name="dispose_asset" class="btn btn-primary waves-effect ">Dispose</button>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </form>
+                                                                                                    </div>
                                                                                                 </div>
                                                                                             </div>
-                                                                                            <div class="md-modal md-effect-12" id="view-<?php echo $asset->asset_id ?>">
-                                                                                                <div class="col-12">
-                                                                                                    <h1 class="text-primary">Dispose </h1> <br>
-                                                                                                    <form method="post">
-                                                                                                        <div class="form-group row mt-1">
-                                                                                                            <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Name:</label>
-                                                                                                            <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                                                <input type="text"  value="<?php echo $asset->asset_name ?>" readonly class="form-control">
-                                                                                                            </div>
+                                                                                                <div class="modal fade" id="view-<?php echo $asset->asset_id ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                                                                                    <div class="modal-dialog modal-lg">
+                                                                                                        <div class="modal-content">
+                                                                                                            <div class="md-content">
+                                                                                                                <h1 class="text-center">View <?php echo $asset->asset_name ?></h1>
+                                                                                                               
+                                                                                                                    <form method="post">
+                                                                                                                        <div class="form-group col-12">
+                                                                                                                            <label class="col-form-label">Asset Name:</label>
 
-                                                                                                        </div>
-                                                                                                        <div class="form-group row mt-1">
-                                                                                                            <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Tag:</label>
-                                                                                                            <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                                                <input type="text"  value="<?php echo $asset->asset_tag ?>" readonly class="form-control">
-                                                                                                            </div>
+                                                                                                                            <input type="text" value="<?php echo $asset->asset_name ?>" readonly class="form-control">
 
-                                                                                                        </div>
-                                                                                                      
-                                                                                                        <div class="form-group row mt-1">
-                                                                                                            <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Type:</label>
-                                                                                                            <div class="col-sm-12 col-md-6  col-md-4">
 
+                                                                                                                        </div>
+                                                                                                                        <div class="form-group col-12">
+                                                                                                                            <label class="col-form-label">Asset Tag:</label>
+
+                                                                                                                            <input type="text" value="<?php echo $asset->asset_tag ?>" readonly class="form-control">
+
+                                                                                                                        </div>
+
+                                                                                                                        <div class="form-group col-12">
+                                                                                                                            <label class="col-form-label">Asset Type:</label>
+
+
+                                                                                                                            <?php
+
+                                                                                                                            # Read all Asset Type
+                                                                                                                            $sql = "SELECT * FROM asset_types WHERE asset_type_id='{$asset->asset_type_id}'";
+                                                                                                                            $result3 = mysqli_query($mysqli, $sql);
+                                                                                                                            if (mysqli_num_rows($result3) > 0) {
+                                                                                                                                while ($asset_type = mysqli_fetch_object($result3)) {
+                                                                                                                            ?>
+                                                                                                                                    <input type="text" value="<?php echo $asset_type->asset_type_name ?>" class="form-control" readonly>
+                                                                                                                            <?php }
+                                                                                                                            }
+                                                                                                                            ?>
+
+                                                                                                                        </div>
+                                                                                                               
                                                                                                                 <?php
-
-                                                                                                                # Read all Asset Type
-                                                                                                                $sql = "SELECT * FROM asset_types WHERE asset_type_id='{$asset->asset_type_id}'";
-                                                                                                                $result3 = mysqli_query($mysqli, $sql);
-                                                                                                                if (mysqli_num_rows($result3) > 0) {
-                                                                                                                    while ($asset_type = mysqli_fetch_object($result3)) {
+                                                                                                                # Read all Asset Dispose
+                                                                                                                $sql = "SELECT * FROM assetdisposes WHERE assetdispose_asset_id='{$asset->asset_id}' LIMIT 1";
+                                                                                                                $result4 = mysqli_query($mysqli, $sql);
+                                                                                                                if (mysqli_num_rows($result4) > 0) {
+                                                                                                                    while ($asset_dispose = mysqli_fetch_object($result4)) {
                                                                                                                 ?>
-                                                                                                                        <input type="text" value="<?php echo $asset_type->asset_type_name ?>" class="form-control" readonly>
+                                                                                                                        <div class="form-group col-12">
+                                                                                                                            <label class="col-form-label">Asset Dispose Method:</label>
+
+                                                                                                                            <input type="text" value="<?php echo $asset_dispose->assetdispose_method ?>" readonly class="form-control">
+
+
+                                                                                                                        </div>
+                                                                                                                        <div class="form-group col-12">
+                                                                                                                            <label class="col-form-label">Asset Dispose Description:</label>
+
+                                                                                                                            <textarea rows="5" cols="5" class="form-control" readonly><?php echo $asset_dispose->assetdispose_reason ?></textarea>
+
+
+                                                                                                                        </div>
+                                                                                                                        <div class="form-group col-12">
+                                                                                                                            <label class="col-form-label">Asset Dispose Date:</label>
+
+                                                                                                                            <input type="text" readonly value="<?php echo formatDateTime($asset_dispose->assetdispose_date) ?>" class="form-control">
+
+
+                                                                                                                        </div>
+                                                                                                                        <div class="form-group col-12">
+                                                                                                                            <label class="col-form-label">Asset Disposed By:</label>
+
+                                                                                                                            <?php
+
+                                                                                                                            # Read all Asset Type
+                                                                                                                            $sql = "SELECT * FROM staffs WHERE staff_id='{$asset_dispose->assetdispose_by_id}'";
+                                                                                                                            $result5 = mysqli_query($mysqli, $sql);
+                                                                                                                            if (mysqli_num_rows($result5) > 0) {
+                                                                                                                                while ($staff = mysqli_fetch_object($result5)) {
+                                                                                                                            ?>
+                                                                                                                                    <input type="text" readonly value="<?php echo $staff->staff_first_name ?>  <?php echo $staff->staff_last_name ?>" class="form-control">
+                                                                                                                            <?php }
+                                                                                                                            } ?>
+
+                                                                                                                        </div>
                                                                                                                 <?php }
-                                                                                                                }
-                                                                                                                ?>
-
+                                                                                                                } ?>
+                                                                                                                
+                                                                                                            <?php }
+                                                                                                    } ?>
+                                                                                                               
+                                                                                                                </form>
+                                                                                                          
                                                                                                             </div>
                                                                                                         </div>
-                                                                                                        <?php
-                                                                                                        # Read all Asset Dispose
-                                                                                                        $sql = "SELECT * FROM assetdisposes WHERE assetdispose_asset_id='{$asset->asset_id}' LIMIT 1";
-                                                                                                        $result4 = mysqli_query($mysqli, $sql);
-                                                                                                        if (mysqli_num_rows($result4) > 0) {
-                                                                                                            while ($asset_dispose = mysqli_fetch_object($result4)) {
-                                                                                                        ?>
-                                                                                                                <div class="form-group row mt-1">
-                                                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Dispose Method:</label>
-                                                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                                                        <input type="text" value="<?php echo $asset_dispose->assetdispose_method ?>" readonly class="form-control">
-                                                                                                                    </div>
-
-                                                                                                                </div>
-                                                                                                                <div class="form-group row mt-1">
-                                                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Dispose Description:</label>
-                                                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                                                        <textarea rows="5" cols="5" class="form-control" readonly><?php echo $asset_dispose->assetdispose_reason ?></textarea>
-                                                                                                                    </div>
-
-                                                                                                                </div>
-                                                                                                                <div class="form-group row mt-1">
-                                                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Dispose Date:</label>
-                                                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                                                        <input type="text"  readonly value="<?php echo formatDateTime($asset_dispose->assetdispose_date) ?>" class="form-control">
-                                                                                                                    </div>
-
-                                                                                                                </div>
-                                                                                                                                       <div class="form-group row mt-1">
-                                                                                                                    <label class="col-sm-12 col-md-6  col-md-4  col-form-label">Asset Disposed By:</label>
-                                                                                                                    <div class="col-sm-12 col-md-6  col-md-4">
-                                                                                                                        <?php
-
-                                                                                                                        # Read all Asset Type
-                                                                                                                        $sql = "SELECT * FROM staffs WHERE staff_id='{$asset_dispose->assetdispose_by_id}'";
-                                                                                                                        $result5 = mysqli_query($mysqli, $sql);
-                                                                                                                        if (mysqli_num_rows($result5) > 0) {
-                                                                                                                            while ($staff = mysqli_fetch_object($result5)) {
-                                                                                                                        ?>
-                                                                                                                                <input type="text" readonly value="<?php echo $staff->staff_first_name ?>  <?php echo $staff->staff_last_name ?>" class="form-control">
-                                                                                                                        <?php }
-                                                                                                                        } ?>
-                                                                                                                    </div>
-
-                                                                                                                </div>
-                                                                                                                <?php }
-                                                                                } ?>
-                                                                                       <div class="row mt-2 ">
-                                                                                                            <div class="col-6 text-center">
-                                                                                                                <button type="button" class="btn btn-danger waves-effect md-close">Close</button>
-                                                                                                            </div>
-                                                                                                           
-                                                                                                        </div>
-                                                                                                    </form>
-
+                                                                                                    </div>
                                                                                                 </div>
-                                                                                            </div>
-                                                                                            <?php }
-                                                                        } ?>
-                                                                                            <div class="md-overlay"></div>
-                                                                               
+                                                                                              
+
                                                                                         </tr>
-                                                                               
+
                                                                             </tbody>
 
                                                                         </table>
@@ -450,4 +383,5 @@ if (mysqli_num_rows($staff_sql) > 0) {
         </body>
 
         </html>
-        <?php }   } ?>
+<?php }
+} ?>

@@ -37,7 +37,7 @@ if (isset($_POST['update_asset'])) {
     $asset_price = mysqli_real_escape_string($mysqli, $_POST['asset_price']);
 
     // Check if the asset is disposed or allocated
-    $sql = "SELECT asset_dispose_id, asset_allocation_id FROM assets WHERE asset_id = ?";
+    $sql = "SELECT assetdispose_id, asset_allocation_id FROM assets WHERE asset_id = ?";
     $stmt = mysqli_prepare($mysqli, $sql);
     mysqli_stmt_bind_param($stmt, 's', $asset_id);
     mysqli_stmt_execute($stmt);
@@ -74,7 +74,7 @@ if (isset($_POST['delete_asset'])) {
     $asset_id = mysqli_real_escape_string($mysqli, $_POST['asset_id']);
 
     // Check if the asset is disposed or allocated
-    $sql = "SELECT asset_dispose_id, asset_allocation_id FROM assets WHERE asset_id = ?";
+    $sql = "SELECT assetdispose_id, asset_allocation_id FROM assets WHERE asset_id = ?";
     $stmt = mysqli_prepare($mysqli, $sql);
     mysqli_stmt_bind_param($stmt, 's', $asset_id);
     mysqli_stmt_execute($stmt);
@@ -106,6 +106,7 @@ if (isset($_POST['delete_asset'])) {
 
 if (isset($_POST['dispose_asset'])) {
     // Escape and retrieve the posted variables
+   
     $assetdispose_asset_id = mysqli_real_escape_string($mysqli, $_POST['assetdispose_asset_id']);
     $assetdispose_by_id = mysqli_real_escape_string($mysqli, $_POST['assetdispose_by_id']);
     $assetdispose_method = mysqli_real_escape_string($mysqli, $_POST['assetdispose_method']);
@@ -149,3 +150,90 @@ if (isset($_POST['dispose_asset'])) {
         $err = "Failed! Please try again.";
     }
 } 
+
+#Request For  Allocation
+if (isset($_POST['request_asset'])) {
+    $allocation_id = mysqli_real_escape_string($mysqli, $ID);
+    $allocation_asset_id = mysqli_real_escape_string($mysqli, $_POST['allocation_asset_id']);
+    $allocation_request_by_id = mysqli_real_escape_string($mysqli, $_POST['allocation_request_by_id']);
+   
+    // Check if allocation_asset_id exists
+    $checkQuery = "SELECT * FROM allocations WHERE allocation_asset_id = '{$allocation_asset_id}'";
+    $checkResult = mysqli_query($mysqli, $checkQuery);
+    $assetExists = mysqli_num_rows($checkResult) > 0;
+  
+    if ($assetExists) {
+        $err = "Asset is requested already exists. Please choose a different asset.";
+    } else {
+        // Add Allocation 
+        $sql = "INSERT INTO allocations (allocation_id, allocation_asset_id, allocation_request_by_id) 
+                VALUES ('{$allocation_id}', '{$allocation_asset_id}', '{$allocation_request_by_id}')";
+        $stmt = mysqli_query($mysqli, $sql);
+      
+        if ($stmt) {
+            $success = "Asset allocation requested";
+        } else {
+            $err = "Failed! Please try again.";
+        }
+    }
+}
+
+#Approve allocation Request
+
+if (isset($_POST['reply_request'])) {
+    
+    $allocation_asset_id = mysqli_real_escape_string($mysqli, $_POST['allocation_asset_id']);
+    $allocation_allocated_by_id = mysqli_real_escape_string($mysqli, $_POST['allocation_allocated_by_id']);
+    $reply_type = mysqli_real_escape_string($mysqli, $_POST['reply_type']);
+    $allocation_status = mysqli_real_escape_string($mysqli, 'Approved');
+    $asset_allocation_id = mysqli_real_escape_string($mysqli,$_POST['asset_allocation_id']);
+
+    #Check for Cancellation or approval
+    if($reply_type=='Cancelled'){
+        #Remove  the Request
+        $sql = "DELETE FROM allocations WHERE allocation_asset_id='{$allocation_asset_id}'";
+        $stmt1 = mysqli_query($mysqli, $sql);
+      
+        if ($stmt1) {
+            $success = "Asset allocation request is Removed";
+        } else {
+            $err = "Failed! Please try again.";
+        }
+
+    }elseif($reply_type=='Approved') {
+   
+        #Approve  the Request
+        $sql2 = "UPDATE allocations SET allocation_allocated_by_id='{$allocation_allocated_by_id }',allocation_status='{$allocation_status}' WHERE allocation_asset_id='{$allocation_asset_id}'";
+        $stmt2 = mysqli_query($mysqli, $sql2);
+      
+        #Update assets
+        $sql3 = "UPDATE assets SET asset_allocation_id='{$asset_allocation_id}' WHERE asset_id='{$allocation_asset_id}'";
+        $stmt3 = mysqli_query($mysqli, $sql3);
+        
+        if ($stmt3) {
+            $success = "Asset allocation request is Removed";
+        } else {
+            $err = "Failed! Please try again.";
+        }
+
+
+    }
+     
+
+   
+}
+
+#dislocate_asset
+if(isset($_POST['dislocate_asset'])){
+    $allocation_asset_id = mysqli_real_escape_string($mysqli, $_POST['allocation_asset_id']);
+
+    #Remove  the Request
+    $sql = "DELETE FROM allocations WHERE allocation_asset_id='{$allocation_asset_id}'";
+    $stmt1 = mysqli_query($mysqli, $sql);
+  
+    if ($stmt1) {
+        $success = "Asset allocation request is Removed";
+    } else {
+        $err = "Failed! Please try again.";
+    }
+}
