@@ -182,7 +182,6 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                 # Read all Asset Typ
                                                                                 $sql = "SELECT * FROM assets AS ast
                                                                                 JOIN departments AS dp 
-                                                                        
                                                                                 WHERE ast.assetdispose_id IS NULL
                                                                                 GROUP BY ast.asset_id
                                                                                 ORDER BY ast.asset_date_of_purchase DESC;
@@ -216,7 +215,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                                         <button type="button" class="btn btn-info alert-confirm m-b-10 md-trigger" data-toggle="modal" data-target="#request-<?php echo $asset->asset_id ?>">Request Allocate </button>
                                                                                                     <?php }
                                                                                                 } elseif ($asset->asset_allocation_id != '') { ?>
-                                                                                                    <button type="button" class="btn btn-warning btn-outline-warning waves-effect md-trigger" data-toggle="modal" data-target="#deallocation-<?php echo $asset->asset_id ?>">Unalllocate</button>
+                                                                                                    
                                                                                                 <?php } ?>
                                                                                             </td>
                                                                                             <div class="modal fade" id="request-<?php echo $asset->asset_id ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">

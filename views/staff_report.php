@@ -2,7 +2,7 @@
 session_start();
 require_once('../config/config.php');
 include('../helpers/datefunction.php');
-include('../helpers/staff.php');
+include('../helpers/reports.php');
 /* Load This Page With Logged In User Session */
 $staff_id = mysqli_escape_string($mysqli, $_SESSION['staff_id']);
 $staff_sql = mysqli_query($mysqli, "SELECT * FROM staffs WHERE staff_id = '{$staff_id}'");
@@ -168,17 +168,17 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                 </div>
                                                                 <div class="card-block">
 
-                                                                    <form>
+                                                                    <form method="post">
                                                                         <div class="form-group row">
                                                                             <label class="col-sm-2 col-form-label">From </label>
                                                                             <div class="col-sm-4 col-md-6 col-lg 4">
-                                                                                <input type="date" class="form-control">
+                                                                                <input type="date" name="start" class="form-control">
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group row">
                                                                             <label class="col-sm-2 col-form-label">To </label>
                                                                             <div class="col-sm-4 col-md-6 col-lg 4">
-                                                                                <input type="date" id="#dropper-radius" class="form-control">
+                                                                                <input type="date" name="end" id="#dropper-radius" class="form-control">
                                                                             </div>
                                                                         </div>
 
@@ -186,7 +186,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                             <label class="col-sm-2 col-form-label">Select Department </label>
                                                                             <div class="col-sm-4 col-md-6 col-lg 4">
                                                                             <select name="department_id" class="form-control form-control-default">
-<option >ALL
+<option >All
 </option>
 <?php
 
@@ -209,16 +209,16 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                             <div class="form-group row">
                                                                             <label class="col-sm-2 col-form-label">Select Document </label>
                                                                             <div class="col-sm-4 col-md-6 col-lg 4">
-                                                                            <select name="select" class="form-control form-control-default">
+                                                                            <select name="doc_type" class="form-control form-control-default">
 
-<option value="opt2">Pdf</option>
-<option value="opt3">Excel</option>
+<option>Pdf</option>
+<option>Excel</option>
 
 </select>
                                                                             </div>
                                                                             </div>
-                                                                            <div class=" text-center">
-                                                                            <button class="btn btn-primary btn-round align-text center">Generate</button>
+                                                                            <div class="text-center">
+                                                                            <button type="submit" name="staff_reports" class="btn btn-primary btn-round align-text center">Generate</button>
                                                                             </div>
                                                                         </div>
                                                                     </form>
