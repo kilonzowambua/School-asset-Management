@@ -5,16 +5,22 @@ include('../helpers/datefunction.php');
 include('../helpers/assets.php');
 /* Load This Page With Logged In User Session */
 $staff_id = mysqli_escape_string($mysqli, $_SESSION['staff_id']);
-$staff_sql = mysqli_query($mysqli, "SELECT * FROM staffs WHERE staff_id = '{$staff_id}'");
+$staff_sql = mysqli_query($mysqli, "SELECT * FROM staffs AS astf INNER JOIN departments AS dp ON astf.staff_department_id=dp.department_id
+    WHERE staff_id = '{$staff_id}'");
 if (mysqli_num_rows($staff_sql) > 0) {
     while ($staff = mysqli_fetch_array($staff_sql)) {
         /* Global Usernames */
         $staff_first_name = $staff['staff_first_name'];
         $staff_last_name = $staff['staff_last_name'];
         $staff_department_id  = $staff['staff_department_id'];
+        $staff_department_head  = $staff['department_head_id'];
+        $staff_department_name  = $staff['department_name'];
         global $staff_first_name;
         global $$staff_last_name;
         global $staff_department_id;
+        global $staff_department_head;
+        global $staff_department_name;
+        
 ?>
         <?php ?>
         <!DOCTYPE html>
@@ -158,7 +164,9 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                     <div class="col-sm-12">
                                                         <div class="card">
                                                             <div class="card-header table-card-header text-right">
+                                                                <?php if($staff_department_head==$staff_id && $staff_department_name =='Administration' ){?>
                                                                <button type="button" class="btn btn-info btn-outline-info waves-effect md-trigger" data-toggle="modal" data-target=".bd-example-modal-lg">Add New Asset </button>
+                                                               <?php } ?>
                                                                 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                                                     <div class="modal-dialog modal-lg">
                                                                         <div class="modal-content">
@@ -236,7 +244,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                 <div class="dt-responsive table-responsive">
                                                                     <div id="basic-btn_wrapper" class="dataTables_wrapper dt-bootstrap4">
                                                                         <div class="dt-buttons"> </div>
-                                                                        <div id="basic-btn_filter" class="dataTables_filter"><label></div>
+                                                                        <div id="basic-btn_filter" class="dataTables_filter"></div>
                                                                         <table id="basic-btn" class="table table-striped table-bordered nowrap dataTable" role="grid" aria-describedby="basic-btn_info">
                                                                             <thead>
                                                                                 <tr role="row">
@@ -245,7 +253,9 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                     <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 300.367px;" aria-label="Asset Type Name: activate to sort column ascending">Asset Name</th>
                                                                                     <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 250.367px;" aria-label="No of Assets: activate to sort column ascending">Date Of Puchase</th>
                                                                                     <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 250.367px;" aria-label="No of Assets: activate to sort column ascending">Cost</th>
+                                                                                    <?php if($staff_department_head==$staff_id && $staff_department_name =='Administration' ){?>
                                                                                     <th tabindex="0" rowspan="1" colspan="1" style="width: 250.367px;" aria-label="Action: activate to sort column ascending">Action</th>
+                                                                                    <?php } ?>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
@@ -262,11 +272,12 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                             <td><?php echo $asset->asset_name ?></td>
                                                                                             <td><?php echo formatDateTime($asset->asset_date_of_purchase) ?></td>
                                                                                             <td>Ksh . <?php echo $asset->asset_price ?></td>
+                                                                                            <?php if($staff_department_head==$staff_id && $staff_department_name =='Administration' ){?>
                                                                                             <td>
                                                                                                 <button type="button" class="btn btn-info btn-outline-info waves-effect md-trigger" data-toggle="modal" data-target="#edit-<?php echo $asset->asset_id ?>">Edit</button>
                                                                                                 <button type="button" class="btn btn-warning alert-confirm m-b-10 md-trigger" data-toggle="modal" data-target="#delete-<?php echo $asset->asset_id ?>">Delete</button>
                                                                                             </td>
-
+<?php } ?>
                                                                                             <div class="modal fade" id="edit-<?php echo $asset->asset_id ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                                                                                 <div class="modal-dialog modal-lg">
                                                                                                     <div class="modal-content">

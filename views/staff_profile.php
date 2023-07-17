@@ -1,30 +1,36 @@
 <?php
 session_start();
 require_once('../config/config.php');
-include('../helpers/analysis.php');
 include('../helpers/datefunction.php');
 include('../helpers/staff.php');
 /* Load This Page With Logged In User Session */
 $staff_id = mysqli_escape_string($mysqli, $_SESSION['staff_id']);
-$staff_sql = mysqli_query($mysqli, "SELECT * FROM staffs WHERE staff_id = '{$staff_id}'");
+$staff_sql = mysqli_query($mysqli, "SELECT * FROM staffs AS astf INNER JOIN departments AS dp ON astf.staff_department_id=dp.department_id
+    WHERE staff_id = '{$staff_id}'");
 if (mysqli_num_rows($staff_sql) > 0) {
     while ($staff = mysqli_fetch_array($staff_sql)) {
         /* Global Usernames */
-        $staff_no = $staff['staff_no'];
         $staff_first_name = $staff['staff_first_name'];
         $staff_last_name = $staff['staff_last_name'];
+        $staff_department_id  = $staff['staff_department_id'];
+        $staff_department_head  = $staff['department_head_id'];
+        $staff_department_name  = $staff['department_name'];
         $staff_email = $staff['staff_email'];
         $staff_phone_no = $staff['staff_phone_no'];
         $staff_status = $staff['staff_status'];
-
+        $staff_department_head  = $staff['department_head_id'];
+        $staff_department_name  = $staff['department_name'];
         $staff_department_id  = $staff['staff_department_id'];
-        global $staff_no;
         global $staff_first_name;
-        global $$staff_last_name;
-        global $staff_department_id;
+        global $staff_last_name;
         global $staff_email;
-        global $staff_phone_no;
-        global $staff_status;
+        global  $staff_status;
+        global  $staff_phone_no;
+        global $staff_department_id;
+        global $staff_department_head;
+        global $staff_department_name;
+        
+      
 ?>
         <!DOCTYPE html>
         <html lang="en">

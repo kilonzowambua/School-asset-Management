@@ -2,19 +2,25 @@
 session_start();
 require_once('../config/config.php');
 include('../helpers/datefunction.php');
-include('../helpers/assets.php');
+include('../helpers/staff.php');
 /* Load This Page With Logged In User Session */
 $staff_id = mysqli_escape_string($mysqli, $_SESSION['staff_id']);
-$staff_sql = mysqli_query($mysqli, "SELECT * FROM staffs WHERE staff_id = '{$staff_id}'");
+$staff_sql = mysqli_query($mysqli, "SELECT * FROM staffs AS astf INNER JOIN departments AS dp ON astf.staff_department_id=dp.department_id
+    WHERE staff_id = '{$staff_id}'");
 if (mysqli_num_rows($staff_sql) > 0) {
     while ($staff = mysqli_fetch_array($staff_sql)) {
         /* Global Usernames */
         $staff_first_name = $staff['staff_first_name'];
         $staff_last_name = $staff['staff_last_name'];
         $staff_department_id  = $staff['staff_department_id'];
+        $staff_department_head  = $staff['department_head_id'];
+        $staff_department_name  = $staff['department_name'];
         global $staff_first_name;
         global $$staff_last_name;
         global $staff_department_id;
+        global $staff_department_head;
+        global $staff_department_name;
+
 ?>
         <?php ?>
         <!DOCTYPE html>
@@ -182,6 +188,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                 # Read all Asset Typ
                                                                                 $sql = "SELECT * FROM assets AS ast
                                                                                 JOIN departments AS dp 
+                                                                                INNER JOIN staffs AS st ON dp.department_id=st.staff_department_id
                                                                                 WHERE ast.assetdispose_id IS NULL
                                                                                 GROUP BY ast.asset_id
                                                                                 ORDER BY ast.asset_date_of_purchase DESC;
@@ -195,14 +202,14 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                             <td><?php echo $asset->asset_name ?></td>
                                                                                             <td><?php if ($asset->asset_allocation_id == '') { ?>
                                                                                                     <span class="pcoded-badge label label-danger">Not allocation</span>
-                                                                                                <?php } elseif ($asset->asset_allocation_id != '') { ?>
+                                                                                                <?php } elseif ($asset->asset_allocation_id != '' && $staff_department_head==$staff_id || $staff_department_name =='Administration' || $staff_department_head !=$staff_id) { ?>
                                                                                                     <span class="pcoded-badge label label-info"><?php echo $asset->department_name ?></span>
-
-                                                                                                <?php } ?>
+                                                                                               <?php } ?>
+                                                                                            
                                                                                             </td>
 
                                                                                             <td>
-                                                                                                <?php if ($asset->asset_allocation_id == '') { ?>
+                                                                                                <?php if ($asset->asset_allocation_id == '' && $staff_department_head==$staff_id) { ?>
                                                                                                     <?php
                                                                                                     $sql = "SELECT * FROM allocations WHERE allocation_asset_id='{$asset->asset_id}' AND allocation_allocated_by_id IS NULL";
                                                                                                     $result2 = mysqli_query($mysqli, $sql);
@@ -214,9 +221,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                                     } else { ?>
                                                                                                         <button type="button" class="btn btn-info alert-confirm m-b-10 md-trigger" data-toggle="modal" data-target="#request-<?php echo $asset->asset_id ?>">Request Allocate </button>
                                                                                                     <?php }
-                                                                                                } elseif ($asset->asset_allocation_id != '') { ?>
-                                                                                                    
-                                                                                                <?php } ?>
+                                                                                                } ?>
                                                                                             </td>
                                                                                             <div class="modal fade" id="request-<?php echo $asset->asset_id ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                                                                                 <div class="modal-dialog modal-lg">

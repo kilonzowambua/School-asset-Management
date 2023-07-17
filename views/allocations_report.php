@@ -5,16 +5,22 @@ include('../helpers/datefunction.php');
 include('../helpers/reports.php');
 /* Load This Page With Logged In User Session */
 $staff_id = mysqli_escape_string($mysqli, $_SESSION['staff_id']);
-$staff_sql = mysqli_query($mysqli, "SELECT * FROM staffs WHERE staff_id = '{$staff_id}'");
+$staff_sql = mysqli_query($mysqli, "SELECT * FROM staffs AS astf INNER JOIN departments AS dp ON astf.staff_department_id=dp.department_id
+    WHERE staff_id = '{$staff_id}'");
 if (mysqli_num_rows($staff_sql) > 0) {
     while ($staff = mysqli_fetch_array($staff_sql)) {
         /* Global Usernames */
         $staff_first_name = $staff['staff_first_name'];
         $staff_last_name = $staff['staff_last_name'];
         $staff_department_id  = $staff['staff_department_id'];
+        $staff_department_head  = $staff['department_head_id'];
+        $staff_department_name  = $staff['department_name'];
         global $staff_first_name;
         global $$staff_last_name;
         global $staff_department_id;
+        global $staff_department_head;
+        global $staff_department_name;
+
 ?>
         <?php ?>
         <!DOCTYPE html>
@@ -157,7 +163,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                 <div class="row">
                                                     <div class="col-sm-12">
                                                         <div class="card">
-                                                            
+
                                                             <div class="card">
                                                                 <div class="card-header">
                                                                     <h5>Allocation Report</h5>
@@ -172,7 +178,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                         <div class="form-group row">
                                                                             <label class="col-sm-2 col-form-label">From </label>
                                                                             <div class="col-sm-4 col-md-6 col-lg 4">
-                                                                                <input type="date"  name="start" class="form-control">
+                                                                                <input type="date" name="start" class="form-control">
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group row">
@@ -181,65 +187,79 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                 <input type="date" name="end" id="#dropper-radius" class="form-control">
                                                                             </div>
                                                                         </div>
-
+                                                                        <?php
+                                                                        #For Admin
+                                                                           if ($staff_department_name == 'Administration') {
+                                                                            ?>
                                                                         <div class="form-group row">
                                                                             <label class="col-sm-2 col-form-label">Select Department </label>
                                                                             <div class="col-sm-4 col-md-6 col-lg 4">
-                                                                            <select name="department_id" class="form-control form-control-default">
-<option >All
-</option>
-<?php
+                                                                                <select name="department_id" class="form-control form-control-default">
+                                                                                    <option>All
+                                                                                    </option>
+                                                                                    <?php
 
-                                                                                # Read all Asset Type
-                                                                                $sql = "SELECT *
+                                                                                    # Read all Asset Type
+                                                                                    $sql = "SELECT *
                                                                                 FROM departments AS dp
                                                                                
                                                                                 GROUP BY dp.department_name, dp.department_head_id, dp.department_id;
                                                                                 ";
-                                                                                $result = mysqli_query($mysqli, $sql);
-                                                                                if (mysqli_num_rows($result) > 0) {
-                                                                                    while ($department = mysqli_fetch_object($result)) {
-                                                                                ?>
-<option value="<?php echo $department->department_id ?>"><?php echo $department->department_name ?></option>
-<?php }}?>
+                                                                                    $result = mysqli_query($mysqli, $sql);
+                                                                                    if (mysqli_num_rows($result) > 0) {
+                                                                                        while ($department = mysqli_fetch_object($result)) {
+                                                                                    ?>
+                                                                                            <option value="<?php echo $department->department_id ?>"><?php echo $department->department_name ?></option>
+                                                                                    <?php }
+                                                                                    } ?>
 
-</select>
+                                                                                </select>
                                                                             </div>
                                                                         </div>
+                                                                        <?php }else{ ?>
                                                                             <div class="form-group row">
+                                                                            
+                                                                            <div class="col-sm-4 col-md-6 col-lg 4">
+                                                                                <input type="text" value="<?php echo $staff_department_id ?>" name="department_id" class="form-control form-control-default" hidden/>
+                                                                                   
+                                
+                                                                            </div>
+                                                                        </div>
+<?php } ?>
+                                                                        <div class="form-group row">
                                                                             <label class="col-sm-2 col-form-label">Select Document </label>
                                                                             <div class="col-sm-4 col-md-6 col-lg 4">
-                                                                            <select name="doc_type" class="form-control form-control-default">
+                                                                                <select name="doc_type" class="form-control form-control-default">
 
-<option>Pdf</option>
-<option>Excel</option>
+                                                                                    <option>Pdf</option>
+                                                                                    <option>Excel</option>
 
-</select>
-                                                                            </div>
-                                                                            </div>
-                                                                            <div class="form-group row text-center">
-                                                                            <button type="submit" name="allocation_reports" class="btn btn-primary btn-round align-text center">Generate</button>
+                                                                                </select>
                                                                             </div>
                                                                         </div>
-                                                                    </form>
+                                                                        <div class="form-group row text-center">
+                                                                            <button type="submit" name="allocation_reports" class="btn btn-primary btn-round align-text center">Generate</button>
+                                                                        </div>
                                                                 </div>
+                                                                </form>
                                                             </div>
-
-
                                                         </div>
+
+
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
+
                                 </div>
                             </div>
-
                         </div>
+
                     </div>
                 </div>
-           
+            </div>
+
 
 
             <?php include('../partials/script.php') ?>
