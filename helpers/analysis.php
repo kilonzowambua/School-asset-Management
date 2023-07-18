@@ -78,3 +78,21 @@ $stmt->bind_result($total_networth);
 $stmt->fetch();
 $stmt->close();
 }
+
+#STAFF
+#Allocated assets
+$query = "SELECT COUNT(*)  FROM allocations  WHERE allocation_status='Approved' AND allocation_request_by_id='{$staff_id}'";
+$stmt = $mysqli->prepare($query);
+$stmt->execute();
+$stmt->bind_result($allocations_staff);
+$stmt->fetch();
+$stmt->close();
+
+#HOD 
+$query = "SELECT staff_first_name,staff_last_name  FROM staffs WHERE staff_status='Active' AND staff_id='{$staff_department_id}'";
+$stmt = $mysqli->prepare($query);
+$stmt->execute();
+$stmt->bind_result($staff_first_name,$staff_last_name);
+$stmt->fetch();
+$stmt->close();
+

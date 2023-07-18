@@ -20,7 +20,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
         global $staff_department_id;
         global $staff_department_head;
         global $staff_department_name;
-        
+
 
 ?>
         <!DOCTYPE html>
@@ -94,7 +94,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                     </li>
                                 </ul>
                                 <ul class="nav-right">
-                        
+
                                     <li class="user-profile header-notification">
                                         <div class="dropdown-primary dropdown">
                                             <div class="dropdown-toggle" data-toggle="dropdown">
@@ -123,434 +123,650 @@ if (mysqli_num_rows($staff_sql) > 0) {
                             </div>
                         </div>
                     </nav>
-<?php  
-#If administration
-if($staff_department_head==$staff_id && $staff_department_name =='Administration' || $staff_department_head !=$staff_id ){
-?>
-                 <!--Body -->
-                    <div class="pcoded-main-container">
-                        <div class="pcoded-wrapper">
-                            <?php include('../partials/navbar.php') ?>
-                            <div class="pcoded-content">
-                                <div class="pcoded-inner-content">
-                                    <div class="main-body">
-                                        <div class="page-wrapper">
-                                            <div class="page-body">
-                                                <div class="row">
+                    <?php
+                    #If administration
+                    if ($staff_department_head == $staff_id && $staff_department_name == 'Administration') {
+                    ?>
+                        <!--Body -->
+                        <div class="pcoded-main-container">
+                            <div class="pcoded-wrapper">
+                                <?php include('../partials/navbar.php') ?>
+                                <div class="pcoded-content">
+                                    <div class="pcoded-inner-content">
+                                        <div class="main-body">
+                                            <div class="page-wrapper">
+                                                <div class="page-body">
+                                                    <div class="row">
 
-                                                    <div class="col-xl-3 col-md-6">
-                                                        <div class="card bg-c-yellow text-white">
-                                                            <div class="card-block">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col">
-                                                                        <p class="m-b-5">Total Staffs</p>
-                                                                        <h4 class="m-b-0"><?php echo number_format($staffs) ?></h4>
-                                                                    </div>
-                                                                    <div class="col col-auto text-right">
-                                                                        <i class="feather icon-users f-50 text-c-yellow"></i>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-xl-3 col-md-6">
-                                                        <div class="card bg-c-blue text-white">
-                                                            <div class="card-block">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col">
-                                                                        <p class="m-b-5">Total Assets</p>
-                                                                        <h4 class="m-b-0"><?php echo number_format($assets) ?></h4>
-                                                                    </div>
-                                                                    <div class="col col-auto text-right">
-                                                                        <i class="feather icon-tag f-50 text-c-blue"></i>
+                                                        <div class="col-xl-3 col-md-6">
+                                                            <div class="card bg-c-yellow text-white">
+                                                                <div class="card-block">
+                                                                    <div class="row align-items-center">
+                                                                        <div class="col">
+                                                                            <p class="m-b-5">Total Staffs</p>
+                                                                            <h4 class="m-b-0"><?php echo number_format($staffs) ?></h4>
+                                                                        </div>
+                                                                        <div class="col col-auto text-right">
+                                                                            <i class="feather icon-users f-50 text-c-yellow"></i>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div class="col-xl-3 col-md-6">
-                                                        <div class="card bg-c-pink text-white">
-                                                            <div class="card-block">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col">
-                                                                        <p class="m-b-5">Asset Disposed</p>
-                                                                        <h4 class="m-b-0"><?php echo number_format($disposals) ?></h4>
-                                                                    </div>
-                                                                    <div class="col col-auto text-right">
-                                                                        <i class="feather icon-shield f-50 text-c-pink"></i>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-xl-3 col-md-6">
-                                                        <div class="card bg-c-green text-white">
-                                                            <div class="card-block">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col">
-                                                                        <p class="m-b-5">Total NetWorth</p>
-                                                                        <h4 class="m-b-0">Ksh.<?php echo number_format($total_networth, 2) ?></h4>
-                                                                    </div>
-                                                                    <div class="col col-auto text-right">
-                                                                        <i class="feather icon-credit-card f-50 text-c-green"></i>
+                                                        <div class="col-xl-3 col-md-6">
+                                                            <div class="card bg-c-blue text-white">
+                                                                <div class="card-block">
+                                                                    <div class="row align-items-center">
+                                                                        <div class="col">
+                                                                            <p class="m-b-5">Total Assets</p>
+                                                                            <h4 class="m-b-0"><?php echo number_format($assets) ?></h4>
+                                                                        </div>
+                                                                        <div class="col col-auto text-right">
+                                                                            <i class="feather icon-tag f-50 text-c-blue"></i>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
 
-
-
-                                                    <div class="col-xl-6 col-md-12">
-                                                        <div class="card table-card">
-                                                            <div class="card-header">
-                                                                <h5>Recent Asset Allocation</h5>
-                                                                <div class="card-header-right">
-                                                                    <ul class="list-unstyled card-option">
-                                                                        <li><i class="fa fa fa-wrench open-card-option"></i>
-                                                                        </li>
-                                                                        <li><i class="fa fa-window-maximize full-card"></i></li>
-                                                                        <li><i class="fa fa-minus minimize-card"></i></li>
-                                                                        <li><i class="fa fa-refresh reload-card"></i></li>
-                                                                        <li><i class="fa fa-trash close-card"></i></li>
-                                                                    </ul>
+                                                        <div class="col-xl-3 col-md-6">
+                                                            <div class="card bg-c-pink text-white">
+                                                                <div class="card-block">
+                                                                    <div class="row align-items-center">
+                                                                        <div class="col">
+                                                                            <p class="m-b-5">Asset Disposed</p>
+                                                                            <h4 class="m-b-0"><?php echo number_format($disposals) ?></h4>
+                                                                        </div>
+                                                                        <div class="col col-auto text-right">
+                                                                            <i class="feather icon-shield f-50 text-c-pink"></i>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="card-block">
-                                                                <div class="table-responsive">
-                                                                    <table class="table table-hover table-borderless">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th>Asset</th>
-                                                                                <th>Department</th>
-                                                                                <th>Date</th>
-                                                                                <th>Status</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <?php
+                                                        </div>
 
-                                                                            # Read all Recent allocations
-                                                                            $sql = "SELECT *FROM allocations AS al INNER JOIN departments AS dp ON al.allocation_request_by_id = dp.department_head_id INNER JOIN assets AS ast ON al.allocation_asset_id=ast.asset_id ORDER BY al.allocation_request_date  ASC LIMIT 5";
-                                                                            $result = mysqli_query($mysqli, $sql);
-                                                                            if (mysqli_num_rows($result) > 0) {
-                                                                                while ($allocation = mysqli_fetch_object($result)) {
+                                                        <div class="col-xl-3 col-md-6">
+                                                            <div class="card bg-c-green text-white">
+                                                                <div class="card-block">
+                                                                    <div class="row align-items-center">
+                                                                        <div class="col">
+                                                                            <p class="m-b-5">Total NetWorth</p>
+                                                                            <h4 class="m-b-0">Ksh.<?php echo number_format($total_networth, 2) ?></h4>
+                                                                        </div>
+                                                                        <div class="col col-auto text-right">
+                                                                            <i class="feather icon-credit-card f-50 text-c-green"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-                                                                            ?>
-                                                                                    <tr>
 
-                                                                                        <td><?php echo $allocation->asset_name ?></td>
-                                                                                        <td><?php echo $allocation->department_name ?></td>
-                                                                                        <td><?php echo  formatDateTime($allocation->allocation_request_date) ?></td>
-                                                                                        <?php if ($allocation->allocation_status == 'Approved') { ?>
-                                                                                            <td><label class="label label-success">Completed</label>
-                                                                                            <?php } elseif ($allocation->allocation_status == 'pending') { ?>
-                                                                                            <td><label class="label label-primary">pending</label>
-                                                                                            <?php } else { ?>
-                                                                                            <td><label class="label label-danger">Canceled</label>
+
+                                                        <div class="col-xl-6 col-md-12">
+                                                            <div class="card table-card">
+                                                                <div class="card-header">
+                                                                    <h5>Recent Asset Allocation</h5>
+                                                                    <div class="card-header-right">
+                                                                        <ul class="list-unstyled card-option">
+                                                                            <li><i class="fa fa fa-wrench open-card-option"></i>
+                                                                            </li>
+                                                                            <li><i class="fa fa-window-maximize full-card"></i></li>
+                                                                            <li><i class="fa fa-minus minimize-card"></i></li>
+                                                                            <li><i class="fa fa-refresh reload-card"></i></li>
+                                                                            <li><i class="fa fa-trash close-card"></i></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card-block">
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-hover table-borderless">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Asset</th>
+                                                                                    <th>Department</th>
+                                                                                    <th>Date</th>
+                                                                                    <th>Status</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <?php
+
+                                                                                # Read all Recent allocations
+                                                                                $sql = "SELECT *FROM allocations AS al INNER JOIN departments AS dp ON al.allocation_request_by_id = dp.department_head_id INNER JOIN assets AS ast ON al.allocation_asset_id=ast.asset_id ORDER BY al.allocation_request_date  ASC LIMIT 5";
+                                                                                $result = mysqli_query($mysqli, $sql);
+                                                                                if (mysqli_num_rows($result) > 0) {
+                                                                                    while ($allocation = mysqli_fetch_object($result)) {
+
+                                                                                ?>
+                                                                                        <tr>
+
+                                                                                            <td><?php echo $allocation->asset_name ?></td>
+                                                                                            <td><?php echo $allocation->department_name ?></td>
+                                                                                            <td><?php echo  formatDateTime($allocation->allocation_request_date) ?></td>
+                                                                                            <?php if ($allocation->allocation_status == 'Approved') { ?>
+                                                                                                <td><label class="label label-success">Completed</label>
+                                                                                                <?php } elseif ($allocation->allocation_status == 'pending') { ?>
+                                                                                                <td><label class="label label-primary">pending</label>
+                                                                                                <?php } else { ?>
+                                                                                                <td><label class="label label-danger">Canceled</label>
+                                                                                                </td>
+                                                                                            <?php } ?>
                                                                                             </td>
-                                                                                        <?php } ?>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                            <?php }
-                                                                            } ?>
+                                                                                        </tr>
+                                                                                <?php }
+                                                                                } ?>
 
-                                                                        </tbody>
-                                                                    </table>
-                                                                    <div class="text-right m-r-20">
-                                                                        <a href="asset_allocations" class=" b-b-primary text-primary">View all Allocation</a>
+                                                                            </tbody>
+                                                                        </table>
+                                                                        <div class="text-right m-r-20">
+                                                                            <a href="asset_allocations" class=" b-b-primary text-primary">View all Allocation</a>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-xl-6 col-md-12">
-                                                        <div class="card latest-update-card">
-                                                            <div class="card-header">
-                                                                <h5>Recent Assets</h5>
-                                                                <div class="card-header-right">
-                                                                    <ul class="list-unstyled card-option">
-                                                                        <li><i class="fa fa fa-wrench open-card-option"></i>
-                                                                        </li>
-                                                                        <li><i class="fa fa-window-maximize full-card"></i></li>
-                                                                        <li><i class="fa fa-minus minimize-card"></i></li>
-                                                                        <li><i class="fa fa-refresh reload-card"></i></li>
-                                                                        <li><i class="fa fa-trash close-card"></i></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                            <div class="card-block">
-                                                                <div class="table-responsive">
-                                                                    <table class="table table-hover table-borderless">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th>Asset Tag</th>
-                                                                                <th>Asset Name</th>
-                                                                                <th>Asset Type</th>
-
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <?php
-
-                                                                            # Read all Recent allocations
-                                                                            $sql = "SELECT *FROM assets AS ast INNER JOIN asset_types AS asty ON ast.asset_type_id = asty.asset_type_id ORDER BY ast.asset_date_of_purchase  ASC LIMIT 5";
-                                                                            $result = mysqli_query($mysqli, $sql);
-                                                                            if (mysqli_num_rows($result) > 0) {
-                                                                                while ($asset = mysqli_fetch_object($result)) {
-
-                                                                            ?>
-                                                                                    <tr>
-
-                                                                                        <td><?php echo $asset->asset_tag; ?></td>
-                                                                                        <td><?php echo $asset->asset_name; ?></td>
-                                                                                        <td><?php echo  $asset->asset_type_name; ?></td>
-
-                                                                                    </tr>
-                                                                            <?php }
-                                                                            } ?>
-
-                                                                        </tbody>
-                                                                    </table>
-                                                                    <div class="text-right m-r-20">
-                                                                        <a href="assets" class=" b-b-primary text-primary">View all Assets</a>
+                                                        <div class="col-xl-6 col-md-12">
+                                                            <div class="card latest-update-card">
+                                                                <div class="card-header">
+                                                                    <h5>Recent Assets</h5>
+                                                                    <div class="card-header-right">
+                                                                        <ul class="list-unstyled card-option">
+                                                                            <li><i class="fa fa fa-wrench open-card-option"></i>
+                                                                            </li>
+                                                                            <li><i class="fa fa-window-maximize full-card"></i></li>
+                                                                            <li><i class="fa fa-minus minimize-card"></i></li>
+                                                                            <li><i class="fa fa-refresh reload-card"></i></li>
+                                                                            <li><i class="fa fa-trash close-card"></i></li>
+                                                                        </ul>
                                                                     </div>
                                                                 </div>
+                                                                <div class="card-block">
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-hover table-borderless">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Asset Tag</th>
+                                                                                    <th>Asset Name</th>
+                                                                                    <th>Asset Type</th>
 
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <?php
+
+                                                                                # Read all Recent allocations
+                                                                                $sql = "SELECT *FROM assets AS ast INNER JOIN asset_types AS asty ON ast.asset_type_id = asty.asset_type_id ORDER BY ast.asset_date_of_purchase  ASC LIMIT 5";
+                                                                                $result = mysqli_query($mysqli, $sql);
+                                                                                if (mysqli_num_rows($result) > 0) {
+                                                                                    while ($asset = mysqli_fetch_object($result)) {
+
+                                                                                ?>
+                                                                                        <tr>
+
+                                                                                            <td><?php echo $asset->asset_tag; ?></td>
+                                                                                            <td><?php echo $asset->asset_name; ?></td>
+                                                                                            <td><?php echo  $asset->asset_type_name; ?></td>
+
+                                                                                        </tr>
+                                                                                <?php }
+                                                                                } ?>
+
+                                                                            </tbody>
+                                                                        </table>
+                                                                        <div class="text-right m-r-20">
+                                                                            <a href="assets" class=" b-b-primary text-primary">View all Assets</a>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
                                                             </div>
                                                         </div>
+
+
+
                                                     </div>
-
-
-
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div id="styleSelector">
+                                            <div id="styleSelector">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-            <!--Body -->
-<?php
-#Other department heads
-}elseif ($staff_department_head==$staff_id && $staff_department_name !='Administration') { ?>
-  <!--Body -->
-  <div class="pcoded-main-container">
-                        <div class="pcoded-wrapper">
-                            <?php include('../partials/navbar.php') ?>
-                            <div class="pcoded-content">
-                                <div class="pcoded-inner-content">
-                                    <div class="main-body">
-                                        <div class="page-wrapper">
-                                            <div class="page-body">
-                                                <div class="row">
+                        <!--Body -->
+                    <?php
+                        #Other department heads
+                    } elseif ($staff_department_head == $staff_id && $staff_department_name != 'Administration') { ?>
+                        <!--Body -->
+                        <div class="pcoded-main-container">
+                            <div class="pcoded-wrapper">
+                                <?php include('../partials/navbar.php') ?>
+                                <div class="pcoded-content">
+                                    <div class="pcoded-inner-content">
+                                        <div class="main-body">
+                                            <div class="page-wrapper">
+                                                <div class="page-body">
+                                                    <div class="row">
 
-                                                    <div class="col-xl-3 col-md-6">
-                                                        <div class="card bg-c-yellow text-white">
-                                                            <div class="card-block">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col">
-                                                                        <p class="m-b-5">Department Staffs</p>
-                                                                        <h4 class="m-b-0"><?php echo number_format($staffs) ?></h4>
-                                                                    </div>
-                                                                    <div class="col col-auto text-right">
-                                                                        <i class="feather icon-users f-50 text-c-yellow"></i>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-xl-3 col-md-6">
-                                                        <div class="card bg-c-blue text-white">
-                                                            <div class="card-block">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col">
-                                                                        <p class="m-b-5">Total Allocated Assets</p>
-                                                                        <h4 class="m-b-0"><?php echo number_format($allocations) ?></h4>
-                                                                    </div>
-                                                                    <div class="col col-auto text-right">
-                                                                        <i class="feather icon-tag f-50 text-c-blue"></i>
+                                                        <div class="col-xl-3 col-md-6">
+                                                            <div class="card bg-c-yellow text-white">
+                                                                <div class="card-block">
+                                                                    <div class="row align-items-center">
+                                                                        <div class="col">
+                                                                            <p class="m-b-5">Department Staffs</p>
+                                                                            <h4 class="m-b-0"><?php echo number_format($staffs) ?></h4>
+                                                                        </div>
+                                                                        <div class="col col-auto text-right">
+                                                                            <i class="feather icon-users f-50 text-c-yellow"></i>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div class="col-xl-3 col-md-6">
-                                                        <div class="card bg-c-pink text-white">
-                                                            <div class="card-block">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col">
-                                                                        <p class="m-b-5">Your Asset Disposal</p>
-                                                                        <h4 class="m-b-0"><?php echo number_format($disposals) ?></h4>
-                                                                    </div>
-                                                                    <div class="col col-auto text-right">
-                                                                        <i class="feather icon-shield f-50 text-c-pink"></i>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-xl-3 col-md-6">
-                                                        <div class="card bg-c-green text-white">
-                                                            <div class="card-block">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col">
-                                                                        <p class="m-b-5">Department Asset NetWorth</p>
-                                                                        <h4 class="m-b-0">Ksh.<?php echo number_format($total_networth, 2) ?></h4>
-                                                                    </div>
-                                                                    <div class="col col-auto text-right">
-                                                                        <i class="feather icon-credit-card f-50 text-c-green"></i>
+                                                        <div class="col-xl-3 col-md-6">
+                                                            <div class="card bg-c-blue text-white">
+                                                                <div class="card-block">
+                                                                    <div class="row align-items-center">
+                                                                        <div class="col">
+                                                                            <p class="m-b-5">Total Allocated Assets</p>
+                                                                            <h4 class="m-b-0"><?php echo number_format($allocations) ?></h4>
+                                                                        </div>
+                                                                        <div class="col col-auto text-right">
+                                                                            <i class="feather icon-tag f-50 text-c-blue"></i>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
 
-
-
-                                                    <div class="col-xl-6 col-md-12">
-                                                        <div class="card table-card">
-                                                            <div class="card-header">
-                                                                <h5>Recent Asset Allocation</h5>
-                                                                <div class="card-header-right">
-                                                                    <ul class="list-unstyled card-option">
-                                                                        <li><i class="fa fa fa-wrench open-card-option"></i>
-                                                                        </li>
-                                                                        <li><i class="fa fa-window-maximize full-card"></i></li>
-                                                                        <li><i class="fa fa-minus minimize-card"></i></li>
-                                                                        <li><i class="fa fa-refresh reload-card"></i></li>
-                                                                        <li><i class="fa fa-trash close-card"></i></li>
-                                                                    </ul>
+                                                        <div class="col-xl-3 col-md-6">
+                                                            <div class="card bg-c-pink text-white">
+                                                                <div class="card-block">
+                                                                    <div class="row align-items-center">
+                                                                        <div class="col">
+                                                                            <p class="m-b-5">Your Asset Disposal</p>
+                                                                            <h4 class="m-b-0"><?php echo number_format($disposals) ?></h4>
+                                                                        </div>
+                                                                        <div class="col col-auto text-right">
+                                                                            <i class="feather icon-shield f-50 text-c-pink"></i>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="card-block">
-                                                                <div class="table-responsive">
-                                                                    <table class="table table-hover table-borderless">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th>Asset</th>
-                                                                                <th>Date</th>
-                                                                                <th>Status</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <?php
+                                                        </div>
 
-                                                                            # Read all Recent allocations
-                                                                            $sql = "SELECT *FROM allocations AS al INNER JOIN departments AS dp ON al.allocation_request_by_id = dp.department_head_id INNER JOIN assets AS ast ON al.allocation_asset_id=ast.asset_id WHERE dp.department_id='{$staff_department_id}' ORDER BY al.allocation_request_date  ASC LIMIT 5";
-                                                                            $result = mysqli_query($mysqli, $sql);
-                                                                            if (mysqli_num_rows($result) > 0) {
-                                                                                while ($allocation = mysqli_fetch_object($result)) {
+                                                        <div class="col-xl-3 col-md-6">
+                                                            <div class="card bg-c-green text-white">
+                                                                <div class="card-block">
+                                                                    <div class="row align-items-center">
+                                                                        <div class="col">
+                                                                            <p class="m-b-5">Department Asset NetWorth</p>
+                                                                            <h4 class="m-b-0">Ksh.<?php echo number_format($total_networth, 2) ?></h4>
+                                                                        </div>
+                                                                        <div class="col col-auto text-right">
+                                                                            <i class="feather icon-credit-card f-50 text-c-green"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-                                                                            ?>
-                                                                                    <tr>
 
-                                                                                        <td><?php echo $allocation->asset_name ?></td>
-                                                                                        <td><?php echo $allocation->department_name ?></td>
-                                                                                        <td><?php echo  formatDateTime($allocation->allocation_request_date) ?></td>
-                                                                                        <?php if ($allocation->allocation_status == 'Approved') { ?>
-                                                                                            <td><label class="label label-success">Completed</label>
-                                                                                            <?php } elseif ($allocation->allocation_status == 'pending') { ?>
-                                                                                            <td><label class="label label-primary">pending</label>
-                                                                                            <?php } else { ?>
-                                                                                            <td><label class="label label-danger">Canceled</label>
+
+                                                        <div class="col-xl-6 col-md-12">
+                                                            <div class="card table-card">
+                                                                <div class="card-header">
+                                                                    <h5>Recent Asset Allocation</h5>
+                                                                    <div class="card-header-right">
+                                                                        <ul class="list-unstyled card-option">
+                                                                            <li><i class="fa fa fa-wrench open-card-option"></i>
+                                                                            </li>
+                                                                            <li><i class="fa fa-window-maximize full-card"></i></li>
+                                                                            <li><i class="fa fa-minus minimize-card"></i></li>
+                                                                            <li><i class="fa fa-refresh reload-card"></i></li>
+                                                                            <li><i class="fa fa-trash close-card"></i></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card-block">
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-hover table-borderless">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Asset</th>
+                                                                                    <th>Date</th>
+                                                                                    <th>Status</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <?php
+
+                                                                                # Read all Recent allocations
+                                                                                $sql = "SELECT *FROM allocations AS al INNER JOIN departments AS dp ON al.allocation_request_by_id = dp.department_head_id INNER JOIN assets AS ast ON al.allocation_asset_id=ast.asset_id WHERE dp.department_id='{$staff_department_id}' ORDER BY al.allocation_request_date  ASC LIMIT 5";
+                                                                                $result = mysqli_query($mysqli, $sql);
+                                                                                if (mysqli_num_rows($result) > 0) {
+                                                                                    while ($allocation = mysqli_fetch_object($result)) {
+
+                                                                                ?>
+                                                                                        <tr>
+
+                                                                                            <td><?php echo $allocation->asset_name ?></td>
+                                                                                            <td><?php echo $allocation->department_name ?></td>
+                                                                                            <td><?php echo  formatDateTime($allocation->allocation_request_date) ?></td>
+                                                                                            <?php if ($allocation->allocation_status == 'Approved') { ?>
+                                                                                                <td><label class="label label-success">Completed</label>
+                                                                                                <?php } elseif ($allocation->allocation_status == 'pending') { ?>
+                                                                                                <td><label class="label label-primary">pending</label>
+                                                                                                <?php } else { ?>
+                                                                                                <td><label class="label label-danger">Canceled</label>
+                                                                                                </td>
+                                                                                            <?php } ?>
                                                                                             </td>
-                                                                                        <?php } ?>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                            <?php }
-                                                                            } ?>
+                                                                                        </tr>
+                                                                                <?php }
+                                                                                } ?>
 
-                                                                        </tbody>
-                                                                    </table>
-                                                                    <div class="text-right m-r-20">
-                                                                        <a href="asset_allocations" class=" b-b-primary text-primary">View all Allocation</a>
+                                                                            </tbody>
+                                                                        </table>
+                                                                        <div class="text-right m-r-20">
+                                                                            <a href="asset_allocations" class=" b-b-primary text-primary">View all Allocation</a>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-xl-6 col-md-12">
-                                                        <div class="card latest-update-card">
-                                                            <div class="card-header">
-                                                                <h5>Recent Assets</h5>
-                                                                <div class="card-header-right">
-                                                                    <ul class="list-unstyled card-option">
-                                                                        <li><i class="fa fa fa-wrench open-card-option"></i>
-                                                                        </li>
-                                                                        <li><i class="fa fa-window-maximize full-card"></i></li>
-                                                                        <li><i class="fa fa-minus minimize-card"></i></li>
-                                                                        <li><i class="fa fa-refresh reload-card"></i></li>
-                                                                        <li><i class="fa fa-trash close-card"></i></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                            <div class="card-block">
-                                                                <div class="table-responsive">
-                                                                    <table class="table table-hover table-borderless">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th>Asset Tag</th>
-                                                                                <th>Asset Name</th>
-                                                                                <th>Asset Type</th>
-
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <?php
-
-                                                                            # Read all Recent allocations
-                                                                            $sql = "SELECT *FROM assets AS ast INNER JOIN asset_types AS asty ON ast.asset_type_id = asty.asset_type_id ORDER BY ast.asset_date_of_purchase  ASC LIMIT 5";
-                                                                            $result = mysqli_query($mysqli, $sql);
-                                                                            if (mysqli_num_rows($result) > 0) {
-                                                                                while ($asset = mysqli_fetch_object($result)) {
-
-                                                                            ?>
-                                                                                    <tr>
-
-                                                                                        <td><?php echo $asset->asset_tag; ?></td>
-                                                                                        <td><?php echo $asset->asset_name; ?></td>
-                                                                                        <td><?php echo  $asset->asset_type_name; ?></td>
-
-                                                                                    </tr>
-                                                                            <?php }
-                                                                            } ?>
-
-                                                                        </tbody>
-                                                                    </table>
-                                                                    <div class="text-right m-r-20">
-                                                                        <a href="assets" class=" b-b-primary text-primary">View all Assets</a>
+                                                        <div class="col-xl-6 col-md-12">
+                                                            <div class="card latest-update-card">
+                                                                <div class="card-header">
+                                                                    <h5>Recent Assets</h5>
+                                                                    <div class="card-header-right">
+                                                                        <ul class="list-unstyled card-option">
+                                                                            <li><i class="fa fa fa-wrench open-card-option"></i>
+                                                                            </li>
+                                                                            <li><i class="fa fa-window-maximize full-card"></i></li>
+                                                                            <li><i class="fa fa-minus minimize-card"></i></li>
+                                                                            <li><i class="fa fa-refresh reload-card"></i></li>
+                                                                            <li><i class="fa fa-trash close-card"></i></li>
+                                                                        </ul>
                                                                     </div>
                                                                 </div>
+                                                                <div class="card-block">
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-hover table-borderless">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Asset Tag</th>
+                                                                                    <th>Asset Name</th>
+                                                                                    <th>Asset Type</th>
 
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <?php
+
+                                                                                # Read all Recent allocations
+                                                                                $sql = "SELECT * FROM assets AS ast
+                                                                                INNER JOIN allocations AS al ON ast.asset_id = al.allocation_asset_id
+                                                                                INNER JOIN staffs AS st ON al.allocation_request_by_id=st.staff_id
+                                                                                WHERE ast.assetdispose_id IS NULL AND st.staff_id ='{$staff_id}' AND al.allocation_status='Approved'
+                                                                                GROUP BY ast.asset_id
+                                                                                ORDER BY ast.asset_date_of_purchase DESC LIMIT 5";
+                                                                                $result = mysqli_query($mysqli, $sql);
+                                                                                if (mysqli_num_rows($result) > 0) {
+                                                                                    while ($asset = mysqli_fetch_object($result)) {
+
+                                                                                ?>
+                                                                                        <tr>
+
+                                                                                            <td><?php echo $asset->asset_tag; ?></td>
+                                                                                            <td><?php echo $asset->asset_name; ?></td>
+                                                                                            <td><?php echo  $asset->asset_type_name; ?></td>
+
+                                                                                        </tr>
+                                                                                <?php }
+                                                                                } ?>
+
+                                                                            </tbody>
+                                                                        </table>
+                                                                        <div class="text-right m-r-20">
+                                                                            <a href="assets" class=" b-b-primary text-primary">View all Assets</a>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
                                                             </div>
                                                         </div>
+
+
+
                                                     </div>
-
-
-
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div id="styleSelector">
+                                            <div id="styleSelector">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-            <!--Body -->
-            <?php } ?>
-   
+                        <!--Body -->
+                    <?php } elseif ($staff_department_head != $staff_id) { ?>
+                        <!--Body -->
+                        <div class="pcoded-main-container">
+                            <div class="pcoded-wrapper">
+                                <?php include('../partials/navbar.php') ?>
+                                <div class="pcoded-content">
+                                    <div class="pcoded-inner-content">
+                                        <div class="main-body">
+                                            <div class="page-wrapper">
+                                                <div class="page-body">
+                                                    <div class="row">
+
+                                                        <div class="col-xl-3 col-md-6">
+                                                            <div class="card bg-c-yellow text-white">
+                                                                <div class="card-block">
+                                                                    <div class="row align-items-center">
+                                                                        <div class="col">
+                                                                            <p class="m-b-5">My allocations</p>
+                                                                            <h4 class="m-b-0"><?php echo number_format($allocations_staff) ?></h4>
+                                                                        </div>
+                                                                        <div class="col col-auto text-right">
+                                                                            <i class="feather icon-check-square f-50 text-c-yellow"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-xl-3 col-md-6">
+                                                            <div class="card bg-c-blue text-white">
+                                                                <div class="card-block">
+                                                                    <div class="row align-items-center">
+                                                                        <div class="col">
+                                                                            <p class="m-b-5">Total Assets</p>
+                                                                            <h4 class="m-b-0"><?php echo number_format($assets) ?></h4>
+                                                                        </div>
+                                                                        <div class="col col-auto text-right">
+                                                                            <i class="feather icon-tag f-50 text-c-blue"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-xl-3 col-md-6">
+                                                            <div class="card bg-c-yellow text-white">
+                                                                <div class="card-block">
+                                                                    <div class="row align-items-center">
+                                                                        <div class="col">
+                                                                            <p class="m-b-5">Department Name</p>
+                                                                            <h6 class="m-b-0"><?php echo $staff_department_name  ?></h6>
+                                                                        </div>
+                                                                        <div class="col col-auto text-right">
+                                                                            <i class="feather icon-anchor f-50 text-c-pink"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-xl-3 col-md-6">
+                                                            <div class="card bg-c-green text-white">
+                                                                <div class="card-block">
+                                                                    <div class="row align-items-center">
+                                                                        <div class="col">
+                                                                            <p class="m-b-5">Department HOD</p>
+                                                                            <h5 class="m-b-0"><?php echo $staff_first_name  ?> <?php echo $staff_last_name  ?></h5>
+                                                                        </div>
+                                                                        <div class="col col-auto text-right">
+                                                                            <i class="feather icon-user f-50 text-c-green"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                        <div class="col-xl-6 col-md-12">
+                                                            <div class="card table-card">
+                                                                <div class="card-header">
+                                                                    <h5>Recent Asset Allocation</h5>
+                                                                    <div class="card-header-right">
+                                                                        <ul class="list-unstyled card-option">
+                                                                            <li><i class="fa fa fa-wrench open-card-option"></i>
+                                                                            </li>
+                                                                            <li><i class="fa fa-window-maximize full-card"></i></li>
+                                                                            <li><i class="fa fa-minus minimize-card"></i></li>
+                                                                            <li><i class="fa fa-refresh reload-card"></i></li>
+                                                                            <li><i class="fa fa-trash close-card"></i></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card-block">
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-hover table-borderless">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Asset</th>
+                                                                                    <th>Date</th>
+                                                                                    <th>Status</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <?php
+
+                                                                                # Read all Recent allocations
+                                                                                $sql = "SELECT *FROM allocations AS al INNER JOIN departments AS dp ON al.allocation_request_by_id = dp.department_head_id INNER JOIN assets AS ast ON al.allocation_asset_id=ast.asset_id WHERE al.allocation_request_by_id='{$staff_id}' ORDER BY al.allocation_request_date  ASC LIMIT 5";
+                                                                                $result = mysqli_query($mysqli, $sql);
+                                                                                if (mysqli_num_rows($result) > 0) {
+                                                                                    while ($allocation = mysqli_fetch_object($result)) {
+
+                                                                                ?>
+                                                                                        <tr>
+
+                                                                                            <td><?php echo $allocation->asset_name ?></td>
+                                                                                           
+                                                                                            <td><?php echo  formatDateTime($allocation->allocation_request_date) ?></td>
+                                                                                            <?php if ($allocation->allocation_status == 'Approved') { ?>
+                                                                                                <td><label class="label label-success">Completed</label>
+                                                                                                <?php } elseif ($allocation->allocation_status == 'pending') { ?>
+                                                                                                <td><label class="label label-primary">pending</label>
+                                                                                                <?php } else { ?>
+                                                                                                <td><label class="label label-danger">Canceled</label>
+                                                                                                </td>
+                                                                                            <?php } ?>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                <?php }
+                                                                                } ?>
+
+                                                                            </tbody>
+                                                                        </table>
+                                                                        <div class="text-right m-r-20">
+                                                                            <a href="asset_allocations" class=" b-b-primary text-primary">View all Allocation</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-6 col-md-12">
+                                                            <div class="card latest-update-card">
+                                                                <div class="card-header">
+                                                                    <h5>Recent Assets</h5>
+                                                                    <div class="card-header-right">
+                                                                        <ul class="list-unstyled card-option">
+                                                                            <li><i class="fa fa fa-wrench open-card-option"></i>
+                                                                            </li>
+                                                                            <li><i class="fa fa-window-maximize full-card"></i></li>
+                                                                            <li><i class="fa fa-minus minimize-card"></i></li>
+                                                                            <li><i class="fa fa-refresh reload-card"></i></li>
+                                                                            <li><i class="fa fa-trash close-card"></i></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card-block">
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-hover table-borderless">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Asset Tag</th>
+                                                                                    <th>Asset Name</th>
+                                                                                    <th>Asset Type</th>
+
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <?php
+
+                                                                                # Read all Recent allocations
+                                                                                $sql = "SELECT *FROM assets AS ast INNER JOIN asset_types AS asty ON ast.asset_type_id = asty.asset_type_id ORDER BY ast.asset_date_of_purchase  ASC LIMIT 5";
+                                                                                $result = mysqli_query($mysqli, $sql);
+                                                                                if (mysqli_num_rows($result) > 0) {
+                                                                                    while ($asset = mysqli_fetch_object($result)) {
+
+                                                                                ?>
+                                                                                        <tr>
+
+                                                                                            <td><?php echo $asset->asset_tag; ?></td>
+                                                                                            <td><?php echo $asset->asset_name; ?></td>
+                                                                                            <td><?php echo  $asset->asset_type_name; ?></td>
+
+                                                                                        </tr>
+                                                                                <?php }
+                                                                                } ?>
+
+                                                                            </tbody>
+                                                                        </table>
+                                                                        <div class="text-right m-r-20">
+                                                                            <a href="assets" class=" b-b-primary text-primary">View all Assets</a>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="styleSelector">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Body -->
+                    <?php } ?>
+
+
                 </div>
             </div>
 

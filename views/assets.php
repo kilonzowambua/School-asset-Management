@@ -252,8 +252,9 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                     <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 300.367px;" aria-label="Asset Type Name: activate to sort column ascending">Asset Tag</th>
                                                                                     <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 300.367px;" aria-label="Asset Type Name: activate to sort column ascending">Asset Name</th>
                                                                                     <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 250.367px;" aria-label="No of Assets: activate to sort column ascending">Date Of Puchase</th>
-                                                                                    <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 250.367px;" aria-label="No of Assets: activate to sort column ascending">Cost</th>
                                                                                     <?php if($staff_department_head==$staff_id && $staff_department_name =='Administration' ){?>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 250.367px;" aria-label="No of Assets: activate to sort column ascending">Cost</th>
+                                                                                    
                                                                                     <th tabindex="0" rowspan="1" colspan="1" style="width: 250.367px;" aria-label="Action: activate to sort column ascending">Action</th>
                                                                                     <?php } ?>
                                                                                 </tr>
@@ -271,8 +272,10 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                             <td class="sorting_1"><?php echo $asset->asset_tag ?></td>
                                                                                             <td><?php echo $asset->asset_name ?></td>
                                                                                             <td><?php echo formatDateTime($asset->asset_date_of_purchase) ?></td>
-                                                                                            <td>Ksh . <?php echo $asset->asset_price ?></td>
                                                                                             <?php if($staff_department_head==$staff_id && $staff_department_name =='Administration' ){?>
+                                                                                            <td>Ksh . <?php echo $asset->asset_price ?></td>
+                                                                                            
+                                                                                           
                                                                                             <td>
                                                                                                 <button type="button" class="btn btn-info btn-outline-info waves-effect md-trigger" data-toggle="modal" data-target="#edit-<?php echo $asset->asset_id ?>">Edit</button>
                                                                                                 <button type="button" class="btn btn-warning alert-confirm m-b-10 md-trigger" data-toggle="modal" data-target="#delete-<?php echo $asset->asset_id ?>">Delete</button>

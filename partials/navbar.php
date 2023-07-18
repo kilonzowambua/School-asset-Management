@@ -1,6 +1,6 @@
 <?php
 #If administration
-if($staff_department_head==$staff_id && $staff_department_name =='Administration' || $staff_department_head !=$staff_id ){
+if($staff_department_head==$staff_id && $staff_department_name =='Administration'){
 ?>
 
 
@@ -137,8 +137,6 @@ if($staff_department_head==$staff_id && $staff_department_name =='Administration
 </a>
 </li>
 
-
-
 <ul class="pcoded-item pcoded-left-item" item-border="true" item-border-style="none" subitem-border="true">
 <li class="pcoded-hasmenu" dropdown-icon="style1" subitem-icon="style1">
 <a href="javascript:void(0)">
@@ -162,6 +160,67 @@ if($staff_department_head==$staff_id && $staff_department_name =='Administration
 <span class="pcoded-mtext">Staffs</span>
 </a>
 </li>
+
+</ul>
+</li>
+</ul>
+
+</nav>
+
+<?php 
+#Other staffs
+}elseif ($staff_department_head!=$staff_id && $staff_department_name !='Administration') { ?>
+<nav class="pcoded-navbar">
+<div class="pcoded-inner-navbar main-menu">
+<div class="pcoded-navigatio-lavel">Navigation</div>
+<ul class="pcoded-item pcoded-left-item">
+<li class="pcoded-hasmenu">
+<a href="dashboard">
+<span class="pcoded-micon"><i class="feather icon-home"></i></span>
+<span class="pcoded-mtext">Dashboard</span>
+</a>
+</li>
+
+<li class="">
+<a href="assets">
+<span class="pcoded-micon"><i class="feather icon-tag"></i></span>
+<span class="pcoded-mtext">Assets</span>
+</a>
+</li>
+
+<li class="">
+<a href="asset_allocations">
+<span class="pcoded-micon"><i class="feather icon-sliders"></i></span>
+<span class="pcoded-mtext">Asset Allocation</span>
+</a>
+</li>
+
+<li class="">
+<a href="staff_allocations">
+<span class="pcoded-micon"><i class="feather icon-check-square"></i></span>
+<span class="pcoded-mtext">My allocations</span>
+</a>
+</li>
+
+<ul class="pcoded-item pcoded-left-item" item-border="true" item-border-style="none" subitem-border="true">
+<li class="pcoded-hasmenu" dropdown-icon="style1" subitem-icon="style1">
+<a href="javascript:void(0)">
+<span class="pcoded-micon"><i class="feather icon-file-plus"></i></span>
+<span class="pcoded-mtext">Reports</span>
+</a>
+<ul class="pcoded-submenu">
+<li class="">
+<a href="asset_report">
+<span class="pcoded-mtext">Assets</span>
+</a>
+</li>
+
+<li class="">
+<a href="allocations_report">
+<span class="pcoded-mtext">My Allocations</span>
+</a>
+</li>
+
 
 </ul>
 </li>

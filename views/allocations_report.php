@@ -216,16 +216,16 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                 </select>
                                                                             </div>
                                                                         </div>
-                                                                        <?php }else{ ?>
+                                                                        <?php }elseif ($staff_department_head==$staff_id && $staff_department_name !='Administration') { ?>
+                                                                           
                                                                             <div class="form-group row">
                                                                             
                                                                             <div class="col-sm-4 col-md-6 col-lg 4">
                                                                                 <input type="text" value="<?php echo $staff_department_id ?>" name="department_id" class="form-control form-control-default" hidden/>
-                                                                                   
+                                                                                <input type="text"  name="staff_id" class="form-control form-control-default" hidden/>
                                 
                                                                             </div>
                                                                         </div>
-<?php } ?>
                                                                         <div class="form-group row">
                                                                             <label class="col-sm-2 col-form-label">Select Document </label>
                                                                             <div class="col-sm-4 col-md-6 col-lg 4">
@@ -240,6 +240,31 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                         <div class="form-group row text-center">
                                                                             <button type="submit" name="allocation_reports" class="btn btn-primary btn-round align-text center">Generate</button>
                                                                         </div>
+                                                                        <?php }else{ ?>
+                                                                            <div class="form-group row">
+                                                                            
+                                                                            <div class="col-sm-4 col-md-6 col-lg 4">
+                                                                                <input type="text" value="<?php echo $staff_id ?>" name="staff_id" class="form-control form-control-default" hidden/>
+                                                                                <input type="text"  name="department_id" class="form-control form-control-default" hidden/> 
+                                
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-sm-2 col-form-label">Select Document </label>
+                                                                            <div class="col-sm-4 col-md-6 col-lg 4">
+                                                                                <select name="doc_type" class="form-control form-control-default">
+
+                                                                                    <option>Pdf</option>
+                                                                                    <option>Excel</option>
+
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row text-center">
+                                                                            <button type="submit" name="my_assets_report" class="btn btn-primary btn-round align-text center">Generate</button>
+                                                                        </div>
+                                                                            <?php } ?>
+                                                                        
                                                                 </div>
                                                                 </form>
                                                             </div>
