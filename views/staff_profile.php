@@ -13,22 +13,14 @@ if (mysqli_num_rows($staff_sql) > 0) {
         $staff_first_name = $staff['staff_first_name'];
         $staff_last_name = $staff['staff_last_name'];
         $staff_department_id  = $staff['staff_department_id'];
-        $staff_department_head  = $staff['department_head_id'];
+        $staff_department_head  = $staff['department_staff_id'];
         $staff_department_name  = $staff['department_name'];
-        $staff_email = $staff['staff_email'];
-        $staff_phone_no = $staff['staff_phone_no'];
-        $staff_status = $staff['staff_status'];
-        $staff_department_head  = $staff['department_head_id'];
-        $staff_department_name  = $staff['department_name'];
-        $staff_department_id  = $staff['staff_department_id'];
         global $staff_first_name;
-        global $staff_last_name;
-        global $staff_email;
-        global  $staff_status;
-        global  $staff_phone_no;
+        global $$staff_last_name;
         global $staff_department_id;
         global $staff_department_head;
         global $staff_department_name;
+
         
       
 ?>
@@ -188,7 +180,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                         $department_sql = mysqli_query($mysqli, "SELECT * FROM departments WHERE department_id = '{$staff_department_id}'");
                                                                                         if (mysqli_num_rows($department_sql) > 0) {
                                                                                             while ($department = mysqli_fetch_array($department_sql)) {
-                                                                                                if ($department['department_head_id'] == $staff_id) { ?>
+                                                                                                if ($department['department_staff_id'] == $staff_id) { ?>
                                                                                                     <span class="text-white">Department Head,<?php echo $department['department_name']; ?> </span>
                                                                                                 <?php } else { ?>
                                                                                                     <span class="text-white">Department Member,<?php echo $department['department_name']; ?> </span>

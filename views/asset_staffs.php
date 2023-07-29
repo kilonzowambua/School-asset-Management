@@ -9,17 +9,17 @@ $staff_sql = mysqli_query($mysqli, "SELECT * FROM staffs AS astf INNER JOIN depa
     WHERE staff_id = '{$staff_id}'");
 if (mysqli_num_rows($staff_sql) > 0) {
     while ($staff = mysqli_fetch_array($staff_sql)) {
-        /* Global Usernames */
         $staff_first_name = $staff['staff_first_name'];
         $staff_last_name = $staff['staff_last_name'];
         $staff_department_id  = $staff['staff_department_id'];
-        $staff_department_head  = $staff['department_head_id'];
+        $staff_department_head  = $staff['department_staff_id'];
         $staff_department_name  = $staff['department_name'];
         global $staff_first_name;
         global $$staff_last_name;
         global $staff_department_id;
         global $staff_department_head;
         global $staff_department_name;
+
 
 ?>
         <!DOCTYPE html>

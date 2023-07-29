@@ -14,13 +14,14 @@ if (mysqli_num_rows($staff_sql) > 0) {
         $staff_first_name = $staff['staff_first_name'];
         $staff_last_name = $staff['staff_last_name'];
         $staff_department_id  = $staff['staff_department_id'];
-        $staff_department_head  = $staff['department_head_id'];
+        $staff_department_head  = $staff['department_staff_id'];
         $staff_department_name  = $staff['department_name'];
         global $staff_first_name;
         global $$staff_last_name;
         global $staff_department_id;
         global $staff_department_head;
         global $staff_department_name;
+
         
 ?>
         <?php ?>

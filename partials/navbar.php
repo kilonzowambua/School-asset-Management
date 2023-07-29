@@ -44,6 +44,13 @@ if($staff_department_head==$staff_id && $staff_department_name =='Administration
 </li>
 
 <li class="">
+<a href="asset_maintenance">
+<span class="pcoded-micon"><i class="feather icon-shield"></i></span>
+<span class="pcoded-mtext">Asset Maintenance</span>
+</a>
+</li>
+
+<li class="">
 <a href="asset_staffs">
 <span class="pcoded-micon"><i class="feather icon-users"></i></span>
 <span class="pcoded-mtext">Staffs</span>
@@ -127,6 +134,13 @@ if($staff_department_head==$staff_id && $staff_department_name =='Administration
 <a href="asset_allocations">
 <span class="pcoded-micon"><i class="feather icon-sliders"></i></span>
 <span class="pcoded-mtext">Asset Allocation</span>
+</a>
+</li>
+
+<li class="">
+<a href="asset_maintenance">
+<span class="pcoded-micon"><i class="feather icon-shield"></i></span>
+<span class="pcoded-mtext">Asset Maintenance</span>
 </a>
 </li>
 

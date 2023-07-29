@@ -15,13 +15,14 @@ if (mysqli_num_rows($staff_sql) > 0) {
         $staff_first_name = $staff['staff_first_name'];
         $staff_last_name = $staff['staff_last_name'];
         $staff_department_id  = $staff['staff_department_id'];
-        $staff_department_head  = $staff['department_head_id'];
+        $staff_department_head  = $staff['department_staff_id'];
         $staff_department_name  = $staff['department_name'];
         global $staff_first_name;
         global $$staff_last_name;
         global $staff_department_id;
         global $staff_department_head;
         global $staff_department_name;
+
         
 ?>
         <!DOCTYPE html>
@@ -182,7 +183,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                 </div>
                                                                                 <div class="form-group row mt-1">
                                                                                                                     <label class="col-12  col-form-label">Department Head:</label>
-                                                                                                                    <select name="department_head_id" class="form-control">
+                                                                                                                    <select name="department_staff_id" class="form-control">
                                                                                                                         <?php
 
                                                                                                                         # Read all Asset Type
@@ -235,10 +236,10 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                 <?php
 
                                                                                 # Read all Asset Type
-                                                                                $sql = "SELECT dp.department_name, COUNT(st.staff_id) AS staff_count, dp.department_head_id, dp.department_id
+                                                                                $sql = "SELECT dp.department_name, COUNT(st.staff_id) AS staff_count, dp.department_staff_id, dp.department_id
                                                                                 FROM departments AS dp
                                                                                 INNER JOIN staffs AS st ON dp.department_id = st.staff_department_id
-                                                                                GROUP BY dp.department_name, dp.department_head_id, dp.department_id;
+                                                                                GROUP BY dp.department_name, dp.department_staff_id, dp.department_id;
                                                                                 ";
                                                                                 $result = mysqli_query($mysqli, $sql);
                                                                                 if (mysqli_num_rows($result) > 0) {
@@ -251,7 +252,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                             <?php
 
                                                                                             # Read all Asset Type
-                                                                                            $sql = "SELECT staff_id,staff_first_name,staff_last_name FROM staffs WHERE staff_id='{$department->department_head_id}' ORDER BY staff_first_name ASC; ";
+                                                                                            $sql = "SELECT staff_id,staff_first_name,staff_last_name FROM staffs WHERE staff_id='{$department->department_staff_id}' ORDER BY staff_first_name ASC; ";
                                                                                             $result2 = mysqli_query($mysqli, $sql);
                                                                                             if (mysqli_num_rows($result2) > 0) {
                                                                                                 while ($department_head = mysqli_fetch_object($result2)) {
@@ -281,7 +282,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                                                 <div class="form-group row mt-1">
                                                                                                                     <label class="col-12   col-form-label">Department Head:</label>
                                                                                                                     <div class="col-12">
-                                                                                                                    <select name="department_head_id" class="form-control">
+                                                                                                                    <select name="department_staff_id" class="form-control">
                                                                                                                         <?php
 
                                                                                                                         # Read all Asset Type

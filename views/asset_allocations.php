@@ -13,7 +13,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
         $staff_first_name = $staff['staff_first_name'];
         $staff_last_name = $staff['staff_last_name'];
         $staff_department_id  = $staff['staff_department_id'];
-        $staff_department_head  = $staff['department_head_id'];
+        $staff_department_head  = $staff['department_staff_id'];
         $staff_department_name  = $staff['department_name'];
         global $staff_first_name;
         global $$staff_last_name;
@@ -214,7 +214,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                             <td>
                                                                                                 <?php if ($asset->asset_allocation_id == '' && $staff_department_head == $staff_id) { ?>
                                                                                                     <?php
-                                                                                                    $sql = "SELECT * FROM allocations WHERE allocation_asset_id='{$asset->asset_id}' AND allocation_allocated_by_id IS NULL";
+                                                                                                    $sql = "SELECT * FROM allocations WHERE allocation_asset_id='{$asset->asset_id}' AND allocation_department_staff_id IS NULL";
                                                                                                     $result2 = mysqli_query($mysqli, $sql);
                                                                                                     if (mysqli_num_rows($result2) > 0) {
                                                                                                         while ($allocation = mysqli_fetch_object($result2)) {
@@ -232,7 +232,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                                         <div class="md-content">
                                                                                                             <h1 class="text-center " style="color: blue;"> <?php echo $asset->asset_tag ?><br><?php echo $asset->asset_name ?></h1>
                                                                                                             <?php
-                                                                                                            $sql = "SELECT * FROM departments WHERE department_head_id='{$staff_id}'";
+                                                                                                            $sql = "SELECT * FROM departments WHERE department_staff_id='{$staff_id}'";
                                                                                                             $result4 = mysqli_query($mysqli, $sql);
                                                                                                             if (mysqli_num_rows($result4) > 0) {
                                                                                                                 while ($department = mysqli_fetch_object($result4)) {
@@ -270,7 +270,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                                             <?php
                                                                                                             $sql = "SELECT * FROM departments AS dp 
                                                                                                             INNER JOIN staffs AS st ON dp.department_id=st.staff_department_id
-                                                                                                             INNER JOIN allocations AS al ON st.staff_id=al.allocation_request_by_id 
+                                                                                                             INNER JOIN allocations AS al ON st.staff_id=al.allocation_staff_id 
                                                                                                              INNER JOIN assets AS ast ON al.allocation_asset_id=ast.asset_id
                                                                                                              INNER JOIN asset_types AS astt ON ast.asset_type_id=astt.asset_type_id
                                                                                                             WHERE al.allocation_asset_id='{$asset->asset_id}'";
@@ -284,7 +284,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                                                     <h4 class="text-center" style="color: black;">Department Name: <?php echo $allocation->department_name ?></h4>
                                                                                                                     <?php
                                                                                                                     $sql = "SELECT * FROM departments  AS dp 
-                                                                                                                    INNER JOIN staffs AS sft ON dp.department_head_id=sft.staff_id
+                                                                                                                    INNER JOIN staffs AS sft ON dp.department_staff_id=sft.staff_id
                                                                                                                     WHERE department_id='{$allocation->department_id}'";
                                                                                                                     $result5 = mysqli_query($mysqli, $sql);
                                                                                                                     if (mysqli_num_rows($result5) > 0) {
@@ -336,7 +336,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                                             <?php
                                                                                                             $sql = "SELECT * FROM departments AS dp 
                                                                                                             INNER JOIN staffs AS st ON dp.department_id=st.staff_department_id
-                                                                                                             INNER JOIN allocations AS al ON st.staff_id=al.allocation_request_by_id 
+                                                                                                             INNER JOIN allocations AS al ON st.staff_id=al.allocation_staff_id 
                                                                                                              INNER JOIN assets AS ast ON al.allocation_asset_id=ast.asset_id
                                                                                                              INNER JOIN asset_types AS astt ON ast.asset_type_id=astt.asset_type_id
                                                                                                             WHERE al.allocation_asset_id='{$asset->asset_id}'";
@@ -350,7 +350,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                                                     <h4 class="text-center" style="color: black;">Department Name: <?php echo $allocation->department_name ?></h4>
                                                                                                                     <?php
                                                                                                                     $sql = "SELECT * FROM departments  AS dp 
-                                                                                                                    INNER JOIN staffs AS sft ON dp.department_head_id=sft.staff_id
+                                                                                                                    INNER JOIN staffs AS sft ON dp.department_staff_id=sft.staff_id
                                                                                                                     WHERE department_id='{$allocation->department_id}'";
                                                                                                                     $result5 = mysqli_query($mysqli, $sql);
                                                                                                                     if (mysqli_num_rows($result5) > 0) {
@@ -452,7 +452,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                                         <div class="md-content">
                                                                                                             <h1 class="text-center " style="color: blue;"> <?php echo $asset->asset_tag ?><br><?php echo $asset->asset_name ?></h1>
                                                                                                             <?php
-                                                                                                            $sql = "SELECT * FROM departments WHERE department_head_id='{$staff_id}'";
+                                                                                                            $sql = "SELECT * FROM departments WHERE department_staff_id='{$staff_id}'";
                                                                                                             $result4 = mysqli_query($mysqli, $sql);
                                                                                                             if (mysqli_num_rows($result4) > 0) {
                                                                                                                 while ($department = mysqli_fetch_object($result4)) {

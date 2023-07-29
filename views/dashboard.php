@@ -13,7 +13,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
         $staff_first_name = $staff['staff_first_name'];
         $staff_last_name = $staff['staff_last_name'];
         $staff_department_id  = $staff['staff_department_id'];
-        $staff_department_head  = $staff['department_head_id'];
+        $staff_department_head  = $staff['department_staff_id'];
         $staff_department_name  = $staff['department_name'];
         global $staff_first_name;
         global $$staff_last_name;
@@ -179,7 +179,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                             <h4 class="m-b-0"><?php echo number_format($disposals) ?></h4>
                                                                         </div>
                                                                         <div class="col col-auto text-right">
-                                                                            <i class="feather icon-shield f-50 text-c-pink"></i>
+                                                                            <i class="feather icon-trash f-50 text-c-pink"></i>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -234,7 +234,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                 <?php
 
                                                                                 # Read all Recent allocations
-                                                                                $sql = "SELECT *FROM allocations AS al INNER JOIN departments AS dp ON al.allocation_request_by_id = dp.department_head_id INNER JOIN assets AS ast ON al.allocation_asset_id=ast.asset_id ORDER BY al.allocation_request_date  ASC LIMIT 5";
+                                                                                $sql = "SELECT *FROM allocations AS al INNER JOIN departments AS dp ON al.allocation_department_staff_id = dp.department_staff_id INNER JOIN assets AS ast ON al.allocation_asset_id=ast.asset_id ORDER BY al.allocation_request_date  ASC LIMIT 5";
                                                                                 $result = mysqli_query($mysqli, $sql);
                                                                                 if (mysqli_num_rows($result) > 0) {
                                                                                     while ($allocation = mysqli_fetch_object($result)) {
@@ -392,7 +392,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                             <h4 class="m-b-0"><?php echo number_format($disposals) ?></h4>
                                                                         </div>
                                                                         <div class="col col-auto text-right">
-                                                                            <i class="feather icon-shield f-50 text-c-pink"></i>
+                                                                            <i class="feather icon-trash f-50 text-c-pink"></i>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -446,7 +446,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                 <?php
 
                                                                                 # Read all Recent allocations
-                                                                                $sql = "SELECT *FROM allocations AS al INNER JOIN departments AS dp ON al.allocation_request_by_id = dp.department_head_id INNER JOIN assets AS ast ON al.allocation_asset_id=ast.asset_id WHERE dp.department_id='{$staff_department_id}' ORDER BY al.allocation_request_date  ASC LIMIT 5";
+                                                                                $sql = "SELECT *FROM allocations AS al INNER JOIN departments AS dp ON al.allocation_department_staff_id = dp.department_staff_id INNER JOIN assets AS ast ON al.allocation_asset_id=ast.asset_id WHERE dp.department_id='{$staff_department_id}' ORDER BY al.allocation_request_date  ASC LIMIT 5";
                                                                                 $result = mysqli_query($mysqli, $sql);
                                                                                 if (mysqli_num_rows($result) > 0) {
                                                                                     while ($allocation = mysqli_fetch_object($result)) {
@@ -511,7 +511,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                 # Read all Recent allocations
                                                                                 $sql = "SELECT * FROM assets AS ast
                                                                                 INNER JOIN allocations AS al ON ast.asset_id = al.allocation_asset_id
-                                                                                INNER JOIN staffs AS st ON al.allocation_request_by_id=st.staff_id
+                                                                                INNER JOIN staffs AS st ON al.allocation_staff_id=st.staff_id
                                                                                 WHERE ast.assetdispose_id IS NULL AND st.staff_id ='{$staff_id}' AND al.allocation_status='Approved'
                                                                                 GROUP BY ast.asset_id
                                                                                 ORDER BY ast.asset_date_of_purchase DESC LIMIT 5";
@@ -661,7 +661,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                 <?php
 
                                                                                 # Read all Recent allocations
-                                                                                $sql = "SELECT *FROM allocations AS al INNER JOIN departments AS dp ON al.allocation_request_by_id = dp.department_head_id INNER JOIN assets AS ast ON al.allocation_asset_id=ast.asset_id WHERE al.allocation_request_by_id='{$staff_id}' ORDER BY al.allocation_request_date  ASC LIMIT 5";
+                                                                                $sql = "SELECT *FROM allocations AS al INNER JOIN staffs AS stf ON al.allocation_staff_id = stf.staff_id INNER JOIN assets AS ast ON al.allocation_asset_id=ast.asset_id WHERE al.allocation_staff_id='{$staff_id}' ORDER BY al.allocation_request_date  ASC LIMIT 5";
                                                                                 $result = mysqli_query($mysqli, $sql);
                                                                                 if (mysqli_num_rows($result) > 0) {
                                                                                     while ($allocation = mysqli_fetch_object($result)) {

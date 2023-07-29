@@ -237,3 +237,68 @@ if(isset($_POST['dislocate_asset'])){
         $err = "Failed! Please try again.";
     }
 }
+
+#Maintenance 
+#Add Schedule
+if(isset($_POST['add_maintenance'])){
+
+    #Declare Variables
+    $maintenance_asset_id = mysqli_real_escape_string($mysqli, $_POST['maintenance_asset_id']);
+    $maintenance_type = mysqli_real_escape_string($mysqli, $_POST['maintenance_type']);
+    $maintenance_date = mysqli_real_escape_string($mysqli, $_POST['maintenance_date']);
+
+    // Insert into maintenance table
+$sql = "INSERT INTO maintenance (maintenance_asset_id, maintenance_type, maintenance_date)
+VALUES ('{$maintenance_asset_id}', '{$maintenance_type}', '{$maintenance_date}')";
+
+$stmt = mysqli_query($mysqli, $sql);
+
+if ($stmt) {
+$success = "Maintenance scheduled";
+} else {
+$err = "Failed to scheduled maintenance. Please try again.";
+}
+    
+} 
+
+#Edit Maintenance
+if(isset($_POST['update_maintenance'])){
+
+    #Declare Variables
+    $maintenance_id = mysqli_real_escape_string($mysqli, $_POST['maintenance_id']);
+    $maintenance_type = mysqli_real_escape_string($mysqli, $_POST['maintenance_type']);
+    $maintenance_date = mysqli_real_escape_string($mysqli, $_POST['maintenance_date']);
+
+    // Insert into maintenance table
+$sql = "UPDATE maintenance SET maintenance_type ='{$maintenance_type}',maintenance_date ='{$maintenance_date}' WHERE maintenance_id = '{$maintenance_id}'";
+
+$stmt = mysqli_query($mysqli, $sql);
+
+if ($stmt) {
+$success = "Maintenance scheduled Updated";
+} else {
+$err = "Failed to scheduled maintenance. Please try again.";
+}
+    
+} 
+
+#Cancel Maintenance
+
+if(isset($_POST['cancel_maintenance'])){
+    #Declare Variables
+    $maintenance_id = mysqli_real_escape_string($mysqli, $_POST['maintenance_id']);
+    $maintenance_status = 'Cancelled';
+
+    // Insert into maintenance table
+$sql = "UPDATE maintenance SET maintenance_status ='{$maintenance_status}' WHERE maintenance_id = '{$maintenance_id}'";
+
+$stmt = mysqli_query($mysqli, $sql);
+
+if ($stmt) {
+$success = "Maintenance scheduled Cancelled";
+} else {
+$err = "Failed to scheduled Cancelled. Please try again.";
+}
+    
+} 
+

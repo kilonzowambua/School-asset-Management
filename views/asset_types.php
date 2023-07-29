@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once('../config/config.php');
-include('../helpers/analysis.php');
+
 include('../helpers/datefunction.php');
 include('../helpers/asset_type.php');
 /* Load This Page With Logged In User Session */
@@ -14,7 +14,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
         $staff_first_name = $staff['staff_first_name'];
         $staff_last_name = $staff['staff_last_name'];
         $staff_department_id  = $staff['staff_department_id'];
-        $staff_department_head  = $staff['department_head_id'];
+        $staff_department_head  = $staff['department_staff_id'];
         $staff_department_name  = $staff['department_name'];
         global $staff_first_name;
         global $$staff_last_name;

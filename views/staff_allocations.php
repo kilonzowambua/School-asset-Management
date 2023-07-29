@@ -13,13 +13,14 @@ if (mysqli_num_rows($staff_sql) > 0) {
         $staff_first_name = $staff['staff_first_name'];
         $staff_last_name = $staff['staff_last_name'];
         $staff_department_id  = $staff['staff_department_id'];
-        $staff_department_head  = $staff['department_head_id'];
+        $staff_department_head  = $staff['department_staff_id'];
         $staff_department_name  = $staff['department_name'];
         global $staff_first_name;
         global $$staff_last_name;
         global $staff_department_id;
         global $staff_department_head;
         global $staff_department_name;
+
 
 ?>
         <?php ?>
@@ -190,7 +191,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                 # Read all Asset Typ
                                                                                 $sql = "SELECT * FROM assets AS ast
                                                                                 INNER JOIN allocations AS al ON ast.asset_id = al.allocation_asset_id
-                                                                                INNER JOIN staffs AS st ON al.allocation_request_by_id=st.staff_id
+                                                                                INNER JOIN staffs AS st ON al.allocation_staff_id=st.staff_id
                                                                                 WHERE ast.assetdispose_id IS NULL AND st.staff_id ='{$staff_id}' AND al.allocation_status='Approved'
                                                                                 GROUP BY ast.asset_id
                                                                                 ORDER BY ast.asset_date_of_purchase DESC;
@@ -207,7 +208,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                             <td>
 
                                                                                                 <?php
-                                                                                                $sql = "SELECT * FROM staffs WHERE staff_id='{$asset->allocation_allocated_by_id}'";
+                                                                                                $sql = "SELECT * FROM staffs WHERE staff_id='{$asset->allocation_department_staff_id}'";
                                                                                                 $result2 = mysqli_query($mysqli, $sql);
                                                                                                 if (mysqli_num_rows($result2) > 0) {
                                                                                                     while ($hod = mysqli_fetch_object($result2)) {

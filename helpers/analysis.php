@@ -81,7 +81,7 @@ $stmt->close();
 
 #STAFF
 #Allocated assets
-$query = "SELECT COUNT(*)  FROM allocations  WHERE allocation_status='Approved' AND allocation_request_by_id='{$staff_id}'";
+$query = "SELECT COUNT(*)  FROM allocations  WHERE allocation_status='Approved' AND allocation_staff_id='{$staff_id}'";
 $stmt = $mysqli->prepare($query);
 $stmt->execute();
 $stmt->bind_result($allocations_staff);
