@@ -30,9 +30,7 @@ if (isset($_POST['asset_report'])) {
                         padding: 4px;
                     }
     
-                    tr {
-                        page-break-after: always;
-                    }
+            
     
                     th {
                         text-align: left;
@@ -220,9 +218,7 @@ if (isset($_POST['asset_type_report'])) {
                             padding: 4px;
                         }
         
-                        tr {
-                            page-break-after: always;
-                        }
+                       
         
                         th {
                             text-align: left;
@@ -400,10 +396,6 @@ if (isset($_POST['asset_type_report'])) {
 
 
 
-
-
-
-
     #Disposal report
 
     if (isset($_POST['asset_disposal_report'])) {
@@ -427,10 +419,7 @@ if (isset($_POST['asset_type_report'])) {
                                 font-size: 12px;
                                 padding: 4px;
                             }
-            
-                            tr {
-                                page-break-after: always;
-                            }
+        
             
                             th {
                                 text-align: left;
@@ -637,9 +626,6 @@ if (isset($_POST['allocation_reports'])) {
                                 padding: 4px;
                             }
             
-                            tr {
-                                page-break-after: always;
-                            }
             
                             th {
                                 text-align: left;
@@ -828,9 +814,7 @@ if (isset($_POST['allocation_reports'])) {
                             padding: 4px;
                         }
         
-                        tr {
-                            page-break-after: always;
-                        }
+                       
         
                         th {
                             text-align: left;
@@ -1045,9 +1029,7 @@ if (isset($_POST['staff_reports'])) {
                         padding: 4px;
                     }
     
-                    tr {
-                        page-break-after: always;
-                    }
+                  
     
                     th {
                         text-align: left;
@@ -1231,9 +1213,7 @@ if (isset($_POST['staff_reports'])) {
                     padding: 4px;
                 }
 
-                tr {
-                    page-break-after: always;
-                }
+              
 
                 th {
                     text-align: left;
@@ -1439,9 +1419,7 @@ if (isset($_POST['department_report'])) {
                         padding: 4px;
                     }
     
-                    tr {
-                        page-break-after: always;
-                    }
+                   
     
                     th {
                         text-align: left;
@@ -1644,9 +1622,7 @@ if ($doc_type == 'Pdf' && $staff_id != '') {
                             padding: 4px;
                         }
         
-                        tr {
-                            page-break-after: always;
-                        }
+                        
         
                         th {
                             text-align: left;
