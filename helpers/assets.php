@@ -155,7 +155,7 @@ if (isset($_POST['dispose_asset'])) {
 if (isset($_POST['request_asset'])) {
     $allocation_id = mysqli_real_escape_string($mysqli, $ID);
     $allocation_asset_id = mysqli_real_escape_string($mysqli, $_POST['allocation_asset_id']);
-    $allocation_request_by_id = mysqli_real_escape_string($mysqli, $_POST['allocation_request_by_id']);
+    $allocation_staff_id = mysqli_real_escape_string($mysqli, $_POST['allocation_staff_id']);
    
     // Check if allocation_asset_id exists
     $checkQuery = "SELECT * FROM allocations WHERE allocation_asset_id = '{$allocation_asset_id}'";
@@ -166,8 +166,8 @@ if (isset($_POST['request_asset'])) {
         $err = "Asset is requested already exists. Please choose a different asset.";
     } else {
         // Add Allocation 
-        $sql = "INSERT INTO allocations (allocation_id, allocation_asset_id, allocation_request_by_id) 
-                VALUES ('{$allocation_id}', '{$allocation_asset_id}', '{$allocation_request_by_id}')";
+        $sql = "INSERT INTO allocations (allocation_id, allocation_asset_id, allocation_staff_id) 
+                VALUES ('{$allocation_id}', '{$allocation_asset_id}', '{$allocation_staff_id}')";
         $stmt = mysqli_query($mysqli, $sql);
       
         if ($stmt) {
@@ -183,7 +183,7 @@ if (isset($_POST['request_asset'])) {
 if (isset($_POST['reply_request'])) {
     
     $allocation_asset_id = mysqli_real_escape_string($mysqli, $_POST['allocation_asset_id']);
-    $allocation_allocated_by_id = mysqli_real_escape_string($mysqli, $_POST['allocation_allocated_by_id']);
+    $allocation_department_staff_id  =$_POST['allocation_department_staff_id'];
     $reply_type = mysqli_real_escape_string($mysqli, $_POST['reply_type']);
     $allocation_status = mysqli_real_escape_string($mysqli, 'Approved');
     $asset_allocation_id = mysqli_real_escape_string($mysqli,$_POST['asset_allocation_id']);
@@ -203,7 +203,7 @@ if (isset($_POST['reply_request'])) {
     }elseif($reply_type=='Approved') {
    
         #Approve  the Request
-        $sql2 = "UPDATE allocations SET allocation_allocated_by_id='{$allocation_allocated_by_id }',allocation_status='{$allocation_status}' WHERE allocation_asset_id='{$allocation_asset_id}'";
+        $sql2 = "UPDATE allocations SET allocation_department_staff_id='{$allocation_department_staff_id}',allocation_status='{$allocation_status}' WHERE allocation_asset_id='{$allocation_asset_id}'";
         $stmt2 = mysqli_query($mysqli, $sql2);
       
         #Update assets
@@ -227,11 +227,15 @@ if (isset($_POST['reply_request'])) {
 if(isset($_POST['dislocate_asset'])){
     $allocation_asset_id = mysqli_real_escape_string($mysqli, $_POST['allocation_asset_id']);
 
+    #Update assets
+    $sql1 = "UPDATE assets SET asset_allocation_id='NULL' WHERE asset_id='{$allocation_asset_id}'";
+    $stmt1 = mysqli_query($mysqli, $sql1);
+
     #Remove  the Request
-    $sql = "DELETE FROM allocations WHERE allocation_asset_id='{$allocation_asset_id}'";
-    $stmt1 = mysqli_query($mysqli, $sql);
+    $sql2 = "DELETE FROM allocations WHERE allocation_asset_id='{$allocation_asset_id}'";
+    $stmt2 = mysqli_query($mysqli, $sql2);
   
-    if ($stmt1) {
+    if ($stmt2) {
         $success = "Asset allocation request is Removed";
     } else {
         $err = "Failed! Please try again.";

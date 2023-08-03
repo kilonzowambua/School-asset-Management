@@ -173,60 +173,62 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                         <div id="basic-btn_filter" class="dataTables_filter"><label></div>
                                                                         <?php
                                                                         if ($staff_department_head == $staff_id || $staff_department_name == 'Administration') { ?>
-                    
-                                                                        <table id="basic-btn" class="table table-striped table-bordered nowrap dataTable" role="grid" aria-describedby="basic-btn_info">
-                                                                            <thead>
-                                                                                <tr role="row">
 
-                                                                                    <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 300.367px;" aria-label="Asset Type Name: activate to sort column ascending">Asset Tag</th>
-                                                                                    <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 300.367px;" aria-label="Asset Type Name: activate to sort column ascending">Asset Name</th>
-                                                                                    <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 250.367px;" aria-label="No of Assets: activate to sort column ascending">Allocated to</th>
+                                                                            <table id="basic-btn" class="table table-striped table-bordered nowrap dataTable" role="grid" aria-describedby="basic-btn_info">
+                                                                                <thead>
+                                                                                    <tr role="row">
 
-                                                                                    <th tabindex="0" rowspan="1" colspan="1" style="width: 250.367px;" aria-label="Action: activate to sort column ascending">Action</th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                                <?php
+                                                                                        <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 300.367px;" aria-label="Asset Type Name: activate to sort column ascending">Asset Tag</th>
+                                                                                        <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 300.367px;" aria-label="Asset Type Name: activate to sort column ascending">Asset Name</th>
+                                                                                        <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 250.367px;" aria-label="No of Assets: activate to sort column ascending">Allocated to</th>
 
-                                                                                # Read all Asset Typ
-                                                                                $sql = "SELECT * FROM assets AS ast
-                                                                                JOIN departments AS dp 
-                                                                                INNER JOIN staffs AS st ON dp.department_id=st.staff_department_id
-                                                                                WHERE ast.assetdispose_id IS NULL
-                                                                                GROUP BY ast.asset_id
-                                                                                ORDER BY ast.asset_date_of_purchase DESC;
-                                                                                ";
-                                                                                $result = mysqli_query($mysqli, $sql);
-                                                                                if (mysqli_num_rows($result) > 0) {
-                                                                                    while ($asset = mysqli_fetch_object($result)) {
-                                                                                ?>
-                                                                                        <tr>
-                                                                                            <td class="sorting_1"><?php echo $asset->asset_tag ?></td>
-                                                                                            <td><?php echo $asset->asset_name ?></td>
-                                                                                            <td><?php if ($asset->asset_allocation_id == '') { ?>
-                                                                                                    <span class="pcoded-badge label label-danger">Not allocation</span>
-                                                                                                <?php } elseif ($asset->asset_allocation_id != '' && $staff_department_head == $staff_id || $staff_department_name == 'Administration') { ?>
-                                                                                                    <span class="pcoded-badge label label-info"><?php echo $asset->department_name ?></span>
-                                                                                                <?php } ?>
+                                                                                        <th tabindex="0" rowspan="1" colspan="1" style="width: 250.367px;" aria-label="Action: activate to sort column ascending">Action</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <?php
+                                                                                    # Read all Asset Types
+                                                                                    $sql = "SELECT ast.*, dp.department_name, st.staff_first_name, st.staff_last_name, al.allocation_id,al.allocation_status 
+            FROM assets AS ast
+            LEFT JOIN allocations AS al ON ast.asset_id = al.allocation_asset_id 
+            LEFT JOIN departments AS dp ON al.allocation_department_staff_id = dp.department_staff_id
+            LEFT JOIN staffs AS st ON al.allocation_staff_id = st.staff_id
+            WHERE ast.assetdispose_id IS NULL
+            GROUP BY ast.asset_id
+            ORDER BY ast.asset_date_of_purchase DESC";
 
-                                                                                            </td>
+                                                                                    $result = mysqli_query($mysqli, $sql);
+                                                                                    if (mysqli_num_rows($result) > 0) {
+                                                                                        while ($asset = mysqli_fetch_object($result)) {
+                                                                                            $hasAllocation = $asset->allocation_id !== null;
+                                                                                            $hasApproval = $asset->allocation_status == 'Approved';
+                                                                                    ?>
+                                                                                            <tr>
+                                                                                                <td class="sorting_1"><?php echo $asset->asset_tag ?></td>
+                                                                                                <td><?php echo $asset->asset_name ?></td>
+                                                                                                <td>
+                                                                                                    <?php if (!$hasAllocation) : ?>
+                                                                                                        <span class="pcoded-badge label label-danger">Not allocated</span>
+                                                                                                        <?php elseif ($hasAllocation & !$hasApproval) : ?>
+                                                                                                            <span class="pcoded-badge label label-primary">Requested</span>
+                                                                                                    <?php elseif ($hasAllocation && ($staff_department_head == $staff_id || $staff_department_name == 'Administration')) : ?>
+                                                                                                        <span class="pcoded-badge label label-success"><?php echo $asset->department_name ?></span>
+                                                                                                    <?php endif; ?>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <?php if (!$hasAllocation) : ?>
+                                                                                                        <button type="button" class="btn btn-success alert-confirm m-b-10 md-trigger" data-toggle="modal" data-target="#request-<?php echo $asset->asset_id ?>">Request Allocate</button>
+                                                                                                    <?php elseif ($hasAllocation & !$hasApproval) : ?>
+                                                                                                        <button type="button" class="btn btn-primary alert-confirm m-b-10 md-trigger" data-toggle="modal" data-target="#approve-<?php echo $asset->asset_id ?>">Approve Allocation</button>
 
-                                                                                            <td>
-                                                                                                <?php if ($asset->asset_allocation_id == '' && $staff_department_head == $staff_id) { ?>
-                                                                                                    <?php
-                                                                                                    $sql = "SELECT * FROM allocations WHERE allocation_asset_id='{$asset->asset_id}' AND allocation_department_staff_id IS NULL";
-                                                                                                    $result2 = mysqli_query($mysqli, $sql);
-                                                                                                    if (mysqli_num_rows($result2) > 0) {
-                                                                                                        while ($allocation = mysqli_fetch_object($result2)) {
-                                                                                                    ?>
-                                                                                                            <button type="button" class="btn btn-success alert-confirm m-b-10 md-trigger" data-toggle="modal" data-target="#approve-<?php echo $asset->asset_id ?>">Approve Allocate </button>
-                                                                                                        <?php }
-                                                                                                    } else { ?>
-                                                                                                        <button type="button" class="btn btn-info alert-confirm m-b-10 md-trigger" data-toggle="modal" data-target="#request-<?php echo $asset->asset_id ?>">Request Allocate </button>
-                                                                                                <?php }
-                                                                                                } ?>
-                                                                                            </td>
+                                                                                                    <?php elseif ($hasAllocation & $hasApproval) : ?>
+                                                                                                        <button type="button" class="btn btn-danger alert-confirm m-b-10 md-trigger" data-toggle="modal" data-target="#remove-<?php echo $asset->asset_id ?>">Remove Allocation</button>
+                                                                                                    <?php endif; ?>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <!-- Allocation Request Modal -->
                                                                                             <div class="modal fade" id="request-<?php echo $asset->asset_id ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                                                                                <!-- Modal content goes here -->
                                                                                                 <div class="modal-dialog modal-lg">
                                                                                                     <div class="modal-content">
                                                                                                         <div class="md-content">
@@ -246,7 +248,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
 
                                                                                                                         <div class="col-sm-6 col-md-6  col-md-4">
                                                                                                                             <input type="text" hidden name="allocation_asset_id" value="<?php echo $asset->asset_id ?>" class="form-control">
-                                                                                                                            <input type="text" hidden name="allocation_request_by_id" value="<?php echo $staff_id ?>" class="form-control">
+                                                                                                                            <input type="text" hidden name="allocation_staff_id" value="<?php echo $staff_id ?>" class="form-control">
                                                                                                                         </div>
 
                                                                                                                     </div>
@@ -262,260 +264,215 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
-                                                                                            <div class="modal fade" id="approve-<?php echo $asset->asset_id ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                                                                                                <div class="modal-dialog modal-lg">
-                                                                                                    <div class="modal-content">
-                                                                                                        <div class="md-content">
-                                                                                                            <h1 class="text-center " style="color: blue;">Allocation Request</h1>
-                                                                                                            <?php
-                                                                                                            $sql = "SELECT * FROM departments AS dp 
-                                                                                                            INNER JOIN staffs AS st ON dp.department_id=st.staff_department_id
-                                                                                                             INNER JOIN allocations AS al ON st.staff_id=al.allocation_staff_id 
-                                                                                                             INNER JOIN assets AS ast ON al.allocation_asset_id=ast.asset_id
-                                                                                                             INNER JOIN asset_types AS astt ON ast.asset_type_id=astt.asset_type_id
-                                                                                                            WHERE al.allocation_asset_id='{$asset->asset_id}'";
-                                                                                                            $result4 = mysqli_query($mysqli, $sql);
-                                                                                                            if (mysqli_num_rows($result4) > 0) {
-                                                                                                                while ($allocation = mysqli_fetch_object($result4)) {
-                                                                                                            ?>
-                                                                                                                    <h4 class="text-center" style="color: black;">Asset Details: <?php echo $allocation->asset_tag ?>-<?php echo $allocation->asset_name ?></h4>
-                                                                                                                    <h4 class="text-center" style="color: black;">Asset Type: <?php echo $allocation->asset_type_name ?></h4>
-                                                                                                                    <h4 class="text-center" style="color: black;">Requested By: <?php echo $allocation->staff_first_name  ?> <?php echo $allocation->staff_last_name  ?></h4>
-                                                                                                                    <h4 class="text-center" style="color: black;">Department Name: <?php echo $allocation->department_name ?></h4>
-                                                                                                                    <?php
-                                                                                                                    $sql = "SELECT * FROM departments  AS dp 
-                                                                                                                    INNER JOIN staffs AS sft ON dp.department_staff_id=sft.staff_id
-                                                                                                                    WHERE department_id='{$allocation->department_id}'";
-                                                                                                                    $result5 = mysqli_query($mysqli, $sql);
-                                                                                                                    if (mysqli_num_rows($result5) > 0) {
-                                                                                                                        while ($hod = mysqli_fetch_object($result5)) {
 
-                                                                                                                    ?>
-                                                                                                                            <h4 class="text-center" style="color: black;">Head of Department : <?php echo $hod->staff_first_name  ?> <?php echo $hod->staff_last_name  ?></h4>
-                                                                                                                    <?php }
-                                                                                                                    } ?>
-                                                                                                                    <div>
-                                                                                                                        <form method="post">
-
-
-                                                                                                                            <div class="col-sm-6 col-md-6  col-md-4">
-                                                                                                                                <input type="text" hidden name="allocation_asset_id" value="<?php echo $asset->asset_id ?>" class="form-control">
-                                                                                                                                <input type="text" hidden name="allocation_allocated_by_id" value="<?php echo $staff_id ?>" class="form-control">
-                                                                                                                                <input type="text" hidden name="asset_allocation_id" value="<?php echo $allocation->allocation_id ?>" class="form-control">
-                                                                                                                            </div>
-                                                                                                                            <div class="form-group row ">
-                                                                                                                                <label for="reply" class="col-12 col-form-label">Reply:</label>
-                                                                                                                                <select class="col-12 form-controls " name="reply_type">
-                                                                                                                                    <option value="">Select Reply</option>
-                                                                                                                                    <option value="Approved">Approved</option>
-                                                                                                                                    <option value="Cancelled">Cancelled</option>
-
-                                                                                                                                </select>
-                                                                                                                            </div>
-
-
-
-                                                                                                                            <div class="col-6">
-                                                                                                                                <button type="submit" name="reply_request" class="btn btn-primary waves-effect ">Reply Request</button>
-                                                                                                                            </div>
-                                                                                                                    </div>
-                                                                                                                    </form>
-                                                                                                    <?php }
-                                                                                                            }
-                                                                                                        }
-                                                                                                    } ?>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="modal fade" id="deallocation-<?php echo $asset->asset_id ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                                                                                                <div class="modal-dialog modal-lg">
-                                                                                                    <div class="modal-content">
-                                                                                                        <div class="md-content">
-                                                                                                            <h1 class="text-center " style="color: blue;">Change Allocation Status</h1>
-                                                                                                            <?php
-                                                                                                            $sql = "SELECT * FROM departments AS dp 
-                                                                                                            INNER JOIN staffs AS st ON dp.department_id=st.staff_department_id
-                                                                                                             INNER JOIN allocations AS al ON st.staff_id=al.allocation_staff_id 
-                                                                                                             INNER JOIN assets AS ast ON al.allocation_asset_id=ast.asset_id
-                                                                                                             INNER JOIN asset_types AS astt ON ast.asset_type_id=astt.asset_type_id
-                                                                                                            WHERE al.allocation_asset_id='{$asset->asset_id}'";
-                                                                                                            $result4 = mysqli_query($mysqli, $sql);
-                                                                                                            if (mysqli_num_rows($result4) > 0) {
-                                                                                                                while ($allocation = mysqli_fetch_object($result4)) {
-                                                                                                            ?>
-                                                                                                                    <h4 class="text-center" style="color: black;">Asset Details: <?php echo $allocation->asset_tag ?>-<?php echo $allocation->asset_name ?></h4>
-                                                                                                                    <h4 class="text-center" style="color: black;">Asset Type: <?php echo $allocation->asset_type_name ?></h4>
-                                                                                                                    <h4 class="text-center" style="color: black;">Requested By: <?php echo $allocation->staff_first_name  ?> <?php echo $allocation->staff_last_name  ?></h4>
-                                                                                                                    <h4 class="text-center" style="color: black;">Department Name: <?php echo $allocation->department_name ?></h4>
-                                                                                                                    <?php
-                                                                                                                    $sql = "SELECT * FROM departments  AS dp 
-                                                                                                                    INNER JOIN staffs AS sft ON dp.department_staff_id=sft.staff_id
-                                                                                                                    WHERE department_id='{$allocation->department_id}'";
-                                                                                                                    $result5 = mysqli_query($mysqli, $sql);
-                                                                                                                    if (mysqli_num_rows($result5) > 0) {
-                                                                                                                        while ($hod = mysqli_fetch_object($result5)) {
-
-                                                                                                                    ?>
-                                                                                                                            <h4 class="text-center" style="color: black;">Head of Department : <?php echo $hod->staff_first_name  ?> <?php echo $hod->staff_last_name  ?></h4>
-                                                                                                                    <?php }
-                                                                                                                    } ?>
-                                                                                                                    <div>
-                                                                                                                        <form method="post">
-
-
-                                                                                                                            <div class="col-sm-6 col-md-6  col-md-4">
-
-                                                                                                                                <input type="text" hidden name="asset_allocation_id" value="<?php echo $allocation->allocation_id ?>" class="form-control">
-                                                                                                                            </div>
-
-
-
-
-
-                                                                                                                            <div class="col-6">
-                                                                                                                                <button type="submit" name="dislocate_asset" class="btn btn-danger waves-effect ">Unallocate</button>
-                                                                                                                            </div>
-                                                                                                                    </div>
-                                                                                                                    </form>
-                                                                                                            <?php }
-                                                                                                            }  ?>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-
-
-                                                                                            <!--End modal-->
-
-
-
-                                                                                        </tr>
-
-                                                                            </tbody>
-
-                                                                        </table>
-                                                                    <?php } elseif ($staff_department_head != $staff_id && $staff_department_name != 'Administration') { ?>
-                                                                        <table id="basic-btn" class="table table-striped table-bordered nowrap dataTable" role="grid" aria-describedby="basic-btn_info">
-                                                                            <thead>
-                                                                                <tr role="row">
-
-                                                                                    <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 300.367px;" aria-label="Asset Type Name: activate to sort column ascending">Asset Tag</th>
-                                                                                    <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 300.367px;" aria-label="Asset Type Name: activate to sort column ascending">Asset Name</th>
-                                                                                    <th tabindex="0" rowspan="1" colspan="1" style="width: 250.367px;" aria-label="Action: activate to sort column ascending">Action</th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                                <?php
-
-                                                                                # Read all Asset Typ
-                                                                                $sql = "SELECT * FROM assets AS ast
-                                                                                WHERE ast.assetdispose_id IS NULL AND ast.asset_allocation_id IS NULl
-                                                                                GROUP BY ast.asset_id
-                                                                                ORDER BY ast.asset_date_of_purchase DESC;
-                                                                                ";
-                                                                                $result = mysqli_query($mysqli, $sql);
-                                                                                if (mysqli_num_rows($result) > 0) {
-                                                                                    while ($asset = mysqli_fetch_object($result)) {
-                                                                                        
-                                                                                ?>
-                                                                                        <tr>
-                                                                                            <td class="sorting_1"><?php echo $asset->asset_tag ?></td>
-                                                                                            <td><?php echo $asset->asset_name ?></td>
-
-                                                                                            <td>
-                                                                                               
-                                                                                                    <?php
-                                                                                                    $sql = "SELECT * FROM allocations WHERE allocation_asset_id='{$asset->asset_id}' AND allocation_allocated_by_id IS NULL";
-                                                                                                    $result2 = mysqli_query($mysqli, $sql);
-                                                                                                    if (mysqli_num_rows($result2) > 0) {
-                                                                                                        while ($allocation = mysqli_fetch_object($result2)) {
-
-                                                                                                            #Check whether its you request
-                                                                                                            if ($allocation->allocation_request_by_id ==$staff_id) {
-                                                                                                                echo "Your Request is Pending Approval";
-                                                                                                            } else {
-                                                                                                                echo "Not Available";
-                                                                                                            }
-                                                                                                            
-                                                                                                    ?>
-
-                                                                                                          
-                                                                                                        <?php }
-                                                                                                    } else { ?>
-                                                                                                        <button type="button" class="btn btn-info alert-confirm m-b-10 md-trigger" data-toggle="modal" data-target="#request-<?php echo $asset->asset_id ?>">Request Allocate </button>
-                                                                                               
-                                                                                            </td>
-                                                                                            <div class="modal fade" id="request-<?php echo $asset->asset_id ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                                                                                                <div class="modal-dialog modal-lg">
-                                                                                                    <div class="modal-content">
-                                                                                                        <div class="md-content">
-                                                                                                            <h1 class="text-center " style="color: blue;"> <?php echo $asset->asset_tag ?><br><?php echo $asset->asset_name ?></h1>
-                                                                                                            <?php
-                                                                                                            $sql = "SELECT * FROM departments WHERE department_staff_id='{$staff_id}'";
-                                                                                                            $result4 = mysqli_query($mysqli, $sql);
-                                                                                                            if (mysqli_num_rows($result4) > 0) {
-                                                                                                                while ($department = mysqli_fetch_object($result4)) {
-                                                                                                            ?>
-                                                                                                                    <h4 class="text-center" style="color: black;">Department Name: <?php echo $department->department_name ?></h4>
-                                                                                                            <?php }
-                                                                                                            } ?>
-                                                                                                            <div>
-                                                                                                                <form method="post">
-                                                                                                                    <div class="form-group row mt-1">
-
-                                                                                                                        <div class="col-sm-6 col-md-6  col-md-4">
-                                                                                                                            <input type="text" hidden name="allocation_asset_id" value="<?php echo $asset->asset_id ?>" class="form-control">
-                                                                                                                            <input type="text" hidden name="allocation_request_by_id" value="<?php echo $staff_id ?>" class="form-control">
-                                                                                                                        </div>
-
-                                                                                                                    </div>
-                                                                                                                    <div class="row mt-2 ">
-
-                                                                                                                        <div class="col-6">
-                                                                                                                            <button type="submit" name="request_asset" class="btn btn-primary waves-effect ">Request Asset</button>
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </form>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            
-                                                                                            <?php }
-                                                                                                } ?>
-
-                                                                                            <!--End modal-->
-
-
-
-                                                                                        </tr>
-                                                                                        <?php }} ?>
-
-                                                                            </tbody>
-
-                                                                        </table>
-<?php } ?>
-                                                                        <div class="dataTables_info" id="basic-btn_info" role="status" aria-live="polite"></div>
 
                                                                     </div>
+                                                                    <!-- Approve Request Modal -->
+                                                                    <div class="modal fade" id="approve-<?php echo $asset->asset_id ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                                                        <!-- Modal content goes here -->
+                                                                        <div class="modal-dialog modal-lg">
+                                                                            <div class="modal-content">
+                                                                                <div class="md-content">
+                                                                                    <h1 class="text-center " style="color: blue;">Allocation Request</h1>
+                                                                                    <?php
+                                                                                            $sql = "SELECT * FROM departments AS dp 
+                                                                                                            INNER JOIN staffs AS st ON dp.department_id=st.staff_department_id
+                                                                                                             INNER JOIN allocations AS al ON st.staff_id=al.allocation_staff_id 
+                                                                                                             INNER JOIN assets AS ast ON al.allocation_asset_id=ast.asset_id
+                                                                                                             INNER JOIN asset_types AS astt ON ast.asset_type_id=astt.asset_type_id
+                                                                                                            WHERE al.allocation_asset_id='{$asset->asset_id}'";
+                                                                                            $result4 = mysqli_query($mysqli, $sql);
+                                                                                            if (mysqli_num_rows($result4) > 0) {
+                                                                                                while ($allocation = mysqli_fetch_object($result4)) {
+                                                                                    ?>
+                                                                                            <h4 class="text-center" style="color: black;">Asset Details: <?php echo $allocation->asset_tag ?>-<?php echo $allocation->asset_name ?></h4>
+                                                                                            <h4 class="text-center" style="color: black;">Asset Type: <?php echo $allocation->asset_type_name ?></h4>
+                                                                                            <h4 class="text-center" style="color: black;">Requested By: <?php echo $allocation->staff_first_name  ?> <?php echo $allocation->staff_last_name  ?></h4>
+                                                                                            <h4 class="text-center" style="color: black;">Department Name: <?php echo $allocation->department_name ?></h4>
+                                                                                            <?php
+                                                                                                    $sql = "SELECT * FROM departments  AS dp 
+                                                                                                                    INNER JOIN staffs AS sft ON dp.department_staff_id=sft.staff_id
+                                                                                                                    WHERE department_id='{$allocation->department_id}'";
+                                                                                                    $result5 = mysqli_query($mysqli, $sql);
+                                                                                                    if (mysqli_num_rows($result5) > 0) {
+                                                                                                        while ($hod = mysqli_fetch_object($result5)) {
+
+                                                                                            ?>
+                                                                                                    <h4 class="text-center" style="color: black;">Head of Department : <?php echo $hod->staff_first_name  ?> <?php echo $hod->staff_last_name  ?></h4>
+                                                                                            <?php }
+                                                                                                    } ?>
+                                                                                            <div>
+                                                                                                <form method="post">
+
+
+                                                                                                    <div class="col-sm-6 col-md-6  col-md-4">
+                                                                                                        <input type="text" hidden name="allocation_asset_id" value="<?php echo $asset->asset_id ?>" class="form-control">
+                                                                                                        <input type="text" hidden name=" allocation_department_staff_id" value="<?php echo $staff_id ?>" class="form-control">
+                                                                                                        <input type="text" hidden name="asset_allocation_id" value="<?php echo $allocation->allocation_id ?>" class="form-control">
+                                                                                                    </div>
+                                                                                                    <div class="form-group row ">
+                                                                                                        <label for="reply" class="col-12 col-form-label">Reply:</label>
+                                                                                                        <select class="col-12 form-controls " name="reply_type">
+                                                                                                            <option value="">Select Reply</option>
+                                                                                                            <option value="Approved">Approved</option>
+                                                                                                            <option value="Cancelled">Cancelled</option>
+
+                                                                                                        </select>
+                                                                                                    </div>
+
+
+
+                                                                                                    <div class="col-6">
+                                                                                                        <button type="submit" name="reply_request" class="btn btn-primary waves-effect ">Reply Request</button>
+                                                                                                    </div>
+                                                                                            </div>
+                                                                                            </form>
+                                                                                    <?php }
+                                                                                            }
+                                                                                    ?>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <!-- Remove Allocation Modal -->
+                                                                    <div class="modal fade" id="remove-<?php echo $asset->asset_id ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                                                        <!-- Modal content goes here -->
+                                                                        <div class="modal-dialog modal-lg">
+                                                                            <div class="modal-content">
+                                                                                <div class="md-content">
+                                                                                    <h1 class="text-center " style="color: blue;">Change Allocation Status</h1>
+                                                                                    <?php
+                                                                                            $sql = "SELECT * FROM departments AS dp 
+                                                                                                            INNER JOIN staffs AS st ON dp.department_id=st.staff_department_id
+                                                                                                             INNER JOIN allocations AS al ON st.staff_id=al.allocation_staff_id 
+                                                                                                             INNER JOIN assets AS ast ON al.allocation_asset_id=ast.asset_id
+                                                                                                             INNER JOIN asset_types AS astt ON ast.asset_type_id=astt.asset_type_id
+                                                                                                            WHERE al.allocation_asset_id='{$asset->asset_id}'";
+                                                                                            $result4 = mysqli_query($mysqli, $sql);
+                                                                                            if (mysqli_num_rows($result4) > 0) {
+                                                                                                while ($allocation = mysqli_fetch_object($result4)) {
+                                                                                    ?>
+                                                                                            <h4 class="text-center" style="color: black;">Asset Details: <?php echo $allocation->asset_tag ?>-<?php echo $allocation->asset_name ?></h4>
+                                                                                            <h4 class="text-center" style="color: black;">Asset Type: <?php echo $allocation->asset_type_name ?></h4>
+                                                                                            <h4 class="text-center" style="color: black;">Requested By: <?php echo $allocation->staff_first_name  ?> <?php echo $allocation->staff_last_name  ?></h4>
+                                                                                            <h4 class="text-center" style="color: black;">Department Name: <?php echo $allocation->department_name ?></h4>
+                                                                                            <?php
+                                                                                                    $sql = "SELECT * FROM departments  AS dp 
+                                                                                                                    INNER JOIN staffs AS sft ON dp.department_staff_id=sft.staff_id
+                                                                                                                    WHERE department_id='{$allocation->department_id}'";
+                                                                                                    $result5 = mysqli_query($mysqli, $sql);
+                                                                                                    if (mysqli_num_rows($result5) > 0) {
+                                                                                                        while ($hod = mysqli_fetch_object($result5)) {
+
+                                                                                            ?>
+                                                                                                    <h4 class="text-center" style="color: black;">Head of Department : <?php echo $hod->staff_first_name  ?> <?php echo $hod->staff_last_name  ?></h4>
+                                                                                            <?php }
+                                                                                                    } ?>
+                                                                                            <div>
+                                                                                                <form method="post">
+
+
+                                                                                                    <div class="col-sm-6 col-md-6  col-md-4">
+
+                                                                                                        <input type="text" hidden name="allocation_asset_id" value="<?php echo $allocation->allocation_asset_id ?>" class="form-control">
+                                                                                                    </div>
+
+
+                                                                                                    <div class="col-6">
+                                                                                                        <button type="submit" name="dislocate_asset" class="btn btn-danger waves-effect ">Remove allocate</button>
+                                                                                                    </div>
+                                                                                            </div>
+                                                                                            </form>
+                                                                                    <?php }
+                                                                                            }
+
+                                                                                    ?>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                            <?php
+                                                                                        }
+                                                                                    }
+                                                            ?>
+                                                            </tbody>
+
+                                                            </table>
+                                                        <?php } elseif ($staff_department_head != $staff_id && $staff_department_name != 'Administration') { ?>
+                                                            <table id="basic-btn" class="table table-striped table-bordered nowrap dataTable" role="grid" aria-describedby="basic-btn_info">
+                                                                <thead>
+                                                                    <tr role="row">
+
+                                                                        <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 300.367px;" aria-label="Asset Type Name: activate to sort column ascending">Asset Tag</th>
+                                                                        <th class="sorting" tabindex="0" aria-controls="basic-btn" rowspan="1" colspan="1" style="width: 300.367px;" aria-label="Asset Type Name: activate to sort column ascending">Asset Name</th>
+                                                                        <th tabindex="0" rowspan="1" colspan="1" style="width: 250.367px;" aria-label="Action: activate to sort column ascending">Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php
+                                                                            $sql = "SELECT ast.*, al.allocation_id, al.allocation_request_by_id
+            FROM assets AS ast
+            LEFT JOIN allocations AS al ON ast.asset_id = al.allocation_asset_id
+            WHERE ast.assetdispose_id IS NULL AND ast.asset_allocation_id IS NULL
+            GROUP BY ast.asset_id
+            ORDER BY ast.asset_date_of_purchase DESC";
+
+                                                                            $result = mysqli_query($mysqli, $sql);
+
+                                                                            if (mysqli_num_rows($result) > 0) {
+                                                                                while ($asset = mysqli_fetch_object($result)) {
+                                                                                    $hasAllocation = $asset->allocation_id !== null;
+                                                                    ?>
+                                                                            <tr>
+                                                                                <td class="sorting_1"><?php echo $asset->asset_tag ?></td>
+                                                                                <td><?php echo $asset->asset_name ?></td>
+                                                                                <td>
+                                                                                    <?php if ($hasAllocation) {
+                                                                                        if ($asset->allocation_request_by_id == $staff_id) {
+                                                                                            echo "Your Request is Pending Approval";
+                                                                                        } else {
+                                                                                            echo "Not Available";
+                                                                                        }
+                                                                                    } else { ?>
+                                                                                        <button type="button" class="btn btn-info alert-confirm m-b-10 md-trigger" data-toggle="modal" data-target="#request-<?php echo $asset->asset_id ?>">Request Allocate</button>
+                                                                                    <?php } ?>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <!-- Allocation Request Modal -->
+                                                                            <div class="modal fade" id="request-<?php echo $asset->asset_id ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                                                                <!-- Modal content goes here -->
+                                                                            </div>
+                                                                    <?php
+                                                                                }
+                                                                            }
+                                                                    ?>
+                                                                </tbody>
+
+
+                                                                </tbody>
+
+                                                            </table>
+                                                        <?php } ?>
+                                                        <div class="dataTables_info" id="basic-btn_info" role="status" aria-live="polite"></div>
 
                                                                 </div>
+
                                                             </div>
                                                         </div>
-
                                                     </div>
+
                                                 </div>
                                             </div>
-
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
 
 
@@ -525,4 +482,4 @@ if (mysqli_num_rows($staff_sql) > 0) {
 
         </html>
 <?php }
- ?>
+} ?>
