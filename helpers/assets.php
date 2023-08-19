@@ -108,7 +108,7 @@ if (isset($_POST['dispose_asset'])) {
     // Escape and retrieve the posted variables
    
     $assetdispose_asset_id = mysqli_real_escape_string($mysqli, $_POST['assetdispose_asset_id']);
-    $assetdispose_by_id = mysqli_real_escape_string($mysqli, $_POST['assetdispose_by_id']);
+    $assetdispose_by_id =  $_POST['assetdispose_staff_id'];
     $assetdispose_method = mysqli_real_escape_string($mysqli, $_POST['assetdispose_method']);
     $assetdispose_reason = mysqli_real_escape_string($mysqli, $_POST['assetdispose_reason']);
 
@@ -122,7 +122,7 @@ if (isset($_POST['dispose_asset'])) {
     mysqli_stmt_close($stmt); // Close the statement after fetching results
 
     // Insert into assetdisposes
-    $sql = "INSERT INTO assetdisposes (assetdispose_asset_id, assetdispose_by_id, assetdispose_method, assetdispose_reason) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO assetdisposes (assetdispose_asset_id, assetdispose_staff_id, assetdispose_method, assetdispose_reason) VALUES (?, ?, ?, ?)";
     $stmt_insert = mysqli_prepare($mysqli, $sql);
     mysqli_stmt_bind_param($stmt_insert, 'ssss', $assetdispose_asset_id, $assetdispose_by_id, $assetdispose_method, $assetdispose_reason);
 

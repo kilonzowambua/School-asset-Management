@@ -221,7 +221,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
 
                                                                                                                         <div class="col-sm-6 col-md-6  col-md-4">
                                                                                                                             <input type="text" hidden name="assetdispose_asset_id" value="<?php echo $asset->asset_id ?>" class="form-control">
-                                                                                                                            <input type="text" hidden name="assetdispose_by_id" value="<?php echo $staff_id ?>" class="form-control">
+                                                                                                                            <input type="text" hidden name="assetdispose_staff_id" value="<?php echo $staff_id ?>" class="form-control">
                                                                                                                         </div>
 
                                                                                                                     </div>
@@ -334,7 +334,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                                                             <?php
 
                                                                                                                             # Read all Asset Type
-                                                                                                                            $sql = "SELECT * FROM staffs WHERE staff_id='{$asset_dispose->assetdispose_by_id}'";
+                                                                                                                            $sql = "SELECT * FROM staffs WHERE staff_id='{$asset_dispose->assetdispose_staff_id}'";
                                                                                                                             $result5 = mysqli_query($mysqli, $sql);
                                                                                                                             if (mysqli_num_rows($result5) > 0) {
                                                                                                                                 while ($staff = mysqli_fetch_object($result5)) {

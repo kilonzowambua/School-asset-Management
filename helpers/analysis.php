@@ -52,7 +52,7 @@ $stmt->close();
 
 
 #Allocated assets
-$query = "SELECT COUNT(*)  FROM allocations  WHERE allocation_status='Approved' AND allocation_request_by_id='{$staff_id}' OR allocation_request_by_id='{$staff_department_head}' OR allocation_allocated_by_id='{$staff_department_head}'";
+$query = "SELECT COUNT(*)  FROM allocations  WHERE allocation_status='Approved' AND allocation_staff_id='{$staff_id}' OR allocation_staff_id='{$staff_department_head}' OR allocation_department_staff_id='{$staff_department_head}'";
 $stmt = $mysqli->prepare($query);
 $stmt->execute();
 $stmt->bind_result($allocations);
@@ -60,7 +60,7 @@ $stmt->fetch();
 $stmt->close();
 
 /* No of Disposal*/
-$query = "SELECT COUNT(*) FROM assetdisposes WHERE assetdispose_by_id='{$staff_id}'";
+$query = "SELECT COUNT(*) FROM assetdisposes WHERE assetdispose_staff_id='{$staff_id}'";
 $stmt = $mysqli->prepare($query);
 $stmt->execute();
 $stmt->bind_result($disposals);
@@ -69,9 +69,9 @@ $stmt->close();
 /* Total Asset Networth*/
 $query = "SELECT SUM(ast.asset_price) AS total_networth FROM assets AS ast
 INNER JOIN allocations AS al ON ast.asset_id=al.allocation_asset_id
-INNER JOIN staffs AS st ON al.allocation_allocated_by_id = st.staff_id
-INNER JOIN departments AS dep ON st.staff_id = dep.department_head_id
-WHERE dep.department_head_id='{$staff_department_head}' AND ast.assetdispose_id IS NULL";
+INNER JOIN staffs AS st ON al.allocation_department_staff_id = st.staff_id
+INNER JOIN departments AS dep ON st.staff_id = dep.department_staff_id
+WHERE dep.department_staff_id='{$staff_department_head}' AND ast.assetdispose_id IS NULL";
 $stmt = $mysqli->prepare($query);
 $stmt->execute();
 $stmt->bind_result($total_networth);

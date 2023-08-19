@@ -200,6 +200,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
 </select>
                                                                             </div>
                                                                             </div>
+                                                                            
                                                                             <div class="form-group row text-center">
                                                                             <button type="submit" name="department_report" class="btn btn-primary btn-round align-text center">Generate</button>
                                                                             </div>

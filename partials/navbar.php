@@ -94,6 +94,11 @@ if($staff_department_head==$staff_id && $staff_department_name =='Administration
 </a>
 </li>
 <li class="">
+<a href="asset_maintenace_report">
+<span class="pcoded-mtext">Maintenances</span>
+</a>
+</li>
+<li class="">
 <a href="staff_report">
 <span class="pcoded-mtext">Staffs</span>
 </a>
@@ -167,6 +172,11 @@ if($staff_department_head==$staff_id && $staff_department_name =='Administration
 <li class="">
 <a href="allocations_report">
 <span class="pcoded-mtext">Allocations</span>
+</a>
+</li>
+<li class="">
+<a href="asset_maintenace_report">
+<span class="pcoded-mtext">Maintenances</span>
 </a>
 </li>
 <li class="">

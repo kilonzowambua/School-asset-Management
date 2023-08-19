@@ -217,6 +217,19 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                 </select>
                                                                             </div>
                                                                         </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-sm-2 col-form-label">Select Document </label>
+                                                                            <div class="col-sm-4 col-md-6 col-lg 4">
+                                                                                <select name="doc_type" class="form-control form-control-default">
+
+                                                                                    <option>Pdf</option>
+                                                                                    <option>Excel</option>
+
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row text-center">
+                                                                            <button type="submit" name="allocation_reports" class="btn btn-primary btn-round align-text center">Generate</button>
                                                                         <?php }elseif ($staff_department_head==$staff_id && $staff_department_name !='Administration') { ?>
                                                                            
                                                                             <div class="form-group row">
@@ -265,7 +278,8 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                             <button type="submit" name="my_assets_report" class="btn btn-primary btn-round align-text center">Generate</button>
                                                                         </div>
                                                                             <?php } ?>
-                                                                        
+                                                                            
+                                                                        </div>
                                                                 </div>
                                                                 </form>
                                                             </div>

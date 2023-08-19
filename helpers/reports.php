@@ -122,7 +122,7 @@ if (isset($_POST['asset_report'])) {
                     </tr>
                 </thead>
                 ';
-        $ret = "SELECT * FROM `assets` ORDER BY `assets`.`asset_date_of_purchase` DESC";
+        $ret = "SELECT * FROM assets WHERE assets.asset_date_of_purchase BETWEEN '$start' AND '$end' ORDER BY assets.asset_date_of_purchase DESC";
         $stmt = $mysqli->prepare($ret);
         $stmt->execute(); //ok
         $res = $stmt->get_result();
@@ -172,7 +172,7 @@ if (isset($_POST['asset_report'])) {
         $excelData = implode("\t", array_values($fields)) . "\n";
 
         /* Fetch All Records From The Database */
-        $query = $mysqli->query("SELECT * FROM `assets` ORDER BY `assets`.`asset_date_of_purchase` DESC");
+        $query = $mysqli->query("SELECT * FROM assets WHERE assets.asset_date_of_purchase BETWEEN '$start' AND '$end' ORDER BY assets.asset_date_of_purchase DESC");
         if ($query->num_rows > 0) {
             /* Load All Fetched Rows */
             while ($row = $query->fetch_assoc()) {
@@ -384,14 +384,7 @@ if (isset($_POST['asset_type_report'])) {
 
         exit;
     }
-
-
-
-
-
-
-
-
+}
 
 
 
@@ -515,8 +508,7 @@ if (isset($_POST['asset_type_report'])) {
                         ';
             $ret = "SELECT * FROM assets AS ast
                 INNER JOIN  assetdisposes AS astd ON ast.asset_id=astd.assetdispose_asset_id
-                INNER JOIN staffs AS stf ON astd.assetdispose_by_id=stf.staff_id
-                ORDER BY ast.asset_date_of_purchase DESC";
+                INNER JOIN staffs AS stf ON astd.assetdispose_staff_id=stf.staff_id WHERE astd.assetdispose_date BETWEEN '$start' AND '$end'";
             $stmt = $mysqli->prepare($ret);
             $stmt->execute(); //ok
             $res = $stmt->get_result();
@@ -571,7 +563,7 @@ if (isset($_POST['asset_type_report'])) {
             /* Fetch All Records From The Database */
             $query = $mysqli->query("SELECT * FROM assets AS ast
             INNER JOIN  assetdisposes AS astd ON ast.asset_id=astd.assetdispose_asset_id
-            INNER JOIN staffs AS stf ON astd.assetdispose_by_id=stf.staff_id
+            INNER JOIN staffs AS stf ON astd.assetdispose_staff_id=stf.staff_id  WHERE astd.assetdispose_date BETWEEN '$start' AND '$end'
             ORDER BY ast.asset_date_of_purchase DESC");
             if ($query->num_rows > 0) {
                 /* Load All Fetched Rows */
@@ -597,6 +589,201 @@ if (isset($_POST['asset_type_report'])) {
             exit;
         }
     }
+
+
+ #Maintaince report
+
+ if (isset($_POST['asset_maitaince_report'])) {
+    $start = date('Y-m-d', strtotime($_POST['start']));
+    $end = date('Y-m-d', strtotime($_POST['end']));
+    $doc_type = $_POST['doc_type'];
+
+    #Check if Doc type is Pdf
+    if ($doc_type == 'Pdf') {
+        $start = date('Y-m-d', strtotime($_POST['start']));
+        $end = date('Y-m-d', strtotime($_POST['end']));
+
+        $html = '
+            <!DOCTYPE html>
+            <html>
+        
+                <head>
+                    <meta name="" content="XYZ,0,0,1" />
+                    <style type="text/css">
+                        table {
+                            font-size: 12px;
+                            padding: 4px;
+                        }
+    
+        
+                        th {
+                            text-align: left;
+                            padding: 4pt;
+                        }
+        
+                        td {
+                            padding: 5pt;
+                        }
+        
+                        #b_border {
+                            border-bottom: dashed thin;
+                        }
+        
+                        legend {
+                            color: #0b77b7;
+                            font-size: 1.2em;
+                        }
+        
+                        #error_msg {
+                            text-align: left;
+                            font-size: 11px;
+                            color: red;
+                        }
+        
+                        .header {
+                            margin-bottom: 20px;
+                            width: 100%;
+                            text-align: left;
+                            position: absolute;
+                            top: 0px;
+                        }
+        
+                        .footer {
+                            width: 100%;
+                            text-align: center;
+                            position: fixed;
+                            bottom: 5px;
+                        }
+        
+                        #no_border_table {
+                            border: none;
+                        }
+        
+                        #bold_row {
+                            font-weight: bold;
+                        }
+        
+                        #amount {
+                            text-align: right;
+                            font-weight: bold;
+                        }
+        
+                        .pagenum:before {
+                            content: counter(page);
+                        }
+        
+                        /* Thick red border */
+                        hr.red {
+                            border: 1px solid red;
+                        }
+                        .list_header{
+                            font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+                        }
+                    </style>
+                </head>
+        
+                <body style="margin:1px;">
+                    <div class="footer">
+                        <hr>
+                        <i>Asset Maintenance   Report. Generated On ' . date('d M Y') . '</i>
+                    </div>
+        
+                    <div class="list_header" align="center">
+                       
+                        <br>
+                        <h1>Asset disposal Report </h1>
+                        <hr style="width:100%" , color=black>
+                        <h5>Asset maintenance From  ' . $start . ' To ' . $end . ' </h5>
+                    </div>
+                    <table border="1" cellspacing="0" width="98%" style="font-size:9pt">
+                    <thead>
+                        <tr>
+                            <th style="width:100%">Asset Tag</th>
+                            <th style="width:100%">Asset Name</th>
+                            <th style="width:80%">Maintenance type</th>
+                            <th style="width:70%">Maintenance status</th>
+                            <th style="width:100%">Maintenance Date</th>
+                           
+                           
+                        </tr>
+                    </thead>
+                    ';
+        $ret = "SELECT * FROM assets AS ast INNER JOIN maintenance AS ma ON ast.asset_id =ma.maintenance_asset_id  WHERE ma.maintenance_date BETWEEN '$start' AND '$end'  ORDER BY ma.maintenance_date DESC";
+        $stmt = $mysqli->prepare($ret);
+        $stmt->execute(); //ok
+        $res = $stmt->get_result();
+        while ($asset = $res->fetch_object()) {
+
+            $html .=
+                '
+                            <tr>
+                                <td>' . $asset->asset_tag . '</td>
+                                <td>' . $asset->asset_name . '</td>
+                                <td>' . $asset->maintenance_type . ' </td>
+                                <td>' . $asset->maintenance_status . '</td>
+                                <td>' . formatDateTime($asset->maintenance_date) . '</td>
+                                
+                            </tr>
+                            ';
+        }
+        $html .= '
+            </table>
+                </body>
+            </html>';
+
+        $dompdf = new Dompdf();
+        $dompdf->load_html($html);
+        $dompdf->set_paper('A4');
+        $dompdf->set_option('isHtml5ParserEnabled', true);
+        $dompdf->render();
+        $dompdf->stream('Asset maintenance report From ' . $start . ' To ' . $end, array("Attachment" => 1));
+        $options = $dompdf->getOptions();
+        $options->setDefaultFont('');
+        $dompdf->setOptions($options);
+    } elseif ($doc_type == 'Excel') {
+        /* Filter Excel Data */
+        function filterData(&$str)
+        {
+            $str = preg_replace("/\t/", "\\t", $str);
+            $str = preg_replace("/\r?\n/", "\\n", $str);
+            if (strstr($str, '"')) $str = '"' . str_replace('"', '""', $str) . '"';
+        }
+
+        /* Excel File Name */
+        $fileName = "Asset maintenance Report.xls";
+
+        /* Excel Column Name */
+        $fields = array('Asset Tag', 'Asset Name', 'Maintenance type', 'Maintenance status', 'Maintenance Date');
+
+
+        /* Implode Excel Data */
+        $excelData = implode("\t", array_values($fields)) . "\n";
+
+        /* Fetch All Records From The Database */
+        $query = $mysqli->query("SELECT * FROM assets AS ast INNER JOIN maintenance AS ma ON ast.asset_id =ma.maintenance_asset_id WHERE ma.maintenance_date BETWEEN '$start' AND '$end'  ORDER BY ma.maintenance_date DESC");
+        if ($query->num_rows > 0) {
+            /* Load All Fetched Rows */
+            while ($row = $query->fetch_assoc()) {
+             
+
+                /* Hardwire This Data Into .xls File */
+                $lineData = array($row['asset_tag'], $row['asset_name'], $row['maintenance_type'], $row['maintenance_status'],formatDateTime($row['maintenance_date']));
+                array_walk($lineData, 'filterData');
+                $excelData .= implode("\t", array_values($lineData)) . "\n";
+            }
+        } else {
+            $excelData .= 'Asset maintenance Records Available...' . "\n";
+        }
+
+        /* Generate Header File Encodings For Download */
+        header("Content-Type: application/vnd.ms-excel");
+        header("Content-Disposition: attachment; filename=\"$fileName\"");
+
+        /* Render  Excel Data For Download */
+        echo $excelData;
+
+        exit;
+    }
 }
 
 #Allocation report
@@ -607,7 +794,7 @@ if (isset($_POST['allocation_reports'])) {
     $end = date('Y-m-d', strtotime($_POST['end']));
     $doc_type = $_POST['doc_type'];
     $department_id = $_POST['department_id'];
-    $staff_id =$_POST['staff_id'];
+  
 
     if ($doc_type == 'Pdf' && $department_id == 'All') {
         #ALL departments in pdf
@@ -718,7 +905,7 @@ if (isset($_POST['allocation_reports'])) {
                         </thead>
                         ';
         $ret = "SELECT * FROM allocations AS al
-                INNER JOIN  staffs AS stf ON al.allocation_request_by_id=stf.staff_id
+                INNER JOIN  staffs AS stf ON al.allocation_staff_id=stf.staff_id
                 INNER JOIN departments AS dep ON stf.staff_department_id=dep.department_id  
                 INNER JOIN assets AS ast ON  al.allocation_asset_id=ast.asset_id WHERE al.allocation_status='APPROVED' AND allocation_date BETWEEN '$start' AND '$end'";
         $stmt = $mysqli->prepare($ret);
@@ -775,7 +962,7 @@ if (isset($_POST['allocation_reports'])) {
 
         /* Fetch All Records From The Database */
         $query = $mysqli->query("SELECT * FROM allocations AS al
- INNER JOIN  staffs AS stf ON al.allocation_request_by_id=stf.staff_id
+ INNER JOIN  staffs AS stf ON al.allocation_staff_id=stf.staff_id
  INNER JOIN departments AS dep ON stf.staff_department_id=dep.department_id  
  INNER JOIN assets AS ast ON  al.allocation_asset_id=ast.asset_id WHERE al.allocation_status='APPROVED' AND al.allocation_date BETWEEN '$start' AND '$end';");
         if ($query->num_rows > 0) {
@@ -910,7 +1097,7 @@ if (isset($_POST['allocation_reports'])) {
                     ';
 
             $ret = "SELECT * FROM allocations AS al
-            INNER JOIN  staffs AS stf ON al.allocation_request_by_id=stf.staff_id
+            INNER JOIN  staffs AS stf ON al.allocation_staff_id=stf.staff_id
             INNER JOIN departments AS dep ON stf.staff_department_id=dep.department_id  
             INNER JOIN assets AS ast ON  al.allocation_asset_id=ast.asset_id WHERE al.allocation_status='Approved' AND al.allocation_date BETWEEN '$start' AND '$end' AND dep.department_id='{$department_id}'";
             $stmt = $mysqli->prepare($ret);
@@ -971,7 +1158,7 @@ if (isset($_POST['allocation_reports'])) {
 
                 /* Fetch All Records From The Database */
                 $query = $mysqli->query("SELECT * FROM allocations AS al
-         INNER JOIN  staffs AS stf ON al.allocation_request_by_id=stf.staff_id
+         INNER JOIN  staffs AS stf ON al.allocation_staff_id=stf.staff_id
          INNER JOIN departments AS dep ON stf.staff_department_id=dep.department_id  
          INNER JOIN assets AS ast ON  al.allocation_asset_id=ast.asset_id WHERE al.allocation_status='Approved' AND al.allocation_date BETWEEN '$start' AND '$end' AND dep.department_id='{$department_id}'");
                 if ($query->num_rows > 0) {
@@ -1511,15 +1698,15 @@ if (isset($_POST['department_report'])) {
                     </tr>
                 </thead>
                 ';
-        $ret = "SELECT dp.department_name, COUNT(st.staff_id) AS staff_count, dp.department_head_id, dp.department_id,dp.department_created_on
+        $ret = "SELECT dp.department_name, COUNT(st.staff_id) AS staff_count, dp.department_staff_id, dp.department_id,dp.department_created_on
         FROM departments AS dp
         INNER JOIN staffs AS st ON dp.department_id = st.staff_department_id
-        GROUP BY dp.department_name, dp.department_head_id, dp.department_id;";
+        GROUP BY dp.department_name, dp.department_staff_id, dp.department_id;";
         $stmt = $mysqli->prepare($ret);
         $stmt->execute(); //ok
         $res = $stmt->get_result();
         while ($department = $res->fetch_object()) {
-            $sql = "SELECT staff_id,staff_first_name,staff_last_name FROM staffs WHERE staff_id='{$department->department_head_id}' ORDER BY staff_first_name ASC; ";
+            $sql = "SELECT staff_id,staff_first_name,staff_last_name FROM staffs WHERE staff_id='{$department->department_staff_id}' ORDER BY staff_first_name ASC; ";
             $result2 = mysqli_query($mysqli, $sql);
             if (mysqli_num_rows($result2) > 0) {
                 while ($department_head = mysqli_fetch_object($result2)) {
@@ -1570,10 +1757,10 @@ if (isset($_POST['department_report'])) {
         $excelData = implode("\t", array_values($fields)) . "\n";
 
         /* Fetch All Records From The Database */
-        $query = $mysqli->query("SELECT dp.department_name, COUNT(st.staff_id) AS staff_count, dp.department_head_id, dp.department_id,dp.department_created_on
+        $query = $mysqli->query("SELECT dp.department_name, COUNT(st.staff_id) AS staff_count, dp.department_staff_id, dp.department_id,dp.department_created_on
     FROM departments AS dp
     INNER JOIN staffs AS st ON dp.department_id = st.staff_department_id
-    GROUP BY dp.department_name, dp.department_head_id, dp.department_id;");
+    GROUP BY dp.department_name, dp.department_staff_id, dp.department_id;");
         if ($query->num_rows > 0) {
             /* Load All Fetched Rows */
             while ($row = $query->fetch_assoc()) {
@@ -1718,7 +1905,7 @@ if ($doc_type == 'Pdf' && $staff_id != '') {
 
             $ret = "SELECT * FROM assets AS ast
             INNER JOIN allocations AS al ON ast.asset_id = al.allocation_asset_id
-            INNER JOIN staffs AS st ON al.allocation_request_by_id=st.staff_id
+            INNER JOIN staffs AS st ON al.allocation_staff_id=st.staff_id
             WHERE ast.assetdispose_id IS NULL AND st.staff_id ='{$staff_id}' AND al.allocation_status='Approved'
             GROUP BY ast.asset_id
             ORDER BY ast.asset_date_of_purchase DESC";
@@ -1726,7 +1913,7 @@ if ($doc_type == 'Pdf' && $staff_id != '') {
             $stmt->execute(); //ok
             $res = $stmt->get_result();
             while ($asset = $res->fetch_object()) {
-                $sql = "SELECT * FROM staffs WHERE staff_id='{$asset->allocation_allocated_by_id}'";
+                $sql = "SELECT * FROM staffs WHERE staff_id='{$asset->allocation_department_staff_id}'";
                                 $result2 = mysqli_query($mysqli, $sql);
                                 if (mysqli_num_rows($result2) > 0) {
                                     while ($hod = mysqli_fetch_object($result2)) { 
@@ -1782,7 +1969,7 @@ if ($doc_type == 'Pdf' && $staff_id != '') {
         /* Fetch All Records From The Database */
         $query = $mysqli->query("SELECT * FROM assets AS ast
         INNER JOIN allocations AS al ON ast.asset_id = al.allocation_asset_id
-        INNER JOIN staffs AS st ON al.allocation_request_by_id=st.staff_id
+        INNER JOIN staffs AS st ON al.allocation_staff_id=st.staff_id
         WHERE ast.assetdispose_id IS NULL AND st.staff_id ='{$staff_id}' AND al.allocation_status='Approved'
         GROUP BY ast.asset_id
         ORDER BY ast.asset_date_of_purchase DESC");
@@ -1790,7 +1977,7 @@ if ($doc_type == 'Pdf' && $staff_id != '') {
         if ($query->num_rows > 0) {
             /* Load All Fetched Rows */
             while ($row = $query->fetch_assoc()) {
-                $sql = "SELECT * FROM staffs WHERE staff_id='{$row['allocation_allocated_by_id']}'";
+                $sql = "SELECT * FROM staffs WHERE staff_id='{$row['allocation_department_staff_id']}'";
                 $result2 = mysqli_query($mysqli, $sql);
                 if (mysqli_num_rows($result2) > 0) {
                     while ($hod = mysqli_fetch_object($result2)) { 

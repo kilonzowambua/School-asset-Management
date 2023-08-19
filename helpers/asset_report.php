@@ -4,13 +4,11 @@ require_once('../config/config.php');
 include('../helpers/datefunction.php');
 include('../helpers/reports.php');
 /* Load This Page With Logged In User Session */
-
 $staff_id = mysqli_escape_string($mysqli, $_SESSION['staff_id']);
 $staff_sql = mysqli_query($mysqli, "SELECT * FROM staffs AS astf INNER JOIN departments AS dp ON astf.staff_department_id=dp.department_id
     WHERE staff_id = '{$staff_id}'");
 if (mysqli_num_rows($staff_sql) > 0) {
     while ($staff = mysqli_fetch_array($staff_sql)) {
-        /* Global Usernames */
         $staff_first_name = $staff['staff_first_name'];
         $staff_last_name = $staff['staff_last_name'];
         $staff_department_id  = $staff['staff_department_id'];
@@ -22,12 +20,11 @@ if (mysqli_num_rows($staff_sql) > 0) {
         global $staff_department_head;
         global $staff_department_name;
 
-        
 ?>
         <?php ?>
         <!DOCTYPE html>
         <html lang="en">
-        <?php $page = 'Asset Disposal Report'; ?>
+        <?php $page = 'Assets Report'; ?>
         <?php include('../partials/head.php') ?>
 
         <body>
@@ -139,7 +136,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                     <div class="col-lg-8">
                                                         <div class="page-header-title">
                                                             <div class="d-inline">
-                                                                <h4>Asset Disposal</h4>
+                                                                <h4>Assets</h4>
 
                                                             </div>
                                                         </div>
@@ -152,7 +149,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                 </li>
                                                                 <li class="breadcrumb-item" style="float: left;"><a href="dashboard">Home</a>
                                                                 </li>
-                                                                <li class="breadcrumb-item" style="float: left;"><a href="#!">Asset disposal Report</a>
+                                                                <li class="breadcrumb-item" style="float: left;"><a href="#!">Assets Report</a>
                                                                 </li>
                                                             </ul>
                                                         </div>
@@ -168,7 +165,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                             
                                                             <div class="card">
                                                                 <div class="card-header">
-                                                                    <h5>Asset Disposal Report</h5>
+                                                                    <h5>Assets Report</h5>
 
                                                                     <div class="card-header-right">
                                                                         <i class="icofont icofont-spinner-alt-5"></i>
@@ -186,7 +183,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                         <div class="form-group row">
                                                                             <label class="col-sm-2 col-form-label">To </label>
                                                                             <div class="col-sm-4 col-md-6 col-lg 4">
-                                                                                <input type="date" name="end"  class="form-control">
+                                                                                <input type="date" name="end" id="#dropper-radius" class="form-control">
                                                                             </div>
                                                                         </div>
 
@@ -194,16 +191,16 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                             <div class="form-group row">
                                                                             <label class="col-sm-2 col-form-label">Select Document </label>
                                                                             <div class="col-sm-4 col-md-6 col-lg 4">
-                                                                            <select name="doc_type" class="form-control form-control-default">
+                                                                            <select  name="doc_type" class="form-control form-control-default">
 
-<option>Pdf</option>
+<option >Pdf</option>
 <option>Excel</option>
 
 </select>
                                                                             </div>
                                                                             </div>
                                                                             <div class="form-group row text-center">
-                                                                            <button type="submit" name="asset_disposal_report" class="btn btn-primary btn-round align-text center">Generate</button>
+                                                                            <button type="submit" name="asset_report" class="btn btn-primary btn-round align-text center">Generate</button>
                                                                             </div>
                                                                         </div>
                                                                     </form>

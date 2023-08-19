@@ -411,12 +411,14 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                 </thead>
                                                                 <tbody>
                                                                     <?php
-                                                                            $sql = "SELECT ast.*, al.allocation_id, al.allocation_request_by_id
-            FROM assets AS ast
-            LEFT JOIN allocations AS al ON ast.asset_id = al.allocation_asset_id
-            WHERE ast.assetdispose_id IS NULL AND ast.asset_allocation_id IS NULL
-            GROUP BY ast.asset_id
-            ORDER BY ast.asset_date_of_purchase DESC";
+                                                                            $sql = "SELECT ast.*, dp.department_name, st.staff_first_name, st.staff_last_name,al.allocation_staff_id , al.allocation_id,al.allocation_status 
+                                                                            FROM assets AS ast
+                                                                            LEFT JOIN allocations AS al ON ast.asset_id = al.allocation_asset_id 
+                                                                            LEFT JOIN departments AS dp ON al.allocation_department_staff_id = dp.department_staff_id
+                                                                            LEFT JOIN staffs AS st ON al.allocation_staff_id = st.staff_id
+                                                                            WHERE ast.assetdispose_id IS NULL
+                                                                            GROUP BY ast.asset_id
+                                                                            ORDER BY ast.asset_date_of_purchase DESC";
 
                                                                             $result = mysqli_query($mysqli, $sql);
 
@@ -429,7 +431,7 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                                 <td><?php echo $asset->asset_name ?></td>
                                                                                 <td>
                                                                                     <?php if ($hasAllocation) {
-                                                                                        if ($asset->allocation_request_by_id == $staff_id) {
+                                                                                        if ($asset->allocation_staff_id == $staff_id) {
                                                                                             echo "Your Request is Pending Approval";
                                                                                         } else {
                                                                                             echo "Not Available";
@@ -442,7 +444,47 @@ if (mysqli_num_rows($staff_sql) > 0) {
                                                                             <!-- Allocation Request Modal -->
                                                                             <div class="modal fade" id="request-<?php echo $asset->asset_id ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                                                                 <!-- Modal content goes here -->
-                                                                            </div>
+                                                                                 
+                                                                                                <!-- Modal content goes here -->
+                                                                                                <div class="modal-dialog modal-lg">
+                                                                                                    <div class="modal-content">
+                                                                                                        <div class="md-content">
+                                                                                                            <h1 class="text-center " style="color: blue;"> <?php echo $asset->asset_tag ?><br><?php echo $asset->asset_name ?></h1>
+                                                                                                            <?php
+                                                                                                            $sql = "SELECT * FROM departments WHERE department_staff_id='{$staff_id}'";
+                                                                                                            $result4 = mysqli_query($mysqli, $sql);
+                                                                                                            if (mysqli_num_rows($result4) > 0) {
+                                                                                                                while ($department = mysqli_fetch_object($result4)) {
+                                                                                                            ?>
+                                                                                                                    <h4 class="text-center" style="color: black;">Department Name: <?php echo $department->department_name ?></h4>
+                                                                                                            <?php }
+                                                                                                            } ?>
+                                                                                                            <div>
+                                                                                                                <form method="post">
+                                                                                                                    <div class="form-group row mt-1">
+
+                                                                                                                        <div class="col-sm-6 col-md-6  col-md-4">
+                                                                                                                            <input type="text" hidden name="allocation_asset_id" value="<?php echo $asset->asset_id ?>" class="form-control">
+                                                                                                                            <input type="text" hidden name="allocation_staff_id" value="<?php echo $staff_id ?>" class="form-control">
+                                                                                                                        </div>
+
+                                                                                                                    </div>
+                                                                                                                    <div class="row mt-2 ">
+
+                                                                                                                        <div class="col-6">
+                                                                                                                            <button type="submit" name="request_asset" class="btn btn-primary waves-effect ">Request Asset</button>
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </form>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
+
+                                                                    </div>
+                                                                            
                                                                     <?php
                                                                                 }
                                                                             }
